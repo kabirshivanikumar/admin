@@ -1608,6 +1608,18 @@ function renderAdsAdmin(){
   const ads = adsList();
   const regularAds = ads.filter(a=>a.type!=="custom");
   const customAds = ads.filter(a=>a.type==="custom");
+  const ADSTERRA_TEMPLATES = [
+    { key:"popunder",  label:"Popunder",         kind:"script", hint:"Fires in a background tab on click — not a positioned box, runs site-wide." },
+    { key:"native",    label:"Native Banner",    kind:"script", hint:"Adapts its own look to blend with the page — not a fixed box." },
+    { key:"smartlink", label:"Smartlink",        kind:"link",   hint:"A plain link, usually used as a button/CTA rather than an embed." },
+    { key:"socialbar", label:"Social Bar",       kind:"script", hint:"Sticky bar Adsterra positions itself — not a fixed box." },
+    { key:"468x60",    label:"Banner 468×60",    kind:"banner", w:468, h:60 },
+    { key:"300x250",   label:"Banner 300×250",   kind:"banner", w:300, h:250 },
+    { key:"160x300",   label:"Banner 160×300",   kind:"banner", w:160, h:300 },
+    { key:"160x600",   label:"Banner 160×600",   kind:"banner", w:160, h:600 },
+    { key:"320x50",    label:"Banner 320×50",    kind:"banner", w:320, h:50 },
+    { key:"728x90",    label:"Banner 728×90",    kind:"banner", w:728, h:90 },
+  ];
   main.innerHTML = `
     <div class="section-title"><i class="fa-solid fa-rectangle-ad"></i> Ad manager</div>
     <div class="small-note">Paste a link, image, or an ad network's embed/script code into any ad space below, then tick where it should appear. "In-page banner" fills a normal spot on the page. "Random popup (blur)" shows as a full-screen blurred-background overlay with a close button — it rolls the dice on each visit using the chance you set below, and each visitor only sees a given popup once per browser tab session. Use <strong>Preview</strong> on any ad to check it actually renders before it goes live — this catches broken embed codes without needing a real visitor.</div>
@@ -1617,14 +1629,55 @@ function renderAdsAdmin(){
     </div>
 
     <div class="divider"></div>
+    <div class="section-title"><i class="fa-solid fa-bolt"></i> Adsterra quick-add</div>
+    <div class="small-note">One click adds the ad unit below, pre-set to the right shape/behavior — banners get their exact pixel size, scripts/links get added site-wide. Paste your actual code from your Adsterra zone into the "code" box afterward, then toggle it Live and use Preview to check it renders. Nothing goes live until you enable it.</div>
+    <div id="adsterra-templates" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:14px;"></div>
+
+    <div class="divider"></div>
     <div class="section-title"><i class="fa-solid fa-crop-simple"></i> Custom ad spaces</div>
-    <div class="small-note">Draw a box anywhere on the actual Hub homepage or game page with your mouse — including the open side margins on wider screens, not just the centered content column — then drop a link/embed into it.</div>
+    <div class="small-note">Draw a box anywhere on the actual Hub homepage or game page with your mouse — including the open side margins on wider screens, not just the centered content column — then drop a link/embed into it. You can also type exact pixel width/height/position on each ad card below instead of drawing.</div>
     <div id="custom-ads-list" style="display:flex;flex-direction:column;gap:14px;margin-top:14px;"></div>
     <div class="admin-row" style="margin-top:16px;">
       <button class="btn btn-primary" id="draw-ad-home-btn"><i class="fa-solid fa-crosshairs"></i> Draw on Hub homepage</button>
       <button class="btn btn-primary" id="draw-ad-game-btn"><i class="fa-solid fa-crosshairs"></i> Draw on game page</button>
     </div>
   `;
+
+  const templatesGrid = document.getElementById("adsterra-templates");
+  ADSTERRA_TEMPLATES.forEach(t=>{
+    const already = ads.find(a=>a.templateKey===t.key);
+    const card = document.createElement("div");
+    card.style.cssText = "border:1px solid var(--glass-border);border-radius:12px;padding:12px;background:rgba(255,255,255,0.02);display:flex;flex-direction:column;gap:8px;";
+    card.innerHTML = `
+      <div style="font-weight:700;font-size:13px;">${t.label}</div>
+      ${t.hint ? `<div style="font-size:11.5px;color:var(--text-faint);flex:1;">${t.hint}</div>` : `<div style="flex:1;"></div>`}
+      <button class="btn ${already?"":"btn-primary"}" style="justify-content:center;font-size:12px;" ${already?"disabled":""}>
+        <i class="fa-solid ${already?"fa-check":"fa-plus"}"></i> ${already?"Added":"Add"}
+      </button>
+    `;
+    templatesGrid.appendChild(card);
+    if(!already){
+      card.querySelector("button").addEventListener("click", ()=>{
+        if(!Array.isArray(SITE_CONFIG.ads)) SITE_CONFIG.ads = [];
+        if(t.kind === "banner"){
+          const vw = window.innerWidth, vh = window.innerHeight;
+          SITE_CONFIG.ads.push({
+            id: randomAdId(), templateKey: t.key, name: "Adsterra " + t.label, type: "custom",
+            code: "", enabled: false, screen: "home",
+            rect: { w: (t.w/vw)*100, h: (t.h/vh)*100, x: 2, y: 2 }
+          });
+        } else {
+          SITE_CONFIG.ads.push({
+            id: randomAdId(), templateKey: t.key, name: "Adsterra " + t.label, type: "embed",
+            code: "", enabled: false, placements: { home: true, game: true }
+          });
+        }
+        saveSiteConfig();
+        renderAdsAdmin();
+        showToast(`"${t.label}" added — paste your zone's code in, then switch it Live`);
+      });
+    }
+  });
 
   const list = document.getElementById("ads-list");
   if(regularAds.length === 0){
@@ -1749,6 +1802,13 @@ function renderAdsAdmin(){
           </div>
         </div>
       </div>
+      <div class="admin-row" style="margin-top:8px;align-items:flex-end;">
+        <div class="field" style="min-width:110px;"><label>Width (px)</label><input class="cad-w" type="number" min="1" value="${Math.round((ad.rect.w/100)*window.innerWidth)}"></div>
+        <div class="field" style="min-width:110px;"><label>Height (px)</label><input class="cad-h" type="number" min="1" value="${Math.round((ad.rect.h/100)*window.innerHeight)}"></div>
+        <div class="field" style="min-width:110px;"><label>X from left (px)</label><input class="cad-x" type="number" min="0" value="${Math.round((ad.rect.x/100)*window.innerWidth)}"></div>
+        <div class="field" style="min-width:110px;"><label>Y from top (px)</label><input class="cad-y" type="number" min="0" value="${Math.round((ad.rect.y/100)*window.innerHeight)}"></div>
+        <div class="small-note" style="flex-basis:100%;margin-top:4px;">Numbers are based on this browser's current window size (${window.innerWidth}×${window.innerHeight}px) — the box auto-adjusts to stay on-screen on other devices.</div>
+      </div>
       <div class="admin-row" style="margin-top:8px;">
         <div class="field" style="flex:1;min-width:280px;">
           <label>Link, image URL, or embed/script code</label>
@@ -1768,6 +1828,18 @@ function renderAdsAdmin(){
     card.querySelector(".cad-name").addEventListener("input", e=>{ ad.name = e.target.value; commit(); });
     card.querySelector(".cad-code").addEventListener("input", e=>{ ad.code = e.target.value; commit(); refreshPreview(); });
     card.querySelector(".cad-enabled").addEventListener("change", e=>{ ad.enabled = e.target.checked; commit(); });
+    const updateRectFromPx = ()=>{
+      const w = Math.max(1, Number(card.querySelector(".cad-w").value) || 1);
+      const h = Math.max(1, Number(card.querySelector(".cad-h").value) || 1);
+      const x = Math.max(0, Number(card.querySelector(".cad-x").value) || 0);
+      const y = Math.max(0, Number(card.querySelector(".cad-y").value) || 0);
+      ad.rect = { w: (w/window.innerWidth)*100, h: (h/window.innerHeight)*100, x: (x/window.innerWidth)*100, y: (y/window.innerHeight)*100 };
+      commit();
+    };
+    card.querySelector(".cad-w").addEventListener("change", updateRectFromPx);
+    card.querySelector(".cad-h").addEventListener("change", updateRectFromPx);
+    card.querySelector(".cad-x").addEventListener("change", updateRectFromPx);
+    card.querySelector(".cad-y").addEventListener("change", updateRectFromPx);
     card.querySelector(".cad-save").addEventListener("click", ()=>{ commit(); showToast(`"${ad.name || "Ad"}" saved`); });
     card.querySelector(".cad-redraw").addEventListener("click", ()=> redrawCustomAd(ad.id));
     card.querySelector(".cad-remove").addEventListener("click", ()=>{
