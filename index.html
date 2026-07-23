@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ledger — Trading Value Hub</title>
+<title>Ledger — Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -11,7 +11,6 @@
 <style>
 :root{
   color-scheme: dark;
-  /* matte graphite/grey theme */
   --bg:#0c0c0d; --bg-elev:#141416; --bg-elev-2:#1b1b1e;
   --glass: rgba(255,255,255,0.045); --glass-border: rgba(255,255,255,0.09);
   --primary:#c7c9cf; --secondary:#9a9ca3; --grad-a:#f2f2f4; --grad-b:#9a9ca3;
@@ -20,7 +19,6 @@
   --danger:#c0392b;
   --radius:16px; --radius-sm:10px;
   --font-heading:'Plus Jakarta Sans',sans-serif; --font-body:'Inter',sans-serif;
-  --hero-align:left;
 }
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;}
@@ -31,15 +29,13 @@ body{
     var(--bg);
   color:var(--text); font-family:var(--font-body); min-height:100vh; -webkit-font-smoothing:antialiased;
 }
-h1,h2,h3,.display{font-family:var(--font-heading);}
+h1,h2,h3{font-family:var(--font-heading);}
 .mono{font-family:var(--font-body);font-weight:600;color:var(--text-dim);}
 a{color:inherit;text-decoration:none;}
 button{font-family:inherit;cursor:pointer;}
 ::-webkit-scrollbar{width:8px;height:8px;}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.25);border-radius:8px;}
-
 .app{max-width:1220px;margin:0 auto;padding:28px 24px 80px;}
-
 .auth-gate{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;
   background:rgba(8,8,9,0.92);backdrop-filter:blur(6px);padding:20px;}
 .auth-box{width:100%;max-width:420px;background:linear-gradient(165deg, var(--bg-elev-2), var(--bg-elev));
@@ -54,11 +50,7 @@ button{font-family:inherit;cursor:pointer;}
   color:var(--text-dim);font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:7px;transition:all .2s ease;}
 .nav-btn:hover{color:var(--text);border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.08);}
 .nav-btn.active{color:#101012;background:linear-gradient(120deg,var(--grad-a),var(--grad-b));border-color:transparent;}
-.domain-pill{font-size:11.5px;color:var(--text-faint);padding:6px 12px;
-  border:1px solid var(--glass-border);border-radius:999px;background:var(--glass);}
-
 .screen{display:none;position:relative;}
-
 .custom-ad-box{position:fixed;overflow:hidden;z-index:5;border-radius:8px;pointer-events:auto;}
 .ad-draw-layer{position:fixed;inset:0;z-index:80;cursor:crosshair;background:rgba(120,150,255,0.05);}
 .ad-draw-rect{position:absolute;border:2px dashed #7dd3fc;background:rgba(125,211,252,0.15);pointer-events:none;border-radius:4px;}
@@ -73,29 +65,16 @@ button{font-family:inherit;cursor:pointer;}
 .ad-preview-box:empty::before{content:"Preview will appear here";font-size:11px;color:var(--text-faint);}
 .screen.active{display:block;animation:fadeUp .35s ease both;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-
-/* ---------- home ---------- */
 .hero{margin-bottom:30px;}
-.hero.align-center{text-align:center;}
-.hero.align-center p{margin-left:auto;margin-right:auto;}
-.hero.align-right{text-align:right;}
-.hero.align-right p{margin-left:auto;margin-right:0;}
 .hero .eyebrow{font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-faint);font-weight:600;margin-bottom:10px;}
 .hero h1{font-size:35px;margin:0 0 8px;font-weight:700;
   background:linear-gradient(120deg,#fff, var(--grad-a) 45%, var(--grad-b));
   -webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-0.3px;}
 .hero p{color:var(--text-dim);font-size:15px;max-width:560px;line-height:1.55;margin:0;}
-
 .game-grid{display:flex;flex-direction:column;gap:16px;}
-
 .game-card{position:relative;display:flex;align-items:center;gap:20px;border-radius:var(--radius);padding:20px;
   background:linear-gradient(160deg, var(--bg-elev-2), var(--bg-elev));border:1px solid var(--glass-border);overflow:hidden;
   transition:transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .28s ease, border-color .28s ease; text-align:left;width:100%;color:var(--text);}
-.game-card::before{content:"";position:absolute;inset:0;opacity:0;transition:opacity .3s ease;
-  background:radial-gradient(circle at 30% 20%, rgba(255,255,255,0.2), transparent 60%);}
-.game-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,0.45);
-  box-shadow:0 18px 40px -18px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.12) inset;}
-.game-card:hover::before{opacity:1;}
 .game-card .gi{width:104px;height:104px;border-radius:16px;display:flex;align-items:center;justify-content:center;
   font-size:34px;flex-shrink:0;background:rgba(255,255,255,0.12);color:var(--primary);border:1px solid rgba(255,255,255,0.25);
   position:relative;z-index:1;overflow:hidden;}
@@ -103,24 +82,16 @@ button{font-family:inherit;cursor:pointer;}
 .game-card .gc-body{flex:1;min-width:0;position:relative;z-index:1;}
 .game-card h3{margin:0 0 5px;font-size:19px;font-weight:700;}
 .game-card .count{font-size:12.5px;color:var(--text-faint);}
-.game-card .sub-url{font-size:10.5px;color:var(--text-faint);margin-top:3px;opacity:.7;}
-.game-card .gc-footer{margin-top:10px;padding-top:10px;border-top:1px solid var(--glass-border);
-  font-size:12px;color:var(--text-dim);line-height:1.5;}
-.game-card .arrow{position:absolute;top:20px;right:20px;color:var(--text-faint);font-size:13px;transition:transform .25s ease,color .25s ease;z-index:2;}
-.game-card:hover .arrow{transform:translate(3px,-3px);color:var(--primary);}
+.game-card .gc-footer{margin-top:10px;padding-top:10px;border-top:1px solid var(--glass-border);font-size:12px;color:var(--text-dim);line-height:1.5;}
+.game-card .arrow{position:absolute;top:20px;right:20px;color:var(--text-faint);font-size:13px;z-index:2;}
 @media (max-width:620px){.game-card{flex-direction:column;align-items:flex-start;}.game-card .gi{width:100%;height:140px;}}
-
-/* ---------- game detail ---------- */
 .detail-head{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap;}
 .back-btn{display:flex;align-items:center;gap:7px;padding:9px 14px;border-radius:999px;border:1px solid var(--glass-border);
   background:var(--glass);color:var(--text-dim);font-size:13px;font-weight:600;transition:.2s;}
 .back-btn:hover{color:var(--text);border-color:rgba(255,255,255,0.4);}
 .detail-head h2{margin:0;font-size:24px;font-weight:700;}
 .detail-head .sub{color:var(--text-faint);font-size:12px;}
-
 .detail-stack{display:flex;flex-direction:column;gap:22px;}
-
-/* toolbar: search + filters */
 .list-toolbar{position:sticky;top:0;z-index:5;display:flex;gap:10px;flex-wrap:wrap;align-items:center;
   padding:10px;margin-bottom:12px;border-radius:14px;background:rgba(14,14,16,0.85);backdrop-filter:blur(10px);
   border:1px solid var(--glass-border);}
@@ -139,45 +110,32 @@ button{font-family:inherit;cursor:pointer;}
   appearance:none;-webkit-appearance:none;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0l5 6 5-6z' fill='%239b9ea6'/></svg>");
   background-repeat:no-repeat;background-position:right 12px center;}
-.sort-select:focus{border-color:var(--primary);}
 .sort-select option{background:var(--bg-elev-2);color:var(--text);}
 .list-meta{font-size:11.5px;color:var(--text-faint);margin:0 2px 10px;}
-
-.value-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;
-  max-height:560px;overflow-y:auto;padding-right:4px;}
+.value-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;max-height:560px;overflow-y:auto;padding-right:4px;}
 .empty-state{padding:40px 10px;text-align:center;color:var(--text-faint);font-size:13.5px;grid-column:1/-1;}
 .empty-state i{font-size:22px;display:block;margin-bottom:10px;opacity:.6;}
-
 .value-card{display:flex;align-items:center;gap:11px;padding:10px;border-radius:var(--radius-sm);
-  background:var(--glass);border:1px solid var(--glass-border);transition:border-color .2s ease, transform .2s ease, background .2s ease;}
-.value-card:hover{border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.06);transform:translateY(-2px);}
+  background:var(--glass);border:1px solid var(--glass-border);}
 .value-card img{width:48px;height:48px;border-radius:10px;flex-shrink:0;object-fit:cover;border:1px solid rgba(255,255,255,0.08);}
 .vc-info{flex:1;min-width:0;}
 .vc-info .vname{font-weight:600;font-size:13px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .vc-info .vprice{color:var(--primary);font-size:12.5px;font-weight:600;}
 .vc-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px;}
-.demand-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;letter-spacing:0.3px;
-  padding:3px 7px;border-radius:999px;text-transform:uppercase;}
+.demand-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;letter-spacing:0.3px;padding:3px 7px;border-radius:999px;text-transform:uppercase;}
 .demand-high{background:rgba(94,230,168,0.14);color:var(--high);}
 .demand-med{background:rgba(245,207,107,0.14);color:var(--med);}
 .demand-low{background:rgba(255,122,146,0.14);color:var(--low);}
 .demand-unknown{background:rgba(255,255,255,0.07);color:var(--text-faint);}
 .custom-tag{font-size:10px;font-weight:600;padding:3px 7px;border-radius:999px;background:rgba(255,255,255,0.06);color:var(--text-dim);}
-
-/* ---------- calculator (full-width, bloxfruitsvalues.com-style) ---------- */
-.calc-panel{border-radius:22px;padding:26px;
-  background:linear-gradient(165deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
-  border:1px solid var(--glass-border);backdrop-filter:blur(14px);
-  box-shadow:0 24px 50px -30px rgba(0,0,0,0.7);}
+.calc-panel{border-radius:22px;padding:26px;background:linear-gradient(165deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+  border:1px solid var(--glass-border);backdrop-filter:blur(14px);box-shadow:0 24px 50px -30px rgba(0,0,0,0.7);}
 .calc-head{margin-bottom:20px;}
 .calc-eyebrow{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-faint);}
-.calc-head h3{margin:6px 0 5px;font-size:22px;font-family:var(--font-heading);display:flex;align-items:center;gap:10px;letter-spacing:0.1px;}
-.calc-head h3 i{color:var(--text-dim);font-size:19px;}
+.calc-head h3{margin:6px 0 5px;font-size:22px;font-family:var(--font-heading);display:flex;align-items:center;gap:10px;}
 .calc-head .calc-sub{font-size:13px;color:var(--text-faint);line-height:1.5;}
-
 .calc-sides{display:grid;grid-template-columns:1fr 220px 1fr;gap:18px;align-items:start;}
 @media (max-width:900px){.calc-sides{grid-template-columns:1fr;}}
-
 .calc-side{background:rgba(255,255,255,0.025);border:1px solid var(--glass-border);border-radius:18px;padding:16px;}
 .calc-side-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;}
 .calc-side-head h4{font-size:14px;text-transform:uppercase;letter-spacing:1px;margin:0;font-weight:800;}
@@ -186,74 +144,48 @@ button{font-family:inherit;cursor:pointer;}
 .calc-side-stats .stat{display:flex;flex-direction:column;align-items:flex-end;line-height:1.25;}
 .calc-side-stats .stat-label{font-size:9px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-faint);font-weight:700;}
 .calc-side-stats .stat-val{font-size:14px;font-weight:700;}
-
 .calc-items{display:flex;flex-direction:column;gap:7px;min-height:10px;margin-bottom:10px;max-height:280px;overflow-y:auto;}
-.calc-item{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,0.045);border:1px solid var(--glass-border);
-  border-radius:11px;padding:8px 10px;font-size:12.5px;transition:.15s;}
-.calc-item:hover{background:rgba(255,255,255,0.07);}
+.calc-item{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,0.045);border:1px solid var(--glass-border);border-radius:11px;padding:8px 10px;font-size:12.5px;}
 .calc-item img{width:28px;height:28px;border-radius:7px;flex-shrink:0;object-fit:cover;}
 .calc-item span{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 .calc-item .ci-price{color:var(--text-dim);font-size:11px;font-weight:600;flex:none;}
 .calc-item button{background:none;border:none;color:var(--text-faint);font-size:14px;line-height:1;padding:2px 4px;cursor:pointer;}
-.calc-item button:hover{color:var(--low);}
-.add-item-btn{width:100%;padding:11px;border-radius:11px;border:1px dashed var(--glass-border);background:transparent;
-  color:var(--text-dim);font-size:12.5px;font-weight:700;transition:.2s;cursor:pointer;}
-.add-item-btn:hover{border-color:var(--primary);color:var(--primary);background:rgba(255,255,255,0.06);}
-
-.calc-vs{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px 8px;
-  align-self:stretch;}
-.vs-badge{font-family:var(--font-heading);font-weight:800;font-size:15px;letter-spacing:0.2px;text-align:center;
-  padding:8px 14px;border-radius:999px;background:rgba(255,255,255,0.05);border:1px solid var(--glass-border);
-  background-clip:padding-box;transition:.25s;}
+.add-item-btn{width:100%;padding:11px;border-radius:11px;border:1px dashed var(--glass-border);background:transparent;color:var(--text-dim);font-size:12.5px;font-weight:700;cursor:pointer;}
+.calc-vs{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px 8px;align-self:stretch;}
+.vs-badge{font-family:var(--font-heading);font-weight:800;font-size:15px;text-align:center;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,0.05);border:1px solid var(--glass-border);}
 .vs-badge.lead-you{color:var(--high);border-color:rgba(99,217,154,0.5);background:rgba(99,217,154,0.1);}
 .vs-badge.lead-them{color:var(--low);border-color:rgba(232,115,122,0.5);background:rgba(232,115,122,0.1);}
 .balance-meter{width:100%;height:9px;border-radius:999px;background:rgba(255,255,255,0.08);overflow:hidden;position:relative;}
 .balance-fill{position:absolute;top:0;bottom:0;left:50%;width:0;border-radius:999px;transition:left .35s ease, width .35s ease, background .35s ease;}
 .vs-diff{font-size:11px;color:var(--text-faint);font-weight:600;text-align:center;}
 .vs-icon{color:var(--text-faint);font-size:16px;opacity:.5;}
-
-.calc-actions{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:20px;
-  padding-top:16px;border-top:1px solid var(--glass-border);}
-.calc-actions .small-note{margin:0;}
-
-.ad-slot{border-radius:14px;border:1px dashed var(--glass-border);background:rgba(255,255,255,0.015);
-  padding:16px;text-align:center;color:var(--text-faint);font-size:11px;letter-spacing:0.3px;text-transform:uppercase;font-weight:700;min-height:90px;
-  display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.calc-actions{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:20px;padding-top:16px;border-top:1px solid var(--glass-border);}
+.ad-slot{border-radius:14px;border:1px dashed var(--glass-border);background:rgba(255,255,255,0.015);padding:16px;text-align:center;color:var(--text-faint);
+  font-size:11px;letter-spacing:0.3px;text-transform:uppercase;font-weight:700;min-height:90px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
 .ad-slot > *{max-width:100%;}
-
-/* ---------- popup / interstitial ads ---------- */
-.ad-popup-overlay{position:fixed;inset:0;background:rgba(6,8,16,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  display:none;align-items:center;justify-content:center;z-index:200;padding:20px;}
+.ad-loading{font-size:11px;color:var(--text-faint);letter-spacing:0.3px;text-transform:uppercase;font-weight:700;}
+.ad-popup-overlay{position:fixed;inset:0;background:rgba(6,8,16,0.55);backdrop-filter:blur(14px);display:none;align-items:center;justify-content:center;z-index:200;padding:20px;}
 .ad-popup-overlay.active{display:flex;animation:fadeIn .25s ease both;}
 .ad-popup-box{position:relative;width:100%;max-width:520px;max-height:80vh;overflow:auto;border-radius:18px;padding:18px;
-  background:linear-gradient(165deg, var(--bg-elev-2), var(--bg-elev));border:1px solid var(--glass-border);
-  box-shadow:0 30px 70px -20px rgba(0,0,0,0.7);}
+  background:linear-gradient(165deg, var(--bg-elev-2), var(--bg-elev));border:1px solid var(--glass-border);box-shadow:0 30px 70px -20px rgba(0,0,0,0.7);}
 .ad-popup-close{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:50%;border:1px solid var(--glass-border);
   background:rgba(255,255,255,0.06);color:var(--text-dim);font-size:18px;line-height:1;cursor:pointer;z-index:1;}
-.ad-popup-close:hover{background:rgba(255,255,255,0.12);color:var(--text);}
 #ad-popup-content{margin-top:6px;}
 #ad-popup-content > *{max-width:100%;}
-
-/* ---------- modal ---------- */
-.modal-overlay{position:fixed;inset:0;background:rgba(6,8,16,0.7);backdrop-filter:blur(6px);
-  display:none;align-items:center;justify-content:center;z-index:100;padding:20px;}
+.modal-overlay{position:fixed;inset:0;background:rgba(6,8,16,0.7);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;}
 .modal-overlay.active{display:flex;animation:fadeIn .2s ease both;}
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
 .modal-box{width:100%;max-width:480px;max-height:74vh;display:flex;flex-direction:column;border-radius:18px;padding:16px;
-  background:linear-gradient(165deg, var(--bg-elev-2), var(--bg-elev));border:1px solid var(--glass-border);
-  box-shadow:0 30px 60px -20px rgba(0,0,0,0.6);}
+  background:linear-gradient(165deg, var(--bg-elev-2), var(--bg-elev));border:1px solid var(--glass-border);box-shadow:0 30px 60px -20px rgba(0,0,0,0.6);}
 .modal-box h3{margin:0 0 10px;font-size:16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
 .modal-box h3 button{background:none;border:none;color:var(--text-faint);font-size:18px;}
 .modal-box .search-box{margin-bottom:10px;flex-shrink:0;}
 .modal-list{display:flex;flex-direction:column;gap:6px;overflow-y:auto;}
-.modal-item{display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:10px;background:var(--glass);
-  border:1px solid transparent;transition:.15s;}
+.modal-item{display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:10px;background:var(--glass);border:1px solid transparent;}
 .modal-item:hover{border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.08);cursor:pointer;}
 .modal-item img{width:36px;height:36px;border-radius:8px;}
 .modal-item .mi-name{flex:1;font-size:13px;font-weight:600;}
 .modal-item .mi-price{font-size:11.5px;color:var(--text-dim);}
-
-/* ---------- admin ---------- */
 .admin-layout{display:grid;grid-template-columns:230px 1fr;gap:20px;}
 @media (max-width:800px){.admin-layout{grid-template-columns:1fr;}}
 .admin-side{border-radius:var(--radius);padding:14px;background:var(--glass);border:1px solid var(--glass-border);height:fit-content;}
@@ -262,10 +194,8 @@ button{font-family:inherit;cursor:pointer;}
 .side-game{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:9px;font-size:13px;font-weight:600;color:var(--text-dim);margin-bottom:2px;}
 .side-game:hover{background:rgba(255,255,255,0.08);cursor:pointer;color:var(--text);}
 .side-game.active{background:rgba(255,255,255,0.16);color:var(--primary);}
-.add-game-box{display:flex;flex-direction:column;gap:8px;padding:10px;border-radius:10px;background:rgba(255,255,255,0.03);
-  border:1px dashed var(--glass-border);margin-top:6px;}
+.add-game-box{display:flex;flex-direction:column;gap:8px;padding:10px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px dashed var(--glass-border);margin-top:6px;}
 .add-game-box input{width:100%;}
-
 .admin-main{border-radius:var(--radius);padding:20px;background:var(--glass);border:1px solid var(--glass-border);}
 .admin-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
 .field{display:flex;flex-direction:column;gap:5px;}
@@ -281,10 +211,8 @@ input::placeholder{color:var(--text-faint);}
 .btn-primary:hover{filter:brightness(1.08);}
 .btn-danger:hover{border-color:rgba(255,122,146,0.5);background:rgba(255,122,146,0.1);color:var(--low);}
 .btn-small{padding:6px 10px;font-size:11.5px;}
-
 .admin-items{display:flex;flex-direction:column;gap:8px;margin-top:14px;}
-.admin-item-row{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end;
-  background:rgba(255,255,255,0.03);padding:10px;border-radius:10px;border:1px solid var(--glass-border);}
+.admin-item-row{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end;background:rgba(255,255,255,0.03);padding:10px;border-radius:10px;border:1px solid var(--glass-border);}
 .admin-item-row img{width:34px;height:34px;border-radius:7px;align-self:center;}
 .mini-field{display:flex;flex-direction:column;gap:4px;min-width:88px;}
 .mini-field.wide{min-width:150px;flex:1;}
@@ -296,49 +224,36 @@ input::placeholder{color:var(--text-faint);}
 .divider{height:1px;background:var(--glass-border);margin:18px 0;}
 .small-note{font-size:11.5px;color:var(--text-faint);margin-top:6px;line-height:1.5;}
 .fetch-row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;}
-
-.cf-row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;background:rgba(255,255,255,0.03);
-  padding:10px;border-radius:10px;border:1px solid var(--glass-border);margin-bottom:8px;}
-
-.toast{position:fixed;bottom:24px;right:24px;padding:12px 18px;border-radius:10px;
-  background:linear-gradient(120deg,var(--grad-a),var(--grad-b));color:#101012;font-size:13px;font-weight:700;
-  box-shadow:0 12px 30px -8px rgba(0,0,0,0.45);transform:translateY(20px);opacity:0;transition:all .3s ease;z-index:200;max-width:320px;}
+.cf-row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;background:rgba(255,255,255,0.03);padding:10px;border-radius:10px;border:1px solid var(--glass-border);margin-bottom:8px;}
+.toast{position:fixed;bottom:24px;right:24px;padding:12px 18px;border-radius:10px;background:linear-gradient(120deg,var(--grad-a),var(--grad-b));
+  color:#101012;font-size:13px;font-weight:700;box-shadow:0 12px 30px -8px rgba(0,0,0,0.45);transform:translateY(20px);opacity:0;transition:all .3s ease;z-index:200;max-width:320px;}
 .toast.show{transform:translateY(0);opacity:1;}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="topbar">
-    <div class="brand"><div class="mark" id="brand-mark">L</div><span id="brand-name">Ledger</span> <span style="font-size:11px;color:var(--text-faint);font-weight:700;margin-left:6px;">ADMIN</span></div>
+    <div class="brand"><div class="mark" id="brand-mark">L</div><span id="brand-name">Ledger</span>
+      <span style="font-size:11px;color:var(--text-faint);font-weight:700;margin-left:6px;">ADMIN</span></div>
     <nav id="topbar-nav">
       <a class="nav-btn" id="view-live-site" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> View live site</a>
-      <span id="temp-session-banner" style="display:none;font-size:12px;color:var(--text-faint);font-weight:700;margin-right:6px;"></span>
       <button class="nav-btn" id="logout-btn" style="display:none;"><i class="fa-solid fa-right-from-bracket"></i> Log out</button>
     </nav>
   </div>
 
   <!-- AUTH GATE -->
   <div id="auth-gate" class="auth-gate">
-    <div class="auth-box" id="owner-auth-box">
+    <div class="auth-box">
       <div class="brand" style="justify-content:center;margin-bottom:18px;"><div class="mark">L</div><span>Admin sign in</span></div>
       <div id="auth-error" class="small-note" style="display:none;color:var(--low);margin-bottom:6px;"></div>
       <div class="field" style="margin-bottom:10px;"><label>Email</label><input id="auth-email" type="email" placeholder="you@example.com"></div>
       <div class="field" style="margin-bottom:14px;"><label>Password</label><input id="auth-password" type="password" placeholder="••••••••"></div>
       <button class="btn btn-primary" id="auth-signin-btn" style="width:100%;justify-content:center;"><i class="fa-solid fa-right-to-bracket"></i> Sign in</button>
-      <div class="small-note" style="text-align:center;margin-top:14px;"><a href="#" id="show-temp-login">Have a temp chore code instead? Sign in here →</a></div>
-    </div>
-    <div class="auth-box" id="temp-auth-box" style="display:none;">
-      <div class="brand" style="justify-content:center;margin-bottom:18px;"><div class="mark">L</div><span>Temp access sign in</span></div>
-      <div id="temp-auth-error" class="small-note" style="display:none;color:var(--low);margin-bottom:6px;"></div>
-      <div class="field" style="margin-bottom:10px;"><label>Temp user ID</label><input id="temp-auth-id" placeholder="chr_xxxxxxxx"></div>
-      <div class="field" style="margin-bottom:14px;"><label>Temp password</label><input id="temp-auth-password" type="password" placeholder="••••••••"></div>
-      <button class="btn btn-primary" id="temp-auth-signin-btn" style="width:100%;justify-content:center;"><i class="fa-solid fa-right-to-bracket"></i> Sign in</button>
-      <div class="small-note" style="text-align:center;margin-top:14px;"><a href="#" id="show-owner-login">← Back to owner sign in</a></div>
     </div>
   </div>
 
-  <!-- HOME -->
-  <section class="screen active" id="screen-home">
+  <!-- HOME (kept for shared render functions; not linked to from admin nav) -->
+  <section class="screen" id="screen-home">
     <div class="hero" id="home-hero">
       <div class="eyebrow" id="home-eyebrow">Community trading values</div>
       <h1 id="home-title">Six games. One ledger.</h1>
@@ -348,14 +263,11 @@ input::placeholder{color:var(--text-faint);}
     <div class="ad-slot" id="ad-slot-home" style="display:none;margin-top:20px;"></div>
   </section>
 
-  <!-- GAME DETAIL -->
+  <!-- GAME DETAIL (shared render target, unused directly from admin) -->
   <section class="screen" id="screen-game">
     <div class="detail-head">
       <a class="back-btn" id="back-to-hub" href="#"><i class="fa-solid fa-arrow-left"></i>Back</a>
-      <div>
-        <h2 id="game-title">Game</h2>
-        <div class="sub" id="game-sub">game.ledger.gg</div>
-      </div>
+      <div><h2 id="game-title">Game</h2><div class="sub" id="game-sub">game.ledger.gg</div></div>
     </div>
     <div class="detail-stack">
       <div class="calc-panel" id="game-calc">
@@ -364,11 +276,9 @@ input::placeholder{color:var(--text-faint);}
           <h3 id="calc-title"><i class="fa-solid fa-scale-balanced"></i> Trade Calculator</h3>
           <div class="calc-sub" id="calc-subtitle">Add items to each side to compare value and demand before you commit.</div>
         </div>
-
         <div class="calc-sides">
           <div class="calc-side you">
-            <div class="calc-side-head">
-              <h4 id="calc-you-label">You</h4>
+            <div class="calc-side-head"><h4 id="calc-you-label">You</h4>
               <div class="calc-side-stats">
                 <div class="stat"><span class="stat-label">Value</span><span class="stat-val" id="you-value">0</span></div>
                 <div class="stat"><span class="stat-label">Demand</span><span class="stat-val" id="you-demand">—</span></div>
@@ -377,17 +287,14 @@ input::placeholder{color:var(--text-faint);}
             <div class="calc-items" id="calc-you"></div>
             <button class="add-item-btn" data-side="you"><i class="fa-solid fa-plus"></i> Add item</button>
           </div>
-
           <div class="calc-vs">
             <div class="vs-badge" id="calc-result-text">Neutral</div>
             <div class="balance-meter"><div class="balance-fill" id="balance-fill"></div></div>
             <div class="vs-diff" id="calc-diff">0 difference</div>
             <div class="vs-icon"><i class="fa-solid fa-right-left"></i></div>
           </div>
-
           <div class="calc-side them">
-            <div class="calc-side-head">
-              <h4 id="calc-them-label">Them</h4>
+            <div class="calc-side-head"><h4 id="calc-them-label">Them</h4>
               <div class="calc-side-stats">
                 <div class="stat"><span class="stat-label">Value</span><span class="stat-val" id="them-value">0</span></div>
                 <div class="stat"><span class="stat-label">Demand</span><span class="stat-val" id="them-demand">—</span></div>
@@ -397,21 +304,15 @@ input::placeholder{color:var(--text-faint);}
             <button class="add-item-btn" data-side="them"><i class="fa-solid fa-plus"></i> Add item</button>
           </div>
         </div>
-
         <div class="calc-actions">
           <span class="small-note">Click an item's &times; to remove it from that side.</span>
           <button class="btn btn-danger" id="calc-reset-btn"><i class="fa-solid fa-rotate-left"></i> Reset calculator</button>
         </div>
       </div>
-
       <div class="ad-slot" id="ad-slot-game" style="display:none;"></div>
-
       <div>
         <div class="list-toolbar">
-          <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="item-search" placeholder="Search items by name…">
-          </div>
+          <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="item-search" placeholder="Search items by name…"></div>
           <div class="filter-group">
             <span class="filter-label">Demand:</span>
             <div class="chip-row" id="demand-chips">
@@ -435,7 +336,7 @@ input::placeholder{color:var(--text-faint);}
   </section>
 
   <!-- ADMIN -->
-  <section class="screen" id="screen-admin">
+  <section class="screen active" id="screen-admin">
     <div class="hero" style="margin-bottom:20px;">
       <div class="eyebrow">Control panel</div>
       <h1 style="font-size:28px;">Manage games &amp; items</h1>
@@ -446,7 +347,8 @@ input::placeholder{color:var(--text-faint);}
         <div id="admin-site-btn" class="side-game"><i class="fa-solid fa-paintbrush"></i> Site &amp; Branding</div>
         <div id="admin-ads-btn" class="side-game"><i class="fa-solid fa-rectangle-ad"></i> Ads</div>
         <div id="admin-forms-btn" class="side-game"><i class="fa-solid fa-list-check"></i> Forms</div>
-        <div id="admin-temp-btn" class="side-game"><i class="fa-solid fa-user-clock"></i> Temp Access</div>
+        <div id="admin-traffic-btn" class="side-game"><i class="fa-solid fa-chart-line"></i> Traffic</div>
+        <div id="admin-premium-btn" class="side-game"><i class="fa-solid fa-crown"></i> Premium</div>
         <div class="side-title">Games</div>
         <div id="admin-game-list"></div>
         <div class="side-title">New game</div>
@@ -462,7 +364,8 @@ input::placeholder{color:var(--text-faint);}
     </div>
   </section>
 
-  <!-- PUBLIC FORM FILL -->
+  <!-- Public form-fill screen kept only because shared app.js references these elements;
+       not reachable from the admin nav. -->
   <section class="screen" id="screen-form-fill">
     <div class="hero" style="margin-bottom:20px;">
       <div class="eyebrow" id="form-fill-eyebrow">Form</div>
@@ -498,2395 +401,16 @@ input::placeholder{color:var(--text-faint);}
 
 <div class="toast" id="toast"></div>
 
+<script src="app.js"></script>
 <script>
-/* ============ CONFIG / ROUTING ============ */
-
-function slugify(str){ return (str||"").toLowerCase().replace(/[^a-z0-9]+/g,"") || "game"; }
-function uniqueSlug(base){
-  let s = base, i = 2;
-  while(GAMES.some(g=>g.slug===s)){ s = base+i; i++; }
-  return s;
-}
-
-/* ============ DEFAULT DATA ============ */
-const DEFAULT_GAMES = [
-  {name:"Blox Fruits", icon:"fa-solid fa-fish", items:[
-    ["Dark-Dark Fruit","2.4k","High"],["Leopard Fruit","1.9k","High"],["Buddha Fruit","950","Med"],
-    ["Dragon Fruit","1.3k","High"],["Rocket Fruit","120","Low"],["Portal Fruit","2.1k","High"],
-    ["Control Fruit","880","Med"],["Sound Fruit","210","Low"],["Quake Fruit","2.6k","High"],
-    ["Spider Fruit","310","Med"],["Ice Fruit","760","Med"],["Magma Fruit","1.5k","High"],
-    ["Love Fruit","95","Low"],["Spike Fruit","140","Low"],["Barrier Fruit","1.05k","Med"]
-  ]},
-  {name:"Grow a Garden", icon:"fa-solid fa-seedling", items:[
-    ["Moon Melon Seed","640","Med"],["Golden Carrot","1.1k","High"],["Dragon Fruit Sapling","2.2k","High"],
-    ["Rainbow Fertilizer","300","Med"],["Basic Watering Can","45","Low"],["Sunfruit Seed","770","Med"],
-    ["Mythic Sprinkler","1.6k","High"],["Comet Seed","410","Med"],["Stardust Soil","95","Low"]
-  ]},
-  {name:"Adopt Me", icon:"fa-solid fa-paw", items:[
-    ["Shadow Dragon","3.1k","High"],["Frost Dragon","2.8k","High"],["Giraffe","95","Low"],
-    ["Owl","410","Med"],["Bat Dragon","2.6k","High"],["Kangaroo","150","Low"],["Griffin","1.2k","Med"]
-  ]},
-  {name:"Murder Mystery 2", icon:"fa-solid fa-knife", items:[
-    ["Chroma Lightbringer","4.2k","High"],["Ghost Knife","560","Med"],["Corrupt","1.4k","High"],
-    ["Harvester","2.9k","High"],["Candy Cane","80","Low"],["Nebula Gun","1.1k","Med"]
-  ]},
-  {name:"Pet Simulator 99", icon:"fa-solid fa-cat", items:[
-    ["Rainbow Huge Cat","5.6k","High"],["Golden Egg","310","Med"],["Titanic Dog","1.8k","High"],
-    ["Diamond Key","95","Low"],["Void Coin","640","Med"],["Huge Phoenix","3.4k","High"]
-  ]},
-  {name:"Blade Ball", icon:"fa-solid fa-circle-dot", items:[
-    ["Mythic Katana Skin","1.2k","High"],["Void Trail","430","Med"],["Rare Emote","60","Low"],
-    ["Legendary Blade","980","High"],["Basic Trail","30","Low"],["Ancient Ball Skin","1.5k","High"]
-  ]}
-];
-
-function hashColor(str){ let h=0; for(let i=0;i<str.length;i++){h=str.charCodeAt(i)+((h<<5)-h);} return `hsl(${Math.abs(h)%360},62%,58%)`; }
-function hashColor2(str){ let h=0; for(let i=0;i<str.length;i++){h=(str.charCodeAt(i)*7)+((h<<5)-h);} return `hsl(${Math.abs(h)%360},70%,38%)`; }
-function genImg(name){
-  const c1 = hashColor(name), c2 = hashColor2(name);
-  const initials = name.split(" ").slice(0,2).map(w=>w[0]).join("").toUpperCase();
-  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='72' height='72'>
-    <defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='${c1}'/><stop offset='100%' stop-color='${c2}'/></linearGradient></defs>
-    <rect width='72' height='72' rx='14' fill='url(#g)'/>
-    <text x='36' y='44' font-family='Plus Jakarta Sans,sans-serif' font-size='24' font-weight='700' fill='rgba(255,255,255,0.92)' text-anchor='middle'>${initials}</text>
-  </svg>`;
-  return "data:image/svg+xml;base64," + btoa(svg);
-}
-function defaultFieldLabels(){ return { name: "Name", price: "Price", demand: "Demand" }; }
-function buildDefaults(){
-  return DEFAULT_GAMES.map((g,idx)=>({
-    id: idx+1, slug: slugify(g.name), name: g.name, icon: g.icon, image: "", footerText: "", customFields: [], fieldLabels: defaultFieldLabels(),
-    values: g.items.map((it,i)=>({ id: idx*100+i+1, name: it[0], price: it[1], demand: it[2], img: genImg(it[0]), custom:{} }))
-  }));
-}
-
-const STORAGE_KEY = "ledger_trade_hub_v2";
-let GAMES = [];
-let currentGameIdx = null;
-let currentAdminGameIdx = 0;
-let adminMode = "game"; // "game" | "site" | "ads" | "forms" | "form-edit"
-let currentAdminFormIdx = 0;
-let formAdminTab = "edit"; // "edit" | "responses"
-let calcSides = { you: [], them: [] };
-let modalTarget = null;
-let listFilter = { search:"", demand:"all", sort:"name" };
-
-/* ---- Site & branding config: lets the admin edit hub text/icons/fonts/alignment without touching code ---- */
-const SITE_STORAGE_KEY = "ledger_site_config_v1";
-const FONT_OPTIONS = {
-  jakarta: { label:"Plus Jakarta Sans (bold, modern)", css:"'Plus Jakarta Sans',sans-serif" },
-  inter:   { label:"Inter (clean, neutral)",            css:"'Inter',sans-serif" },
-  poppins: { label:"Poppins (rounded, friendly)",        css:"'Poppins',sans-serif" }
-};
-function defaultSiteConfig(){
-  return {
-    brandMark: "L",
-    brandName: "Ledger",
-    navHubLabel: "Hub",
-    navAdminLabel: "Admin",
-    heroEyebrow: "Community trading values",
-    heroTitle: "Six games. One ledger.",
-    heroSub: "Pick a game to browse current values, gauge demand, and run a trade through the calculator before you commit.",
-    headingFont: "jakarta",
-    bodyFont: "inter",
-    heroAlign: "left", // left | center | right
-    accentColor: "#c7c9cf",
-    logoImage: "",
-    cornerStyle: "rounded", // rounded | sharp
-    defaultSort: "name", // name | price-desc | price-asc
-    calcEyebrow: "Trade Analysis",
-    calcTitle: "Trade Calculator",
-    calcSubtitle: "Add items to each side to compare value and demand before you commit.",
-    calcYouLabel: "You",
-    calcThemLabel: "Them",
-    ads: [] // each: {id,name,type:"embed"|"popup",code,enabled,placements:{home,game},popupChance,popupDelay}
-  };
-}
-/* ============ SUPABASE (shared backend, so admin edits show up for every visitor) ============ */
-/* These two values are baked into the page on purpose so EVERY visitor's browser connects to
-   the same database automatically — no per-browser setup required. The anon key is meant to be
-   public (it can only do what your Row Level Security policies in Supabase allow), so it's safe
-   to ship inside this file. Fill these in once with your real project's values (Project Settings
-   → API in Supabase) and re-upload the file — that's what makes admin edits show up for real
-   visitors instead of only in the browser that made the change.
-   Leave them blank ("") to fall back to local-browser-only storage (nothing will sync). */
-const DEFAULT_SUPABASE_URL = "https://ftnyzhkaeloimhyspnxq.supabase.co";
-const DEFAULT_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0bnl6aGthZWxvaW1oeXNwbnhxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzODgxOTAsImV4cCI6MjA5ODk2NDE5MH0.J4M4ryNmaZO3IJI3sWW72NR7sD17FMUaUrqhmOfcs3g";
-
-/* This admin panel lives on admin.bloxvalues.xyz, but public-facing links (form share
-   links, "view live site") must point at the actual public domain, not wherever the
-   admin panel itself happens to be hosted. Update this if the public domain changes. */
-const PUBLIC_SITE_URL = "https://bloxvalues.xyz/";
-
-const SUPABASE_CREDS_KEY = "ledger_supabase_creds_v1";
-let SUPABASE_URL = DEFAULT_SUPABASE_URL, SUPABASE_ANON_KEY = DEFAULT_SUPABASE_ANON_KEY, sbClient = null;
-function loadSupabaseCreds(){
-  // A locally-saved override (e.g. for local testing) takes priority over the baked-in defaults.
-  try{
-    const raw = localStorage.getItem(SUPABASE_CREDS_KEY);
-    if(raw){
-      const c = JSON.parse(raw);
-      if(c.url) SUPABASE_URL = c.url;
-      if(c.key) SUPABASE_ANON_KEY = c.key;
-      return;
-    }
-  }catch(e){ console.warn("supabase creds read failed", e); }
-  SUPABASE_URL = DEFAULT_SUPABASE_URL;
-  SUPABASE_ANON_KEY = DEFAULT_SUPABASE_ANON_KEY;
-}
-function saveSupabaseCreds(url, key){
-  SUPABASE_URL = url.trim(); SUPABASE_ANON_KEY = key.trim(); sbClient = null;
-  try{ localStorage.setItem(SUPABASE_CREDS_KEY, JSON.stringify({ url: SUPABASE_URL, key: SUPABASE_ANON_KEY })); }catch(e){ console.warn("supabase creds write failed", e); }
-}
-function getSupabase(){
-  if(!SUPABASE_URL || !SUPABASE_ANON_KEY) return null;
-  if(!sbClient){
-    try{ sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); }
-    catch(e){ console.warn("supabase client init failed", e); return null; }
-  }
-  return sbClient;
-}
-/* Generic key/value get and set against a single "kv_store" table (key text primary key, value jsonb).
-   This mirrors the old localStorage-only shape closely on purpose, so games/site-config storage barely
-   had to change shape — it just now also syncs to a shared place every visitor reads from. */
-async function kvGet(key){
-  const sb = getSupabase();
-  if(!sb) return null;
-  try{
-    const { data, error } = await sb.from("kv_store").select("value").eq("key", key).maybeSingle();
-    if(error){
-      const msg = error.message || JSON.stringify(error);
-      console.warn("supabase read error:", msg, "(code: "+(error.code||"?")+")");
-      if(typeof showToast === "function") showToast("DB read failed for \""+key+"\": " + msg);
-      return null;
-    }
-    return data ? data.value : null;
-  }catch(e){ console.warn("supabase read failed", e); return null; }
-}
-async function kvSet(key, value){
-  const sb = getSupabase();
-  if(!sb) return { ok:false, reason:"not-connected" };
-  try{
-    const { error } = await sb.from("kv_store").upsert({ key, value, updated_at: new Date().toISOString() });
-    if(error){ console.warn("supabase write error", error); return { ok:false, reason:error.message }; }
-    return { ok:true };
-  }catch(e){
-    console.warn("supabase write failed", e);
-    return { ok:false, reason: e.message || "network error" };
-  }
-}
-
-let SITE_CONFIG = defaultSiteConfig();
-async function loadSiteConfig(){
-  const remote = await kvGet("site_config");
-  if(remote){
-    SITE_CONFIG = Object.assign(defaultSiteConfig(), remote);
-    try{ localStorage.setItem(SITE_STORAGE_KEY, JSON.stringify(SITE_CONFIG)); }catch(e){}
-    return;
-  }
-  try{
-    const raw = localStorage.getItem(SITE_STORAGE_KEY);
-    if(raw){ SITE_CONFIG = Object.assign(defaultSiteConfig(), JSON.parse(raw)); return; }
-  }catch(e){ console.warn("site config read failed", e); }
-  SITE_CONFIG = defaultSiteConfig();
-}
-async function saveSiteConfig(){
-  try{ localStorage.setItem(SITE_STORAGE_KEY, JSON.stringify(SITE_CONFIG)); }catch(e){ console.warn("site config write failed", e); }
-  const result = await kvSet("site_config", SITE_CONFIG);
-  if(result && !result.ok && result.reason !== "not-connected"){
-    showToast("Saved locally, but the shared sync failed: " + result.reason);
-  }
-}
-function hexToRgb(hex){
-  const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex||"");
-  return m ? `${parseInt(m[1],16)},${parseInt(m[2],16)},${parseInt(m[3],16)}` : "199,201,207";
-}
-function applySiteConfig(){
-  const root = document.documentElement;
-  root.style.setProperty("--font-heading", (FONT_OPTIONS[SITE_CONFIG.headingFont]||FONT_OPTIONS.jakarta).css);
-  root.style.setProperty("--font-body", (FONT_OPTIONS[SITE_CONFIG.bodyFont]||FONT_OPTIONS.inter).css);
-  root.style.setProperty("--primary", SITE_CONFIG.accentColor || "#c7c9cf");
-  root.style.setProperty("--grad-a", SITE_CONFIG.accentColor || "#c7c9cf");
-  root.style.setProperty("--you", SITE_CONFIG.accentColor || "#c7c9cf");
-  root.style.setProperty("--radius", SITE_CONFIG.cornerStyle === "sharp" ? "6px" : "16px");
-  root.style.setProperty("--radius-sm", SITE_CONFIG.cornerStyle === "sharp" ? "4px" : "10px");
-
-  const brandMarkEl = document.getElementById("brand-mark");
-  if(brandMarkEl){
-    brandMarkEl.innerHTML = SITE_CONFIG.logoImage
-      ? `<img src="${escapeAttr(SITE_CONFIG.logoImage)}" alt="" style="width:100%;height:100%;object-fit:cover;">`
-      : escapeHtml(SITE_CONFIG.brandMark || "L");
-  }
-  const brandNameEl = document.getElementById("brand-name"); if(brandNameEl) brandNameEl.textContent = SITE_CONFIG.brandName || "Ledger";
-  const navHubEl = document.getElementById("nav-hub-label"); if(navHubEl) navHubEl.textContent = SITE_CONFIG.navHubLabel || "Hub";
-  const navAdminEl = document.getElementById("nav-admin-label"); if(navAdminEl) navAdminEl.textContent = SITE_CONFIG.navAdminLabel || "Admin";
-
-  const heroEl = document.getElementById("home-hero");
-  if(heroEl){
-    heroEl.classList.remove("align-center","align-right");
-    if(SITE_CONFIG.heroAlign === "center") heroEl.classList.add("align-center");
-    else if(SITE_CONFIG.heroAlign === "right") heroEl.classList.add("align-right");
-  }
-  const eyebrowEl = document.getElementById("home-eyebrow"); if(eyebrowEl) eyebrowEl.textContent = SITE_CONFIG.heroEyebrow || "";
-  const titleEl = document.getElementById("home-title"); if(titleEl) titleEl.textContent = SITE_CONFIG.heroTitle || "";
-  const subEl = document.getElementById("home-sub"); if(subEl) subEl.textContent = SITE_CONFIG.heroSub || "";
-
-  const calcEyebrowEl = document.getElementById("calc-eyebrow"); if(calcEyebrowEl) calcEyebrowEl.textContent = SITE_CONFIG.calcEyebrow || "";
-  const calcTitleEl = document.getElementById("calc-title");
-  if(calcTitleEl) calcTitleEl.innerHTML = `<i class="fa-solid fa-scale-balanced"></i> ${escapeHtml(SITE_CONFIG.calcTitle || "Trade Calculator")}`;
-  const calcSubtitleEl = document.getElementById("calc-subtitle"); if(calcSubtitleEl) calcSubtitleEl.textContent = SITE_CONFIG.calcSubtitle || "";
-  const calcYouEl = document.getElementById("calc-you-label"); if(calcYouEl) calcYouEl.textContent = SITE_CONFIG.calcYouLabel || "You";
-  const calcThemEl = document.getElementById("calc-them-label"); if(calcThemEl) calcThemEl.textContent = SITE_CONFIG.calcThemLabel || "Them";
-
-  const sortSelectEl = document.getElementById("sort-select");
-  if(sortSelectEl && listFilter && !listFilter._userChangedSort){
-    listFilter.sort = SITE_CONFIG.defaultSort || "name";
-    sortSelectEl.value = listFilter.sort;
-  }
-
-  document.title = (SITE_CONFIG.brandName || "Ledger") + " — Trading Value Hub";
-}
-
-function migrateGames(){
-  GAMES.forEach(g=>{
-    if(!g.customFields) g.customFields=[];
-    if(!g.slug) g.slug=slugify(g.name);
-    if(!g.fieldLabels) g.fieldLabels=defaultFieldLabels();
-    if(g.image===undefined) g.image="";
-    if(g.footerText===undefined) g.footerText="";
-    g.values.forEach(v=>{ if(!v.custom) v.custom={}; });
-  });
-}
-async function loadFromStorage(){
-  const remote = await kvGet("games");
-  if(remote){
-    GAMES = remote; migrateGames();
-    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(GAMES)); }catch(e){}
-    return;
-  }
-  try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if(raw){ GAMES = JSON.parse(raw); migrateGames(); return; }
-  }catch(e){ console.warn("storage read failed", e); }
-  GAMES = buildDefaults();
-  saveToStorage();
-}
-async function saveToStorage(){
-  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(GAMES)); }catch(e){ console.warn("storage write failed", e); }
-  const result = await kvSet("games", GAMES);
-  if(result && !result.ok && result.reason !== "not-connected"){
-    showToast("Saved locally, but the shared sync failed: " + result.reason);
-  }
-}
-function resetToDefault(){
-  GAMES = buildDefaults(); saveToStorage(); showToast("Reset to default data"); renderHome(); renderAdmin();
-}
-
-/* ============ FORMS ============ */
-let FORMS = [];
-function randomFormId(){ return "frm_" + Math.random().toString(36).slice(2,10); }
-function randomQId(){ return "q_" + Math.random().toString(36).slice(2,8); }
-function slugifyForm(str){ return (str||"").toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"") || "form"; }
-function uniqueFormSlug(base, ignoreForm){
-  let s = slugifyForm(base), i = 2;
-  while(FORMS.some(f=>f!==ignoreForm && f.slug===s)){ s = slugifyForm(base)+"-"+i; i++; }
-  return s;
-}
-async function loadForms(){
-  const remote = await kvGet("forms");
-  if(Array.isArray(remote)){ FORMS = remote; return; }
-  FORMS = [];
-}
-async function saveForms(){
-  const result = await kvSet("forms", FORMS);
-  if(result && !result.ok && result.reason !== "not-connected"){
-    showToast("Saved locally, but the shared sync failed: " + result.reason);
-  }
-}
-async function loadFormResponses(formId){
-  const remote = await kvGet("form_responses_" + formId);
-  return Array.isArray(remote) ? remote : [];
-}
-async function submitFormResponse(formId, answers){
-  const key = "form_responses_" + formId;
-  const existing = await loadFormResponses(formId);
-  existing.push({ id: "r_" + Math.random().toString(36).slice(2,10), submittedAt: new Date().toISOString(), answers });
-  return await kvSet(key, existing);
-}
-function formShareUrl(form){
-  return PUBLIC_SITE_URL.replace(/\/+$/,"") + "/form/" + encodeURIComponent(form.slug || form.id);
-}
-function csvEscape(val){
-  const s = (val==null ? "" : String(val));
-  if(/[",\n]/.test(s)) return '"' + s.replace(/"/g,'""') + '"';
-  return s;
-}
-function exportFormResponsesCsv(form, responses){
-  const headers = ["Submitted at", ...form.questions.map(q=>q.label || "(untitled question)")];
-  const rows = [headers.map(csvEscape).join(",")];
-  responses.forEach(r=>{
-    const row = [new Date(r.submittedAt).toLocaleString()];
-    form.questions.forEach(q=>{
-      const v = r.answers ? r.answers[q.id] : undefined;
-      row.push(Array.isArray(v) ? v.join("; ") : (v==null ? "" : v));
-    });
-    rows.push(row.map(csvEscape).join(","));
-  });
-  const blob = new Blob([rows.join("\r\n")], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = (form.title || "form").replace(/[^a-z0-9]+/gi,"_").toLowerCase() + "_responses.csv";
-  document.body.appendChild(a); a.click(); a.remove();
-  URL.revokeObjectURL(url);
-}
-
-
-/* ============ NAV ============ */
-function goTo(screen){
-  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-  document.getElementById("screen-"+screen).classList.add("active");
-  document.querySelectorAll("#topbar-nav .nav-btn").forEach(b=>b.classList.toggle("active", b.dataset.nav===screen));
-  // Custom ad boxes live on <body>, not inside their screen, so they can reach the
-  // viewport's side margins — clear them out whenever we leave home/game entirely.
-  if(screen !== "home" && screen !== "game"){
-    document.querySelectorAll(".custom-ad-box").forEach(el=>el.remove());
-  }
-}
-function wireNav(){
-  document.querySelectorAll("#topbar-nav [data-nav]").forEach(el=>{
-    el.addEventListener("click", ()=>{
-      const target = el.dataset.nav;
-      goTo(target);
-      if(target==="admin") renderAdmin();
-    });
-  });
-  const popupClose = document.getElementById("ad-popup-close");
-  if(popupClose) popupClose.addEventListener("click", closePopupAd);
-}
-
-/* ============ ADS ============ */
-function randomAdId(){ return "ad_" + Math.random().toString(36).slice(2,10); }
-function adsList(){ return Array.isArray(SITE_CONFIG.ads) ? SITE_CONFIG.ads : []; }
-
-// Renders ad markup into a container. Plain links/images/HTML go in directly, but
-// anything containing a <script> tag is rendered inside a sandboxed iframe instead —
-// scripts inserted via innerHTML silently never run, which is the #1 reason a pasted
-// ad network embed looks "dead" even though the code itself is correct.
-function injectAdCode(container, code, minHeight){
-  container.innerHTML = "";
-  if(!code || !code.trim()) return;
-  if(/<script[\s>]/i.test(code)){
-    const frame = document.createElement("iframe");
-    frame.style.cssText = `width:100%;height:100%;min-height:${minHeight||90}px;border:0;display:block;background:transparent;`;
-    frame.setAttribute("sandbox","allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-forms");
-    frame.srcdoc = `<!doctype html><html><head><style>html,body{margin:0;padding:0;background:transparent;overflow:hidden;}</style></head><body>${code}</body></html>`;
-    container.appendChild(frame);
-  }else{
-    const holder = document.createElement("div");
-    holder.style.width = "100%";
-    holder.innerHTML = code;
-    container.appendChild(holder);
-  }
-}
-
-// Fills the static in-page ad slot for a placement ("home" | "game") with every
-// enabled "embed" ad targeting it. Hides the slot entirely if nothing matches.
-function renderAds(placement){
-  const slot = document.getElementById("ad-slot-" + placement);
-  if(!slot) return;
-  const matches = adsList().filter(ad => ad.enabled && ad.type === "embed" && ad.placements && ad.placements[placement]);
-  if(matches.length === 0){ slot.style.display = "none"; slot.innerHTML = ""; return; }
-  slot.style.display = "flex";
-  slot.style.flexDirection = "column";
-  slot.style.gap = "14px";
-  slot.innerHTML = "";
-  matches.forEach(ad=>{
-    const holder = document.createElement("div");
-    holder.style.width = "100%";
-    injectAdCode(holder, ad.code, 90);
-    slot.appendChild(holder);
-  });
-}
-
-// Positions every enabled "custom" (hand-drawn) ad box inside the given screen,
-// using the percentage rectangle captured when it was drawn.
-// Custom ad boxes are fixed to the viewport (not the centered .app column) so they can
-// sit in the open side margins on wide screens, not just inside the main content width.
-let _lastAdsScreen = null;
-function renderCustomAds(screen){
-  _lastAdsScreen = screen;
-  document.querySelectorAll(".custom-ad-box").forEach(el=>el.remove());
-  const vw = window.innerWidth, vh = window.innerHeight;
-  adsList().filter(ad => ad.enabled && ad.type === "custom" && ad.screen === screen && ad.rect).forEach(ad=>{
-    const box = document.createElement("div");
-    box.className = "custom-ad-box";
-    let w = Math.min((ad.rect.w/100) * vw, vw);
-    let h = Math.min((ad.rect.h/100) * vh, vh);
-    let left = (ad.rect.x/100) * vw;
-    let top = (ad.rect.y/100) * vh;
-    left = Math.max(0, Math.min(left, vw - w));
-    top = Math.max(0, Math.min(top, vh - h));
-    box.style.left = left + "px";
-    box.style.top = top + "px";
-    box.style.width = w + "px";
-    box.style.height = h + "px";
-    injectAdCode(box, ad.code, 40);
-    document.body.appendChild(box);
-  });
-}
-let _adsResizeTimer = null;
-window.addEventListener("resize", ()=>{
-  clearTimeout(_adsResizeTimer);
-  _adsResizeTimer = setTimeout(()=>{ if(_lastAdsScreen) renderCustomAds(_lastAdsScreen); }, 150);
-});
-window.addEventListener("orientationchange", ()=>{
-  setTimeout(()=>{ if(_lastAdsScreen) renderCustomAds(_lastAdsScreen); }, 200);
-});
-
-// Rolls the dice for every enabled "popup" (blur interstitial) ad targeting this
-// placement and shows at most one, after its configured delay. Each ad is capped
-// to once per browser tab session so visitors aren't hit with it on every click.
-function maybeShowPopupAd(placement){
-  const candidates = adsList().filter(ad =>
-    ad.enabled && ad.type === "popup" && ad.placements && ad.placements[placement] &&
-    !sessionStorage.getItem("ad_shown_" + ad.id)
-  );
-  if(candidates.length === 0) return;
-  const chosen = candidates[Math.floor(Math.random() * candidates.length)];
-  const chance = Math.max(0, Math.min(100, Number(chosen.popupChance) || 0));
-  if(Math.random() * 100 >= chance) return;
-  const delayMs = Math.max(0, Number(chosen.popupDelay) || 0) * 1000;
-  clearTimeout(window._adPopupTimer);
-  window._adPopupTimer = setTimeout(()=> showPopupAd(chosen), delayMs);
-}
-function showPopupAd(ad){
-  injectAdCode(document.getElementById("ad-popup-content"), ad.code, 200);
-  document.getElementById("ad-popup-overlay").classList.add("active");
-  if(ad.id) try{ sessionStorage.setItem("ad_shown_" + ad.id, "1"); }catch(e){}
-}
-function closePopupAd(){
-  document.getElementById("ad-popup-overlay").classList.remove("active");
-  document.getElementById("ad-popup-content").innerHTML = "";
-}
-
-/* ============ CUSTOM AD SPACE (mouse-drawn) ============ */
-let _adDraw = null;
-function _adDrawEscHandler(e){ if(e.key === "Escape") cancelDrawCustomAd(); }
-function startDrawCustomAd(screen, existingAd){
-  if(screen === "game"){
-    if(GAMES.length === 0){ showToast("Create a game first"); return; }
-    openGameDetail(currentGameIdx >= 0 ? currentGameIdx : 0);
-  }else{
-    goTo("home"); renderHome();
-  }
-  // The draw layer covers the full viewport (not just the centered content column) so
-  // the open side margins on wide screens are drawable too, exactly like the real
-  // fixed-position ad box will render once saved.
-  const layer = document.createElement("div");
-  layer.className = "ad-draw-layer";
-  const rectEl = document.createElement("div");
-  rectEl.className = "ad-draw-rect";
-  rectEl.style.display = "none";
-  const dimsEl = document.createElement("div");
-  dimsEl.className = "ad-draw-dims";
-  dimsEl.style.display = "none";
-  rectEl.appendChild(dimsEl);
-  layer.appendChild(rectEl);
-  document.body.appendChild(layer);
-
-  const banner = document.createElement("div");
-  banner.className = "ad-draw-banner";
-  banner.innerHTML = `<i class="fa-solid fa-crosshairs"></i> Click and drag anywhere — including the side margins — to draw the ad area &nbsp; <button class="btn" id="ad-draw-cancel" style="padding:4px 10px;">Cancel (Esc)</button>`;
-  document.body.appendChild(banner);
-
-  _adDraw = { screen, existingAd, layer, banner, rectEl, dimsEl, dragging:false, sx:0, sy:0 };
-
-  const onDown = (e)=>{
-    _adDraw.dragging = true;
-    _adDraw.sx = e.clientX;
-    _adDraw.sy = e.clientY;
-    rectEl.style.left = _adDraw.sx + "px"; rectEl.style.top = _adDraw.sy + "px";
-    rectEl.style.width = "0px"; rectEl.style.height = "0px";
-    rectEl.style.display = "block";
-    dimsEl.style.display = "block";
-    dimsEl.textContent = "0 × 0 px";
-  };
-  const onMove = (e)=>{
-    if(!_adDraw || !_adDraw.dragging) return;
-    const cx = e.clientX, cy = e.clientY;
-    const x = Math.min(cx, _adDraw.sx), y = Math.min(cy, _adDraw.sy);
-    const w = Math.abs(cx - _adDraw.sx), h = Math.abs(cy - _adDraw.sy);
-    rectEl.style.left = x+"px"; rectEl.style.top = y+"px"; rectEl.style.width = w+"px"; rectEl.style.height = h+"px";
-    dimsEl.textContent = Math.round(w) + " × " + Math.round(h) + " px";
-  };
-  const onUp = ()=>{
-    if(!_adDraw || !_adDraw.dragging) return;
-    _adDraw.dragging = false;
-    const left = parseFloat(rectEl.style.left)||0, top = parseFloat(rectEl.style.top)||0;
-    const w = parseFloat(rectEl.style.width)||0, h = parseFloat(rectEl.style.height)||0;
-    if(w < 30 || h < 30){ rectEl.style.display = "none"; showToast("Draw a bigger box for the ad area"); return; }
-    finishDrawCustomAd(screen, { x:(left/window.innerWidth)*100, y:(top/window.innerHeight)*100, w:(w/window.innerWidth)*100, h:(h/window.innerHeight)*100 });
-  };
-  layer.addEventListener("mousedown", onDown);
-  window.addEventListener("mousemove", onMove);
-  window.addEventListener("mouseup", onUp);
-  _adDraw._onMove = onMove; _adDraw._onUp = onUp;
-
-  document.getElementById("ad-draw-cancel").addEventListener("click", cancelDrawCustomAd);
-  document.addEventListener("keydown", _adDrawEscHandler);
-}
-function _teardownDrawListeners(){
-  if(!_adDraw) return;
-  window.removeEventListener("mousemove", _adDraw._onMove);
-  window.removeEventListener("mouseup", _adDraw._onUp);
-  document.removeEventListener("keydown", _adDrawEscHandler);
-}
-function cancelDrawCustomAd(){
-  if(!_adDraw) return;
-  _teardownDrawListeners();
-  _adDraw.layer.remove(); _adDraw.banner.remove();
-  _adDraw = null;
-  goTo("admin"); adminMode = "ads"; renderAdmin();
-}
-function finishDrawCustomAd(screen, rectPct){
-  const draw = _adDraw;
-  _teardownDrawListeners();
-  draw.layer.remove();
-
-  // Editing an existing custom ad's position — just update it and skip the code form.
-  if(draw.existingAd){
-    draw.existingAd.rect = rectPct;
-    draw.existingAd.screen = screen;
-    saveSiteConfig();
-    draw.banner.remove(); _adDraw = null;
-    renderCustomAds(screen);
-    goTo("admin"); adminMode = "ads"; renderAdmin();
-    showToast("Ad position updated");
-    return;
-  }
-
-  draw.banner.innerHTML = `
-    <div style="display:flex;flex-direction:column;gap:8px;min-width:260px;">
-      <div style="font-weight:700;"><i class="fa-solid fa-crosshairs"></i> New custom ad space</div>
-      <input id="ad-draw-name" placeholder="Name (optional)" style="padding:8px 10px;border-radius:8px;border:1px solid var(--glass-border);background:rgba(255,255,255,0.04);color:var(--text);">
-      <textarea id="ad-draw-code" rows="3" placeholder="Paste a link, image, or embed/script code" style="padding:8px 10px;border-radius:8px;border:1px solid var(--glass-border);background:rgba(255,255,255,0.04);color:var(--text);resize:vertical;"></textarea>
-      <div style="display:flex;gap:8px;justify-content:flex-end;">
-        <button class="btn" id="ad-draw-cancel2">Cancel</button>
-        <button class="btn btn-primary" id="ad-draw-save">Save ad space</button>
-      </div>
-    </div>
-  `;
-  document.getElementById("ad-draw-cancel2").addEventListener("click", ()=>{
-    draw.banner.remove(); _adDraw = null; goTo("admin"); adminMode = "ads"; renderAdmin();
-  });
-  document.getElementById("ad-draw-save").addEventListener("click", ()=>{
-    const name = document.getElementById("ad-draw-name").value.trim() || "Custom ad space";
-    const code = document.getElementById("ad-draw-code").value;
-    if(!Array.isArray(SITE_CONFIG.ads)) SITE_CONFIG.ads = [];
-    SITE_CONFIG.ads.push({ id: randomAdId(), name, type:"custom", code, enabled:true, screen, rect: rectPct });
-    saveSiteConfig();
-    draw.banner.remove(); _adDraw = null;
-    renderCustomAds(screen);
-    goTo("admin"); adminMode = "ads"; renderAdmin();
-    showToast("Custom ad space added");
-  });
-}
-function redrawCustomAd(adId){
-  const ad = adsList().find(a=>a.id===adId);
-  if(!ad) return;
-  startDrawCustomAd(ad.screen, ad);
-}
-
-/* ============ PUBLIC FORM FILL ============ */
-function getUrlFormId(){
-  try{ return new URLSearchParams(window.location.search).get("form"); }catch(e){ return null; }
-}
-function renderFormFill(formId){
-  const form = FORMS.find(f=>f.id===formId);
-  document.getElementById("form-fill-thanks").style.display = "none";
-  document.getElementById("form-fill-missing").style.display = "none";
-  document.getElementById("form-fill-body").style.display = "flex";
-  if(!form){
-    document.getElementById("form-fill-missing").style.display = "block";
-    document.getElementById("form-fill-body").style.display = "none";
-    document.getElementById("form-fill-title").textContent = "Form";
-    document.getElementById("form-fill-desc").textContent = "";
-    return;
-  }
-  document.getElementById("form-fill-title").textContent = form.title || "Untitled form";
-  document.getElementById("form-fill-desc").textContent = form.description || "";
-  const body = document.getElementById("form-fill-body");
-  body.innerHTML = "";
-  (form.questions||[]).forEach(q=>{
-    const wrap = document.createElement("div");
-    wrap.className = "field";
-    let inputHtml = "";
-    if(q.type === "paragraph"){
-      inputHtml = `<textarea class="ff-input" data-qid="${q.id}" rows="4" style="width:100%;resize:vertical;padding:10px 12px;border-radius:10px;border:1px solid var(--glass-border);background:rgba(255,255,255,0.03);color:var(--text);"></textarea>`;
-    }else if(q.type === "choice"){
-      inputHtml = (q.options||[]).map((opt,i)=>`
-        <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--text-dim);cursor:pointer;padding:6px 0;">
-          <input type="radio" name="ff-${q.id}" class="ff-input" data-qid="${q.id}" value="${escapeAttr(opt)}" style="width:16px;height:16px;"> ${escapeHtml(opt)}
-        </label>`).join("");
-    }else if(q.type === "checkbox"){
-      inputHtml = (q.options||[]).map((opt,i)=>`
-        <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--text-dim);cursor:pointer;padding:6px 0;">
-          <input type="checkbox" class="ff-input ff-checkbox" data-qid="${q.id}" value="${escapeAttr(opt)}" style="width:16px;height:16px;"> ${escapeHtml(opt)}
-        </label>`).join("");
-    }else{
-      inputHtml = `<input class="ff-input" data-qid="${q.id}" type="text" style="width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--glass-border);background:rgba(255,255,255,0.03);color:var(--text);">`;
-    }
-    wrap.innerHTML = `<label style="font-size:14px;color:var(--text);font-weight:600;">${escapeHtml(q.label||"")}${q.required?' <span style="color:var(--low);">*</span>':''}</label>${inputHtml}`;
-    body.appendChild(wrap);
-  });
-  const submitBtn = document.createElement("button");
-  submitBtn.className = "btn btn-primary";
-  submitBtn.style.cssText = "justify-content:center;margin-top:6px;";
-  submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit';
-  submitBtn.addEventListener("click", async ()=>{
-    const answers = {};
-    let missingRequired = false;
-    (form.questions||[]).forEach(q=>{
-      if(q.type === "checkbox"){
-        const vals = Array.from(body.querySelectorAll(`.ff-checkbox[data-qid="${q.id}"]:checked`)).map(el=>el.value);
-        answers[q.id] = vals;
-        if(q.required && vals.length===0) missingRequired = true;
-      }else if(q.type === "choice"){
-        const sel = body.querySelector(`.ff-input[data-qid="${q.id}"]:checked`);
-        answers[q.id] = sel ? sel.value : "";
-        if(q.required && !sel) missingRequired = true;
-      }else{
-        const el = body.querySelector(`.ff-input[data-qid="${q.id}"]`);
-        const v = el ? el.value.trim() : "";
-        answers[q.id] = v;
-        if(q.required && !v) missingRequired = true;
-      }
-    });
-    if(missingRequired){ showToast("Please fill in all required questions"); return; }
-    submitBtn.disabled = true; submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting…';
-    const result = await submitFormResponse(form.id, answers);
-    if(result && result.ok === false){
-      submitBtn.disabled = false; submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit';
-      showToast("Couldn't submit: " + (result.reason || "unknown error"));
-      return;
-    }
-    body.style.display = "none";
-    document.getElementById("form-fill-thanks").style.display = "block";
-  });
-  body.appendChild(submitBtn);
-}
-
-
-/* ============ HOME ============ */
-function renderHome(){
-  const grid = document.getElementById("game-grid");
-  grid.innerHTML = "";
-  GAMES.forEach((g, idx)=>{
-    const card = document.createElement("a");
-    card.className = "game-card";
-    const giInner = g.image ? `<img src="${escapeAttr(g.image)}" alt="">` : `<i class="${g.icon || 'fa-solid fa-gamepad'}"></i>`;
-    const footerHtml = g.footerText ? `<div class="gc-footer">${escapeHtml(g.footerText)}</div>` : "";
-    card.innerHTML = `
-      <i class="fa-solid fa-arrow-up-right-from-square arrow"></i>
-      <div class="gi">${giInner}</div>
-      <div class="gc-body">
-        <h3>${escapeHtml(g.name)}</h3>
-        <div class="count">${g.values.length} items tracked</div>
-        ${footerHtml}
-      </div>
-    `;
-    card.addEventListener("click", (e)=>{
-      e.preventDefault();
-      openGameDetail(idx);
-    });
-    grid.appendChild(card);
-  });
-  renderAds("home");
-  renderCustomAds("home");
-  maybeShowPopupAd("home");
-}
-
-/* ============ GAME DETAIL ============ */
-function openGameDetail(idx){
-  currentGameIdx = idx;
-  const g = GAMES[idx];
-  if(!g.fieldLabels) g.fieldLabels = defaultFieldLabels();
-  document.getElementById("game-title").textContent = g.name;
-  document.getElementById("game-sub").textContent = `${g.values.length} item${g.values.length===1?"":"s"} tracked`;
-  listFilter = { search:"", demand:"all", sort: SITE_CONFIG.defaultSort || "name" };
-  document.getElementById("item-search").value = "";
-  const sortSelect = document.getElementById("sort-select");
-  sortSelect.innerHTML = `
-    <option value="name">Sort: ${escapeHtml(g.fieldLabels.name)} A–Z</option>
-    <option value="price-desc">Sort: ${escapeHtml(g.fieldLabels.price)} high–low</option>
-    <option value="price-asc">Sort: ${escapeHtml(g.fieldLabels.price)} low–high</option>
-  `;
-  sortSelect.value = listFilter.sort;
-  document.querySelectorAll("#demand-chips .chip").forEach(c=>c.classList.toggle("active", c.dataset.demand==="all"));
-  const back = document.getElementById("back-to-hub");
-  back.href = "#";
-  renderValueList();
-  resetTradeCalc();
-  goTo("game");
-  renderAds("game");
-  renderCustomAds("game");
-  maybeShowPopupAd("game");
-}
-function getFilteredSortedValues(){
-  const g = GAMES[currentGameIdx];
-  let list = g.values.filter(item=>{
-    const matchesSearch = item.name.toLowerCase().includes(listFilter.search.toLowerCase());
-    const matchesDemand = listFilter.demand==="all" || item.demand===listFilter.demand;
-    return matchesSearch && matchesDemand;
-  });
-  if(listFilter.sort==="name") list = list.slice().sort((a,b)=>a.name.localeCompare(b.name));
-  else if(listFilter.sort==="price-desc") list = list.slice().sort((a,b)=>parseValue(b.price)-parseValue(a.price));
-  else if(listFilter.sort==="price-asc") list = list.slice().sort((a,b)=>parseValue(a.price)-parseValue(b.price));
-  return list;
-}
-function renderValueList(){
-  const g = GAMES[currentGameIdx];
-  const list = document.getElementById("value-list");
-  const filtered = getFilteredSortedValues();
-  document.getElementById("list-meta").textContent = `Showing ${filtered.length} of ${g.values.length} items`;
-  list.innerHTML = "";
-  if(filtered.length===0){
-    list.innerHTML = `<div class="empty-state"><i class="fa-solid fa-magnifying-glass"></i>No items match your search.</div>`;
-    return;
-  }
-  filtered.forEach(item=>{
-    const demandClass = "demand-"+item.demand.toLowerCase();
-    const customTags = (g.customFields||[]).map(f=>{
-      const val = item.custom && item.custom[f.key];
-      return val ? `<span class="custom-tag">${escapeHtml(f.label)}: ${escapeHtml(val)}</span>` : "";
-    }).join("");
-    const card = document.createElement("div");
-    card.className = "value-card";
-    card.innerHTML = `
-      <img src="${item.img}" alt="${escapeHtml(item.name)}">
-      <div class="vc-info">
-        <div class="vname">${escapeHtml(item.name)}</div>
-        <div class="vprice">${escapeHtml(formatPrice(item.price))}</div>
-        <div class="vc-tags"><span class="demand-badge ${demandClass}"><i class="fa-solid fa-chart-line"></i>${item.demand}</span>${customTags}</div>
-      </div>
-    `;
-    list.appendChild(card);
-  });
-}
-document.getElementById("item-search").addEventListener("input", (e)=>{ listFilter.search = e.target.value; renderValueList(); });
-document.getElementById("sort-select").addEventListener("change", (e)=>{ listFilter.sort = e.target.value; listFilter._userChangedSort = true; renderValueList(); });
-document.getElementById("demand-chips").addEventListener("click", (e)=>{
-  const chip = e.target.closest(".chip"); if(!chip) return;
-  document.querySelectorAll("#demand-chips .chip").forEach(c=>c.classList.remove("active"));
-  chip.classList.add("active");
-  listFilter.demand = chip.dataset.demand;
-  renderValueList();
-});
-document.getElementById("back-to-hub").addEventListener("click", (e)=>{
-  e.preventDefault();
-  goTo("home");
-});
-
-/* ============ TRADE CALCULATOR ============ */
-function resetTradeCalc(){
-  calcSides = { you: [], them: [] };
-  renderCalcSide("you"); renderCalcSide("them"); updateCalcResult();
-}
-function parseValue(price){
-  if(typeof price !== "string") return Number(price)||0;
-  const p = price.trim().toLowerCase().replace(/,/g,"");
-  const num = parseFloat(p);
-  if(isNaN(num)) return 0;
-  if(p.endsWith("k")) return num*1000;
-  if(p.endsWith("m")) return num*1000000;
-  if(p.endsWith("b")) return num*1000000000;
-  return num;
-}
-const DEMAND_SCORE = { High:3, Med:2, Low:1, Unknown:0 };
-function demandSummary(items){
-  if(items.length === 0) return "—";
-  const avg = items.reduce((s,i)=>s+(DEMAND_SCORE[i.demand]||0),0) / items.length;
-  if(avg >= 2.5) return "High";
-  if(avg >= 1.5) return "Med";
-  if(avg > 0) return "Low";
-  return "Unknown";
-}
-function renderCalcSide(side){
-  const el = document.getElementById("calc-"+side);
-  el.innerHTML = "";
-  if(calcSides[side].length === 0){
-    el.innerHTML = `<div class="empty-state" style="padding:16px 6px;font-size:12px;"><i class="fa-solid fa-inbox"></i>No items yet</div>`;
-  }
-  calcSides[side].forEach((item, i)=>{
-    const row = document.createElement("div");
-    row.className = "calc-item";
-    row.innerHTML = `<img src="${item.img}" alt=""><span>${escapeHtml(item.name)}</span><span class="ci-price">${escapeHtml(formatPrice(item.price))}</span>
-      <button data-side="${side}" data-idx="${i}" title="Remove">&times;</button>`;
-    el.appendChild(row);
-  });
-  el.querySelectorAll("button").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      calcSides[btn.dataset.side].splice(Number(btn.dataset.idx),1);
-      renderCalcSide(btn.dataset.side); updateCalcResult();
-    });
-  });
-  const valueEl = document.getElementById(side+"-value");
-  const demandEl = document.getElementById(side+"-demand");
-  if(valueEl) valueEl.textContent = formatNum(calcSides[side].reduce((s,i)=>s+parseValue(i.price),0));
-  if(demandEl) demandEl.textContent = demandSummary(calcSides[side]);
-}
-function updateCalcResult(){
-  const totalYou = calcSides.you.reduce((s,i)=>s+parseValue(i.price),0);
-  const totalThem = calcSides.them.reduce((s,i)=>s+parseValue(i.price),0);
-  const diff = totalYou - totalThem;
-  const badge = document.getElementById("calc-result-text");
-  const diffEl = document.getElementById("calc-diff");
-  badge.classList.remove("lead-you","lead-them");
-  if(Math.abs(diff) <= Math.max(totalYou,totalThem)*0.02 || (totalYou===0 && totalThem===0)){
-    badge.textContent = "Neutral";
-    diffEl.textContent = (totalYou===0 && totalThem===0) ? "Add items to compare" : "Fair trade — values are close";
-  }else if(diff > 0){
-    badge.textContent = "Your loss";
-    badge.classList.add("lead-them");
-    diffEl.textContent = `Losing ${formatNum(diff)}`;
-  }else{
-    badge.textContent = "Your win";
-    badge.classList.add("lead-you");
-    diffEl.textContent = `Winning ${formatNum(Math.abs(diff))}`;
-  }
-  const max = Math.max(totalYou, totalThem, 1);
-  const ratio = Math.max(-1, Math.min(1, diff / max)); // -1 (them way ahead) .. 1 (you way ahead)
-  const fill = document.getElementById("balance-fill");
-  const pct = Math.abs(ratio) * 50; // up to 50% of the bar in either direction from center
-  if(ratio >= 0){
-    fill.style.left = "50%"; fill.style.width = pct + "%";
-    fill.style.background = "linear-gradient(90deg, var(--you), var(--grad-a))";
-  }else{
-    fill.style.left = (50-pct) + "%"; fill.style.width = pct + "%";
-    fill.style.background = "linear-gradient(90deg, var(--grad-b), var(--them))";
-  }
-}
-function formatNum(n){
-  const sign = n < 0 ? "-" : "";
-  n = Math.abs(n);
-  if(n >= 1000000000) return sign + trimZero(n/1000000000) + "B";
-  if(n >= 1000000) return sign + trimZero(n/1000000) + "M";
-  if(n >= 1000) return sign + trimZero(n/1000) + "K";
-  return sign + String(Math.round(n));
-}
-function trimZero(n){
-  // one decimal place, but drop it if it's a whole number (5.0 -> 5, 5.2 stays 5.2)
-  const rounded = Math.round(n*10)/10;
-  return rounded % 1 === 0 ? String(rounded) : rounded.toFixed(1);
-}
-/* Displays any stored price string (raw numbers like "5200000000", "1500", or shorthand like "2.5m")
-   in the same consistent nearest-place-value format (5.2B / 2.5M / 1.5K) everywhere it's shown. */
-function formatPrice(price){
-  if(typeof price === "string" && !/^-?[\d,.\s]+$/.test(price.replace(/[kmb]$/i,""))) return price; // non-numeric labels (e.g. "N/A") pass through untouched
-  const n = parseValue(price);
-  if(n === 0 && String(price).trim() !== "0" && String(price).trim() !== "") return String(price);
-  return formatNum(n);
-}
-
-document.querySelectorAll(".add-item-btn").forEach(btn=>{
-  btn.addEventListener("click", ()=>{ modalTarget = btn.dataset.side; openItemModal(); });
-});
-document.getElementById("calc-reset-btn").addEventListener("click", resetTradeCalc);
-function openItemModal(){
-  document.getElementById("modal-title").textContent = `Add to ${modalTarget === "you" ? "You" : "Them"}`;
-  document.getElementById("modal-search").value = "";
-  renderModalList("");
-  document.getElementById("modal-overlay").classList.add("active");
-  document.getElementById("modal-search").focus();
-}
-function renderModalList(term){
-  const g = GAMES[currentGameIdx];
-  const list = document.getElementById("modal-list");
-  list.innerHTML = "";
-  const filtered = g.values.filter(it=>it.name.toLowerCase().includes(term.toLowerCase()));
-  if(filtered.length===0){ list.innerHTML = `<div class="empty-state"><i class="fa-solid fa-box-open"></i>No items found.</div>`; return; }
-  filtered.forEach(item=>{
-    const row = document.createElement("div");
-    row.className = "modal-item";
-    row.innerHTML = `<img src="${item.img}" alt=""><span class="mi-name">${escapeHtml(item.name)}</span><span class="mi-price">${escapeHtml(formatPrice(item.price))}</span>`;
-    row.addEventListener("click", ()=>{
-      calcSides[modalTarget].push(item); renderCalcSide(modalTarget); updateCalcResult(); closeModal();
-    });
-    list.appendChild(row);
-  });
-}
-document.getElementById("modal-search").addEventListener("input", (e)=>renderModalList(e.target.value));
-function closeModal(){ document.getElementById("modal-overlay").classList.remove("active"); }
-document.getElementById("modal-close").addEventListener("click", closeModal);
-document.getElementById("modal-overlay").addEventListener("click", (e)=>{ if(e.target.id === "modal-overlay") closeModal(); });
-
-/* ============ ADMIN ============ */
-function renderSiteAdmin(){
-  const main = document.getElementById("admin-main");
-  const fontOptionsHtml = Object.entries(FONT_OPTIONS).map(([key,f])=>
-    `<option value="${key}">${escapeHtml(f.label)}</option>`).join("");
-  const sbConnected = !!getSupabase();
-  main.innerHTML = `
-    <div class="section-title"><i class="fa-solid fa-database"></i> Backend (Supabase)</div>
-    <div class="small-note">Required so every visitor sees the same data. Without this, each browser keeps its own separate copy (localStorage only) — admin edits won't show up for anyone else. <strong>Important:</strong> connecting here only saves the credentials in this browser. For the live site to work for every visitor, the Project URL and anon key must be baked into the file itself — set <span class="mono">DEFAULT_SUPABASE_URL</span> and <span class="mono">DEFAULT_SUPABASE_ANON_KEY</span> near the top of the script and re-upload. Use the fields below to test a connection locally first.</div>
-    <div class="admin-row" style="margin-top:8px;">
-      <span class="demand-badge ${sbConnected ? "demand-high" : "demand-unknown"}" style="align-self:center;">
-        <i class="fa-solid ${sbConnected ? "fa-circle-check" : "fa-circle-xmark"}"></i> ${sbConnected ? "Connected" : "Not connected — using local browser storage only"}
-      </span>
-    </div>
-    <div class="admin-row" style="margin-top:8px;">
-      <div class="field" style="flex:1;min-width:260px;"><label>Supabase project URL</label>
-        <input id="sb-url" placeholder="https://xxxxxxxx.supabase.co" value="${escapeAttr(SUPABASE_URL)}"></div>
-      <div class="field" style="flex:1;min-width:260px;"><label>Supabase anon public key</label>
-        <input id="sb-key" type="password" placeholder="eyJhbGciOi..." value="${escapeAttr(SUPABASE_ANON_KEY)}"></div>
-    </div>
-    <div class="admin-row" style="margin-top:8px;">
-      <button class="btn btn-primary" id="sb-connect-btn"><i class="fa-solid fa-plug"></i> Connect &amp; sync now</button>
-    </div>
-    <div class="small-note">One-time setup: create a free project at <span class="mono">supabase.com</span>, then in its SQL editor run:</div>
-    <pre style="background:var(--bg-elev-2);border:1px solid var(--glass-border);border-radius:10px;padding:12px 14px;font-size:11.5px;overflow-x:auto;color:var(--text-dim);margin:6px 0 0;">create table kv_store (
-  key text primary key,
-  value jsonb not null,
-  updated_at timestamptz default now()
-);
-alter table kv_store enable row level security;
--- anyone can read (needed so the public game/value pages can load without logging in)
-create policy "public read" on kv_store for select using (true);
--- only a signed-in Supabase user (i.e. someone logged into this admin panel) can write
-create policy "authenticated upsert" on kv_store for insert to authenticated with check (true);
-create policy "authenticated update" on kv_store for update to authenticated using (true);
--- form responses are the one thing anonymous visitors need to write (submitting a form) —
--- scoped so it only ever touches "form_responses_..." keys, nothing else in this table
-create policy "public insert form responses" on kv_store for insert to anon
-  with check (key like 'form_responses_%');
-create policy "public update form responses" on kv_store for update to anon
-  using (key like 'form_responses_%') with check (key like 'form_responses_%');
--- lets temp chore-helper logins (which aren't real Supabase auth accounts) save item edits —
--- scoped so it only ever touches the "games" key, nothing else
-create policy "temp access update games" on kv_store for update to anon
-  using (key = 'games') with check (key = 'games');</pre>
-    <div class="small-note" style="margin-top:8px;">Then copy the Project URL and anon public key from Project Settings → API into the fields above. Reads stay public on purpose (the value list pages need that), and now anonymous visitors can submit forms too — but only into "form_responses_..." keys. Everything else (site config, forms themselves) still needs a valid login session to write. <strong>Also do this once:</strong> after you create your own admin account below, go to Supabase → Authentication → Providers → Email and turn off "Allow new users to sign up", so the sign-up form here can't be used by anyone else afterward.</div>
-    <div class="small-note" style="margin-top:8px;color:var(--text-dim);"><strong>About Temp Access:</strong> the "games" key needs anon write access so temp chore-helper logins (Temp Access tab) can save edits without a real Supabase account. This means the panel's own restrictions (which game, which fields) are enforced by the admin interface, not by the database — anyone who somehow got your anon key directly could bypass them. Keep temp login durations short and only hand them to people you trust.</div>
-    <div class="small-note" style="margin-top:8px;"><strong>Already created the table before?</strong> Just run the two new "public insert/update form responses" policies above in the SQL editor — no need to recreate the table.</div>
-
-    <div class="divider"></div>
-    <div class="section-title"><i class="fa-solid fa-paintbrush"></i> Branding</div>
-    <div class="small-note">Controls the logo mark, brand name, and nav labels shown in the top bar across the whole site.</div>
-    <div class="admin-row" style="margin-top:8px;">
-      <div class="field" style="min-width:100px;max-width:110px;"><label>Logo mark (fallback letter)</label><input id="site-brand-mark" maxlength="3" value="${escapeAttr(SITE_CONFIG.brandMark)}"></div>
-      <div class="field" style="flex:1;min-width:220px;"><label>Logo image URL (overrides letter if set)</label><input id="site-logo-image" placeholder="https://…" value="${escapeAttr(SITE_CONFIG.logoImage || "")}"></div>
-      
-      <div class="field" style="min-width:160px;"><label>Brand name</label><input id="site-brand-name" value="${escapeAttr(SITE_CONFIG.brandName)}"></div>
-      <div class="field" style="min-width:140px;"><label>"Hub" nav label</label><input id="site-nav-hub" value="${escapeAttr(SITE_CONFIG.navHubLabel)}"></div>
-      <div class="field" style="min-width:140px;"><label>"Admin" nav label</label><input id="site-nav-admin" value="${escapeAttr(SITE_CONFIG.navAdminLabel)}"></div>
-    </div>
-
-    <div class="divider"></div>
-    <div class="section-title"><i class="fa-solid fa-house"></i> Homepage hero text</div>
-    <div class="small-note">The eyebrow, headline, and paragraph shown at the top of the Hub homepage.</div>
-    <div class="admin-row" style="margin-top:8px;">
-      <div class="field" style="min-width:220px;flex:1;"><label>Eyebrow (small label above headline)</label><input id="site-hero-eyebrow" value="${escapeAttr(SITE_CONFIG.heroEyebrow)}"></div>
-    </div>
-    <div class="admin-row" style="margin-top:8px;">
-      <div class="field" style="min-width:220px;flex:1;"><label>Headline</label><input id="site-hero-title" value="${escapeAttr(SITE_CONFIG.heroTitle)}"></div>
-    </div>
-    <div class="admin-row" style="margin-top:8px;">
-      <div class="field" style="min-width:220px;flex:1;"><label>Paragraph</label><textarea id="site-hero-sub" rows="3" style="resize:vertical;padding:9px 12px;border-radius:8px;">${escapeHtml(SITE_CONFIG.heroSub)}</textarea></div>
-    </div>
-
-    <div class="divider"></div>
-    <div class="section-title"><i class="fa-solid fa-font"></i> Fonts &amp; alignment</div>
-    <div class="small-note">Pick fonts and an alignment once here — every heading and paragraph in the hero lines up together automatically, so nothing needs to be nudged into place by hand.</div>
-    <div class="admin-row" style="margin-top:8px;">
-      <div class="field" style="min-width:220px;"><label>Heading font</label>
-        <select id="site-heading-font">${fontOptionsHtml}</select>
-      </div>
-      <div class="field" style="min-width:220px;"><label>Body font</label>
-        <select id="site-body-font">${fontOptionsHtml}</select>
-      </div>
-      <div class="field" style="min-width:180px;"><label>Hero text alignment</label>
-        <select id="site-hero-align">
-          <option value="left">Left</option>
-          <option value="center">Center</option>
-          <option value="right">Right</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="divider"></div>
-    <div class="section-title"><i class="fa-solid fa-palette"></i> Appearance</div>
-    <div class="small-note">Accent color, corner sharpness, and the default sort order used every time a game page is opened.</div>
-    <div class="admin-row" style="margin-top:8px;">
-      <div class="field" style="min-width:90px;max-width:100px;"><label>Accent color</label>
-        <input type="color" id="site-accent-color" value="${escapeAttr(SITE_CONFIG.accentColor)}" style="padding:2px;height:38px;">
-      </div>
-      <div class="field" style="min-width:160px;"><label>Corner style</label>
-        <select id="site-corner-style">
-          <option value="rounded">Rounded</option>
-          <option value="sharp">Sharp</option>
-        </select>
-      </div>
-      <div class="field" style="min-width:200px;"><label>Default item sort</label>
-        <select id="site-default-sort">
-          <option value="name">Name A–Z</option>
-          <option value="price-desc">Price high–low</option>
-          <option value="price-asc">Price low–high</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="divider"></div>
-    <div class="section-title"><i class="fa-solid fa-scale-balanced"></i> Trade calculator text</div>
-    <div class="small-note">Wording shown on every game's trade calculator, plus whether the reserved ad-space placeholder shows below it.</div>
-    <div class="admin-row" style="margin-top:8px;">
-      <div class="field" style="min-width:180px;"><label>Eyebrow label</label><input id="site-calc-eyebrow" value="${escapeAttr(SITE_CONFIG.calcEyebrow)}"></div>
-      <div class="field" style="min-width:200px;"><label>Calculator title</label><input id="site-calc-title" value="${escapeAttr(SITE_CONFIG.calcTitle)}"></div>
-      <div class="field" style="min-width:120px;"><label>"You" side label</label><input id="site-calc-you" maxlength="16" value="${escapeAttr(SITE_CONFIG.calcYouLabel)}"></div>
-      <div class="field" style="min-width:120px;"><label>"Them" side label</label><input id="site-calc-them" maxlength="16" value="${escapeAttr(SITE_CONFIG.calcThemLabel)}"></div>
-    </div>
-    <div class="admin-row" style="margin-top:8px;">
-      <div class="field" style="min-width:220px;flex:1;"><label>Calculator subtitle</label><input id="site-calc-subtitle" value="${escapeAttr(SITE_CONFIG.calcSubtitle)}"></div>
-    </div>
-
-    <div class="admin-row" style="margin-top:16px;">
-      <button class="btn btn-primary" id="site-save-btn"><i class="fa-solid fa-check"></i> Save site settings</button>
-      <button class="btn btn-danger" id="site-reset-btn"><i class="fa-solid fa-rotate-left"></i> Reset to default</button>
-    </div>
-  `;
-  document.getElementById("site-heading-font").value = SITE_CONFIG.headingFont;
-  document.getElementById("site-body-font").value = SITE_CONFIG.bodyFont;
-  document.getElementById("site-hero-align").value = SITE_CONFIG.heroAlign;
-  document.getElementById("site-corner-style").value = SITE_CONFIG.cornerStyle;
-  document.getElementById("site-default-sort").value = SITE_CONFIG.defaultSort;
-
-  document.getElementById("sb-connect-btn").addEventListener("click", async ()=>{
-    const url = document.getElementById("sb-url").value.trim();
-    const key = document.getElementById("sb-key").value.trim();
-    if(!url || !key){ showToast("Enter both the project URL and anon key first"); return; }
-    saveSupabaseCreds(url, key);
-    const btn = document.getElementById("sb-connect-btn");
-    btn.disabled = true; btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Connecting…`;
-    try{
-      const remoteGames = await kvGet("games");
-      if(remoteGames){
-        // Remote already has data (e.g. another admin/browser set this up first) — adopt it instead of overwriting.
-        GAMES = remoteGames; migrateGames();
-      }else{
-        await kvSet("games", GAMES); // seed the shared store with what's currently in this browser
-      }
-      const remoteSite = await kvGet("site_config");
-      if(remoteSite) SITE_CONFIG = Object.assign(defaultSiteConfig(), remoteSite);
-      else await kvSet("site_config", SITE_CONFIG);
-      saveToStorage(); saveSiteConfig(); applySiteConfig(); renderAdmin(); renderHome();
-      showToast(getSupabase() ? "Connected — data now syncs for every visitor" : "Couldn't connect — check the URL/key and that the kv_store table exists");
-    }catch(e){
-      console.error(e);
-      showToast("Connection failed — check the URL/key and that the kv_store table exists");
-    }finally{
-      btn.disabled = false; btn.innerHTML = `<i class="fa-solid fa-plug"></i> Connect & sync now`;
-    }
-  });
-  document.getElementById("site-save-btn").addEventListener("click", ()=>{
-    SITE_CONFIG.brandMark = document.getElementById("site-brand-mark").value.trim() || "L";
-    SITE_CONFIG.logoImage = document.getElementById("site-logo-image").value.trim();
-    SITE_CONFIG.brandName = document.getElementById("site-brand-name").value.trim() || "Ledger";
-    SITE_CONFIG.navHubLabel = document.getElementById("site-nav-hub").value.trim() || "Hub";
-    SITE_CONFIG.navAdminLabel = document.getElementById("site-nav-admin").value.trim() || "Admin";
-    SITE_CONFIG.heroEyebrow = document.getElementById("site-hero-eyebrow").value;
-    SITE_CONFIG.heroTitle = document.getElementById("site-hero-title").value;
-    SITE_CONFIG.heroSub = document.getElementById("site-hero-sub").value;
-    SITE_CONFIG.headingFont = document.getElementById("site-heading-font").value;
-    SITE_CONFIG.bodyFont = document.getElementById("site-body-font").value;
-    SITE_CONFIG.heroAlign = document.getElementById("site-hero-align").value;
-    SITE_CONFIG.accentColor = document.getElementById("site-accent-color").value;
-    SITE_CONFIG.cornerStyle = document.getElementById("site-corner-style").value;
-    SITE_CONFIG.defaultSort = document.getElementById("site-default-sort").value;
-    SITE_CONFIG.calcEyebrow = document.getElementById("site-calc-eyebrow").value;
-    SITE_CONFIG.calcTitle = document.getElementById("site-calc-title").value.trim() || "Trade Calculator";
-    SITE_CONFIG.calcSubtitle = document.getElementById("site-calc-subtitle").value;
-    SITE_CONFIG.calcYouLabel = document.getElementById("site-calc-you").value.trim() || "You";
-    SITE_CONFIG.calcThemLabel = document.getElementById("site-calc-them").value.trim() || "Them";
-    saveSiteConfig(); applySiteConfig();
-    showToast("Site settings saved");
-  });
-  document.getElementById("site-reset-btn").addEventListener("click", ()=>{
-    if(confirm("Reset all site & branding settings back to default?")){
-      SITE_CONFIG = defaultSiteConfig(); saveSiteConfig(); applySiteConfig(); renderSiteAdmin();
-      showToast("Site settings reset");
-    }
-  });
-}
-
-/* ============ ADS ADMIN ============ */
-function renderAdsAdmin(){
-  const main = document.getElementById("admin-main");
-  const ads = adsList();
-  const regularAds = ads.filter(a=>a.type!=="custom");
-  const customAds = ads.filter(a=>a.type==="custom");
-  const ADSTERRA_TEMPLATES = [
-    { key:"popunder",  label:"Popunder",         kind:"script", hint:"Fires in a background tab on click — not a positioned box, runs site-wide." },
-    { key:"native",    label:"Native Banner",    kind:"script", hint:"Adapts its own look to blend with the page — not a fixed box." },
-    { key:"smartlink", label:"Smartlink",        kind:"link",   hint:"A plain link, usually used as a button/CTA rather than an embed." },
-    { key:"socialbar", label:"Social Bar",       kind:"script", hint:"Sticky bar Adsterra positions itself — not a fixed box." },
-    { key:"468x60",    label:"Banner 468×60",    kind:"banner", w:468, h:60 },
-    { key:"300x250",   label:"Banner 300×250",   kind:"banner", w:300, h:250 },
-    { key:"160x300",   label:"Banner 160×300",   kind:"banner", w:160, h:300 },
-    { key:"160x600",   label:"Banner 160×600",   kind:"banner", w:160, h:600 },
-    { key:"320x50",    label:"Banner 320×50",    kind:"banner", w:320, h:50 },
-    { key:"728x90",    label:"Banner 728×90",    kind:"banner", w:728, h:90 },
-  ];
-  main.innerHTML = `
-    <div class="section-title"><i class="fa-solid fa-rectangle-ad"></i> Ad manager</div>
-    <div class="small-note">Paste a link, image, or an ad network's embed/script code into any ad space below, then tick where it should appear. "In-page banner" fills a normal spot on the page. "Random popup (blur)" shows as a full-screen blurred-background overlay with a close button — it rolls the dice on each visit using the chance you set below, and each visitor only sees a given popup once per browser tab session. Use <strong>Preview</strong> on any ad to check it actually renders before it goes live — this catches broken embed codes without needing a real visitor.</div>
-    <div id="ads-list" style="display:flex;flex-direction:column;gap:14px;margin-top:14px;"></div>
-    <div class="admin-row" style="margin-top:16px;">
-      <button class="btn btn-primary" id="add-ad-btn"><i class="fa-solid fa-plus"></i> New ad space</button>
-    </div>
-
-    <div class="divider"></div>
-    <div class="section-title"><i class="fa-solid fa-bolt"></i> Adsterra quick-add</div>
-    <div class="small-note">One click adds the ad unit below, pre-set to the right shape/behavior — banners get their exact pixel size, scripts/links get added site-wide. Paste your actual code from your Adsterra zone into the "code" box afterward, then toggle it Live and use Preview to check it renders. Nothing goes live until you enable it.</div>
-    <div id="adsterra-templates" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:14px;"></div>
-
-    <div class="divider"></div>
-    <div class="section-title"><i class="fa-solid fa-crop-simple"></i> Custom ad spaces</div>
-    <div class="small-note">Draw a box anywhere on the actual Hub homepage or game page with your mouse — including the open side margins on wider screens, not just the centered content column — then drop a link/embed into it. You can also type exact pixel width/height/position on each ad card below instead of drawing.</div>
-    <div id="custom-ads-list" style="display:flex;flex-direction:column;gap:14px;margin-top:14px;"></div>
-    <div class="admin-row" style="margin-top:16px;">
-      <button class="btn btn-primary" id="draw-ad-home-btn"><i class="fa-solid fa-crosshairs"></i> Draw on Hub homepage</button>
-      <button class="btn btn-primary" id="draw-ad-game-btn"><i class="fa-solid fa-crosshairs"></i> Draw on game page</button>
-    </div>
-  `;
-
-  const templatesGrid = document.getElementById("adsterra-templates");
-  ADSTERRA_TEMPLATES.forEach(t=>{
-    const already = ads.find(a=>a.templateKey===t.key);
-    const card = document.createElement("div");
-    card.style.cssText = "border:1px solid var(--glass-border);border-radius:12px;padding:12px;background:rgba(255,255,255,0.02);display:flex;flex-direction:column;gap:8px;";
-    card.innerHTML = `
-      <div style="font-weight:700;font-size:13px;">${t.label}</div>
-      ${t.hint ? `<div style="font-size:11.5px;color:var(--text-faint);flex:1;">${t.hint}</div>` : `<div style="flex:1;"></div>`}
-      <button class="btn ${already?"":"btn-primary"}" style="justify-content:center;font-size:12px;" ${already?"disabled":""}>
-        <i class="fa-solid ${already?"fa-check":"fa-plus"}"></i> ${already?"Added":"Add"}
-      </button>
-    `;
-    templatesGrid.appendChild(card);
-    if(!already){
-      card.querySelector("button").addEventListener("click", ()=>{
-        if(!Array.isArray(SITE_CONFIG.ads)) SITE_CONFIG.ads = [];
-        if(t.kind === "banner"){
-          const vw = window.innerWidth, vh = window.innerHeight;
-          SITE_CONFIG.ads.push({
-            id: randomAdId(), templateKey: t.key, name: "Adsterra " + t.label, type: "custom",
-            code: "", enabled: false, screen: "home",
-            rect: { w: (t.w/vw)*100, h: (t.h/vh)*100, x: 2, y: 2 }
-          });
-        } else {
-          SITE_CONFIG.ads.push({
-            id: randomAdId(), templateKey: t.key, name: "Adsterra " + t.label, type: "embed",
-            code: "", enabled: false, placements: { home: true, game: true }
-          });
-        }
-        saveSiteConfig();
-        renderAdsAdmin();
-        showToast(`"${t.label}" added — paste your zone's code in, then switch it Live`);
-      });
-    }
-  });
-
-  const list = document.getElementById("ads-list");
-  if(regularAds.length === 0){
-    list.innerHTML = `<div class="empty-state"><i class="fa-solid fa-rectangle-ad"></i>No ad spaces yet — add one below.</div>`;
-  }
-  regularAds.forEach((ad)=>{
-    const card = document.createElement("div");
-    card.style.cssText = "border:1px solid var(--glass-border);border-radius:14px;padding:14px;background:rgba(255,255,255,0.015);";
-    card.innerHTML = `
-      <div class="admin-row" style="align-items:center;">
-        <div class="field" style="flex:1;min-width:180px;"><label>Name</label><input class="ad-name" value="${escapeAttr(ad.name || "")}" placeholder="e.g. Sidebar banner"></div>
-        <div class="field" style="min-width:180px;"><label>Type</label>
-          <select class="ad-type">
-            <option value="embed" ${ad.type!=="popup"?"selected":""}>In-page banner</option>
-            <option value="popup" ${ad.type==="popup"?"selected":""}>Random popup (blur)</option>
-          </select>
-        </div>
-        <div class="field"><label>Enabled</label>
-          <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-dim);cursor:pointer;height:38px;">
-            <input type="checkbox" class="ad-enabled" ${ad.enabled!==false?"checked":""} style="width:16px;height:16px;"> Live
-          </label>
-        </div>
-        <div class="field"><label>&nbsp;</label>
-          <div style="display:flex;gap:8px;">
-            <button class="btn btn-primary ad-save"><i class="fa-solid fa-check"></i> Save</button>
-            <button class="btn btn-danger ad-remove" style="justify-content:center;"><i class="fa-solid fa-trash"></i></button>
-          </div>
-        </div>
-      </div>
-      <div class="admin-row" style="margin-top:8px;">
-        <div class="field" style="flex:1;min-width:280px;">
-          <label>Link, image URL, or embed/script code</label>
-          <textarea class="ad-code" rows="3" placeholder="Paste a URL, an &lt;img&gt;/&lt;a&gt; snippet, or a network's full embed/script code here" style="width:100%;resize:vertical;font-family:var(--font-body);font-size:13px;padding:10px 12px;border-radius:10px;border:1px solid var(--glass-border);background:rgba(255,255,255,0.03);color:var(--text);">${escapeHtml(ad.code || "")}</textarea>
-        </div>
-      </div>
-      <div class="admin-row" style="margin-top:10px;align-items:center;">
-        <div class="field"><label>Show on</label>
-          <div style="display:flex;gap:14px;">
-            <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-dim);cursor:pointer;">
-              <input type="checkbox" class="ad-place-home" ${ad.placements&&ad.placements.home?"checked":""} style="width:16px;height:16px;"> Hub homepage
-            </label>
-            <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-dim);cursor:pointer;">
-              <input type="checkbox" class="ad-place-game" ${ad.placements&&ad.placements.game?"checked":""} style="width:16px;height:16px;"> Game &amp; calculator page
-            </label>
-          </div>
-        </div>
-      </div>
-      <div class="admin-row ad-popup-fields" style="margin-top:10px;display:${ad.type==="popup"?"flex":"none"};align-items:flex-end;">
-        <div class="field" style="min-width:160px;"><label>Chance to show (%)</label><input class="ad-chance" type="number" min="0" max="100" value="${ad.popupChance!=null?ad.popupChance:30}"></div>
-        <div class="field" style="min-width:160px;"><label>Delay before showing (sec)</label><input class="ad-delay" type="number" min="0" value="${ad.popupDelay!=null?ad.popupDelay:3}"></div>
-        <div class="field"><button class="btn ad-preview-popup"><i class="fa-solid fa-eye"></i> Preview popup</button></div>
-      </div>
-      <div class="ad-embed-preview-wrap" style="display:${ad.type==="popup"?"none":"block"};">
-        <label style="font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.3px;font-weight:700;">Live preview</label>
-        <div class="ad-preview-box"></div>
-      </div>
-    `;
-    list.appendChild(card);
-
-    const commit = ()=>{ saveSiteConfig(); renderAds("home"); renderAds("game"); };
-    const previewBox = card.querySelector(".ad-preview-box");
-    const refreshPreview = ()=>{ if(ad.type !== "popup") injectAdCode(previewBox, ad.code, 70); };
-    refreshPreview();
-
-    card.querySelector(".ad-name").addEventListener("input", e=>{ ad.name = e.target.value; commit(); });
-    card.querySelector(".ad-code").addEventListener("input", e=>{ ad.code = e.target.value; commit(); refreshPreview(); });
-    card.querySelector(".ad-enabled").addEventListener("change", e=>{ ad.enabled = e.target.checked; commit(); });
-    card.querySelector(".ad-place-home").addEventListener("change", e=>{ ad.placements = ad.placements||{}; ad.placements.home = e.target.checked; commit(); });
-    card.querySelector(".ad-place-game").addEventListener("change", e=>{ ad.placements = ad.placements||{}; ad.placements.game = e.target.checked; commit(); });
-    card.querySelector(".ad-chance").addEventListener("input", e=>{ ad.popupChance = Number(e.target.value); commit(); });
-    card.querySelector(".ad-delay").addEventListener("input", e=>{ ad.popupDelay = Number(e.target.value); commit(); });
-    card.querySelector(".ad-preview-popup").addEventListener("click", ()=>{
-      showPopupAd({ code: card.querySelector(".ad-code").value });
-    });
-    card.querySelector(".ad-type").addEventListener("change", e=>{
-      ad.type = e.target.value;
-      const isPopup = ad.type === "popup";
-      card.querySelector(".ad-popup-fields").style.display = isPopup ? "flex" : "none";
-      card.querySelector(".ad-embed-preview-wrap").style.display = isPopup ? "none" : "block";
-      refreshPreview();
-      commit();
-    });
-    card.querySelector(".ad-save").addEventListener("click", ()=>{
-      commit();
-      showToast(`"${ad.name || "Ad"}" saved`);
-    });
-    card.querySelector(".ad-remove").addEventListener("click", ()=>{
-      SITE_CONFIG.ads = adsList().filter(a=>a.id !== ad.id);
-      saveSiteConfig(); renderAds("home"); renderAds("game");
-      renderAdsAdmin();
-      showToast("Ad space removed");
-    });
-  });
-  document.getElementById("add-ad-btn").addEventListener("click", ()=>{
-    if(!Array.isArray(SITE_CONFIG.ads)) SITE_CONFIG.ads = [];
-    SITE_CONFIG.ads.push({ id: randomAdId(), name: "New ad space", type: "embed", code: "", enabled: true, placements: { home:true, game:false }, popupChance: 30, popupDelay: 3 });
-    saveSiteConfig();
-    renderAdsAdmin();
-  });
-
-  const customList = document.getElementById("custom-ads-list");
-  if(customAds.length === 0){
-    customList.innerHTML = `<div class="empty-state"><i class="fa-solid fa-crop-simple"></i>No custom ad spaces yet.</div>`;
-  }
-  customAds.forEach((ad)=>{
-    const card = document.createElement("div");
-    card.style.cssText = "border:1px solid var(--glass-border);border-radius:14px;padding:14px;background:rgba(255,255,255,0.015);";
-    card.innerHTML = `
-      <div class="admin-row" style="align-items:center;">
-        <div class="field" style="flex:1;min-width:180px;"><label>Name</label><input class="cad-name" value="${escapeAttr(ad.name || "")}"></div>
-        <div class="field"><label>Page</label><div style="height:38px;display:flex;align-items:center;font-size:13px;color:var(--text-dim);">${ad.screen === "home" ? "Hub homepage" : "Game & calculator page"}</div></div>
-        <div class="field"><label>Enabled</label>
-          <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-dim);cursor:pointer;height:38px;">
-            <input type="checkbox" class="cad-enabled" ${ad.enabled!==false?"checked":""} style="width:16px;height:16px;"> Live
-          </label>
-        </div>
-        <div class="field"><label>&nbsp;</label>
-          <div style="display:flex;gap:8px;">
-            <button class="btn cad-redraw"><i class="fa-solid fa-crosshairs"></i> Redraw</button>
-            <button class="btn btn-primary cad-save"><i class="fa-solid fa-check"></i> Save</button>
-            <button class="btn btn-danger cad-remove"><i class="fa-solid fa-trash"></i></button>
-          </div>
-        </div>
-      </div>
-      <div class="admin-row" style="margin-top:8px;align-items:flex-end;">
-        <div class="field" style="min-width:110px;"><label>Width (px)</label><input class="cad-w" type="number" min="1" value="${Math.round((ad.rect.w/100)*window.innerWidth)}"></div>
-        <div class="field" style="min-width:110px;"><label>Height (px)</label><input class="cad-h" type="number" min="1" value="${Math.round((ad.rect.h/100)*window.innerHeight)}"></div>
-        <div class="field" style="min-width:110px;"><label>X from left (px)</label><input class="cad-x" type="number" min="0" value="${Math.round((ad.rect.x/100)*window.innerWidth)}"></div>
-        <div class="field" style="min-width:110px;"><label>Y from top (px)</label><input class="cad-y" type="number" min="0" value="${Math.round((ad.rect.y/100)*window.innerHeight)}"></div>
-        <div class="small-note" style="flex-basis:100%;margin-top:4px;">Numbers are based on this browser's current window size (${window.innerWidth}×${window.innerHeight}px) — the box auto-adjusts to stay on-screen on other devices.</div>
-      </div>
-      <div class="admin-row" style="margin-top:8px;">
-        <div class="field" style="flex:1;min-width:280px;">
-          <label>Link, image URL, or embed/script code</label>
-          <textarea class="cad-code" rows="3" style="width:100%;resize:vertical;font-family:var(--font-body);font-size:13px;padding:10px 12px;border-radius:10px;border:1px solid var(--glass-border);background:rgba(255,255,255,0.03);color:var(--text);">${escapeHtml(ad.code || "")}</textarea>
-        </div>
-      </div>
-      <label style="font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.3px;font-weight:700;">Live preview</label>
-      <div class="ad-preview-box"></div>
-    `;
-    customList.appendChild(card);
-
-    const previewBox = card.querySelector(".ad-preview-box");
-    const refreshPreview = ()=> injectAdCode(previewBox, ad.code, 70);
-    refreshPreview();
-    const commit = ()=>{ saveSiteConfig(); renderCustomAds("home"); renderCustomAds("game"); };
-
-    card.querySelector(".cad-name").addEventListener("input", e=>{ ad.name = e.target.value; commit(); });
-    card.querySelector(".cad-code").addEventListener("input", e=>{ ad.code = e.target.value; commit(); refreshPreview(); });
-    card.querySelector(".cad-enabled").addEventListener("change", e=>{ ad.enabled = e.target.checked; commit(); });
-    const updateRectFromPx = ()=>{
-      const w = Math.max(1, Number(card.querySelector(".cad-w").value) || 1);
-      const h = Math.max(1, Number(card.querySelector(".cad-h").value) || 1);
-      const x = Math.max(0, Number(card.querySelector(".cad-x").value) || 0);
-      const y = Math.max(0, Number(card.querySelector(".cad-y").value) || 0);
-      ad.rect = { w: (w/window.innerWidth)*100, h: (h/window.innerHeight)*100, x: (x/window.innerWidth)*100, y: (y/window.innerHeight)*100 };
-      commit();
-    };
-    card.querySelector(".cad-w").addEventListener("change", updateRectFromPx);
-    card.querySelector(".cad-h").addEventListener("change", updateRectFromPx);
-    card.querySelector(".cad-x").addEventListener("change", updateRectFromPx);
-    card.querySelector(".cad-y").addEventListener("change", updateRectFromPx);
-    card.querySelector(".cad-save").addEventListener("click", ()=>{ commit(); showToast(`"${ad.name || "Ad"}" saved`); });
-    card.querySelector(".cad-redraw").addEventListener("click", ()=> redrawCustomAd(ad.id));
-    card.querySelector(".cad-remove").addEventListener("click", ()=>{
-      SITE_CONFIG.ads = adsList().filter(a=>a.id !== ad.id);
-      saveSiteConfig(); renderCustomAds("home"); renderCustomAds("game");
-      renderAdsAdmin();
-      showToast("Custom ad space removed");
-    });
-  });
-  document.getElementById("draw-ad-home-btn").addEventListener("click", ()=> startDrawCustomAd("home"));
-  document.getElementById("draw-ad-game-btn").addEventListener("click", ()=> startDrawCustomAd("game"));
-}
-
-/* ============ FORMS ADMIN ============ */
-function renderFormsAdmin(){
-  const main = document.getElementById("admin-main");
-  main.innerHTML = `
-    <div class="section-title"><i class="fa-solid fa-list-check"></i> Forms</div>
-    <div class="small-note">Build a form, share its link anywhere (e.g. post it in your Discord server), and every response gets collected into a table you can view or export to CSV.</div>
-    <div id="forms-list" style="display:flex;flex-direction:column;gap:10px;margin-top:14px;"></div>
-    <div class="admin-row" style="margin-top:16px;">
-      <button class="btn btn-primary" id="add-form-btn"><i class="fa-solid fa-plus"></i> New form</button>
-    </div>
-  `;
-  const list = document.getElementById("forms-list");
-  if(FORMS.length === 0){
-    list.innerHTML = `<div class="empty-state"><i class="fa-solid fa-list-check"></i>No forms yet — create one below.</div>`;
-  }
-  FORMS.forEach((form, idx)=>{
-    const row = document.createElement("div");
-    row.style.cssText = "display:flex;align-items:center;gap:10px;border:1px solid var(--glass-border);border-radius:12px;padding:12px 14px;background:rgba(255,255,255,0.015);";
-    row.innerHTML = `
-      <div style="flex:1;min-width:0;">
-        <div style="font-weight:700;font-size:14px;">${escapeHtml(form.title || "Untitled form")}</div>
-        <div style="font-size:12px;color:var(--text-faint);">${(form.questions||[]).length} question${(form.questions||[]).length===1?"":"s"}</div>
-      </div>
-      <button class="btn form-edit-btn"><i class="fa-solid fa-pen"></i> Edit</button>
-      <button class="btn btn-danger form-delete-btn"><i class="fa-solid fa-trash"></i></button>
-    `;
-    row.querySelector(".form-edit-btn").addEventListener("click", ()=>{
-      currentAdminFormIdx = idx; formAdminTab = "edit"; adminMode = "form-edit"; renderAdmin();
-    });
-    row.querySelector(".form-delete-btn").addEventListener("click", ()=>{
-      if(confirm(`Delete "${form.title || "this form"}"? Its collected responses will be left in the database but no longer reachable from here.`)){
-        FORMS.splice(idx,1); saveForms(); renderFormsAdmin(); showToast("Form deleted");
-      }
-    });
-    list.appendChild(row);
-  });
-  document.getElementById("add-form-btn").addEventListener("click", ()=>{
-    FORMS.push({ id: randomFormId(), slug: uniqueFormSlug("new-form"), title: "New form", description: "", questions: [] });
-    saveForms();
-    currentAdminFormIdx = FORMS.length - 1;
-    formAdminTab = "edit";
-    adminMode = "form-edit";
-    renderAdmin();
-  });
-}
-
-function renderFormEditor(){
-  const form = FORMS[currentAdminFormIdx];
-  const main = document.getElementById("admin-main");
-  if(!form){ adminMode = "forms"; renderFormsAdmin(); return; }
-  main.innerHTML = `
-    <div class="admin-row" style="align-items:center;">
-      <button class="btn" id="form-back-btn"><i class="fa-solid fa-arrow-left"></i> All forms</button>
-      <div style="flex:1;"></div>
-      <button class="btn ${formAdminTab==='edit'?'btn-primary':''}" id="form-tab-edit">Edit</button>
-      <button class="btn ${formAdminTab==='responses'?'btn-primary':''}" id="form-tab-responses">Responses</button>
-    </div>
-    <div id="form-editor-body" style="margin-top:14px;"></div>
-  `;
-  document.getElementById("form-back-btn").addEventListener("click", ()=>{ adminMode = "forms"; renderAdmin(); });
-  document.getElementById("form-tab-edit").addEventListener("click", ()=>{ formAdminTab = "edit"; renderFormEditor(); });
-  document.getElementById("form-tab-responses").addEventListener("click", ()=>{ formAdminTab = "responses"; renderFormEditor(); });
-
-  if(formAdminTab === "responses"){ renderFormResponses(form); return; }
-
-  const body = document.getElementById("form-editor-body");
-  body.innerHTML = `
-    <div class="admin-row">
-      <div class="field" style="flex:1;min-width:220px;"><label>Title</label><input id="form-title" value="${escapeAttr(form.title||"")}"></div>
-      <div class="field" style="flex:1;min-width:220px;"><label>URL slug</label><input id="form-slug" value="${escapeAttr(form.slug||"")}" placeholder="e.g. game-suggestion"></div>
-    </div>
-    <div class="admin-row" style="margin-top:8px;">
-      <div class="field" style="flex:1;min-width:220px;"><label>Description (optional)</label><textarea id="form-desc" rows="2" style="width:100%;resize:vertical;padding:10px 12px;border-radius:10px;border:1px solid var(--glass-border);background:rgba(255,255,255,0.03);color:var(--text);">${escapeHtml(form.description||"")}</textarea></div>
-    </div>
-    <div class="admin-row" style="margin-top:10px;align-items:center;">
-      <div class="field" style="flex:1;">
-        <label>Shareable link</label>
-        <div style="display:flex;gap:8px;">
-          <input id="form-share-url" readonly value="${escapeAttr(formShareUrl(form))}" style="flex:1;">
-          <button class="btn" id="form-copy-link"><i class="fa-solid fa-copy"></i> Copy</button>
-        </div>
-        <div class="small-note" style="margin-top:6px;">Edit the slug above and hit "Save form" to change this link. Changing it breaks any copies of the old link already shared.</div>
-      </div>
-    </div>
-
-    <div class="divider"></div>
-    <div class="section-title" style="font-size:14px;"><i class="fa-solid fa-list-ol"></i> Questions</div>
-    <div id="form-questions-list" style="display:flex;flex-direction:column;gap:12px;margin-top:10px;"></div>
-    <div class="admin-row" style="margin-top:14px;">
-      <button class="btn btn-primary" id="add-question-btn"><i class="fa-solid fa-plus"></i> Add question</button>
-      <button class="btn" id="form-save-btn"><i class="fa-solid fa-check"></i> Save form</button>
-    </div>
-  `;
-
-  document.getElementById("form-copy-link").addEventListener("click", async ()=>{
-    try{ await navigator.clipboard.writeText(formShareUrl(form)); showToast("Link copied"); }
-    catch(e){ document.getElementById("form-share-url").select(); showToast("Select and copy the link manually"); }
-  });
-
-  const qList = document.getElementById("form-questions-list");
-  if((form.questions||[]).length === 0){
-    qList.innerHTML = `<div class="empty-state" style="padding:20px;"><i class="fa-solid fa-list-ol"></i>No questions yet.</div>`;
-  }
-  (form.questions||[]).forEach((q, qIdx)=>{
-    const qCard = document.createElement("div");
-    qCard.style.cssText = "border:1px solid var(--glass-border);border-radius:12px;padding:12px;background:rgba(255,255,255,0.015);";
-    qCard.innerHTML = `
-      <div class="admin-row" style="align-items:center;">
-        <div class="field" style="flex:1;min-width:200px;"><label>Question</label><input class="q-label" value="${escapeAttr(q.label||"")}" placeholder="e.g. What's your in-game username?"></div>
-        <div class="field" style="min-width:160px;"><label>Type</label>
-          <select class="q-type">
-            <option value="short" ${q.type==="short"||!q.type?"selected":""}>Short answer</option>
-            <option value="paragraph" ${q.type==="paragraph"?"selected":""}>Paragraph</option>
-            <option value="choice" ${q.type==="choice"?"selected":""}>Multiple choice (pick one)</option>
-            <option value="checkbox" ${q.type==="checkbox"?"selected":""}>Checkboxes (pick many)</option>
-          </select>
-        </div>
-        <div class="field"><label>Required</label>
-          <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-dim);cursor:pointer;height:38px;">
-            <input type="checkbox" class="q-required" ${q.required?"checked":""} style="width:16px;height:16px;">
-          </label>
-        </div>
-        <div class="field"><label>&nbsp;</label><button class="btn btn-danger q-remove"><i class="fa-solid fa-trash"></i></button></div>
-      </div>
-      <div class="q-options-wrap" style="margin-top:8px;display:${(q.type==="choice"||q.type==="checkbox")?"block":"none"};">
-        <label style="font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.3px;font-weight:700;">Options (one per line)</label>
-        <textarea class="q-options" rows="3" style="width:100%;resize:vertical;padding:10px 12px;border-radius:10px;border:1px solid var(--glass-border);background:rgba(255,255,255,0.03);color:var(--text);">${escapeHtml((q.options||[]).join("\n"))}</textarea>
-      </div>
-    `;
-    qList.appendChild(qCard);
-    qCard.querySelector(".q-label").addEventListener("input", e=>{ q.label = e.target.value; });
-    qCard.querySelector(".q-required").addEventListener("change", e=>{ q.required = e.target.checked; });
-    qCard.querySelector(".q-type").addEventListener("change", e=>{
-      q.type = e.target.value;
-      qCard.querySelector(".q-options-wrap").style.display = (q.type==="choice"||q.type==="checkbox") ? "block" : "none";
-    });
-    qCard.querySelector(".q-options").addEventListener("input", e=>{
-      q.options = e.target.value.split("\n").map(s=>s.trim()).filter(Boolean);
-    });
-    qCard.querySelector(".q-remove").addEventListener("click", ()=>{
-      form.questions.splice(qIdx,1);
-      renderFormEditor();
-    });
-  });
-
-  document.getElementById("add-question-btn").addEventListener("click", ()=>{
-    if(!Array.isArray(form.questions)) form.questions = [];
-    form.questions.push({ id: randomQId(), label: "", type: "short", required: false, options: [] });
-    renderFormEditor();
-  });
-  document.getElementById("form-save-btn").addEventListener("click", ()=>{
-    form.title = document.getElementById("form-title").value.trim() || "Untitled form";
-    form.description = document.getElementById("form-desc").value;
-    const slugInput = document.getElementById("form-slug").value.trim();
-    const desiredSlug = slugifyForm(slugInput || form.title);
-    if(FORMS.some(f=>f!==form && f.slug===desiredSlug)){
-      form.slug = uniqueFormSlug(desiredSlug, form);
-      showToast(`That slug was taken — used "${form.slug}" instead. Form saved.`);
-    } else {
-      form.slug = desiredSlug;
-      showToast("Form saved");
-    }
-    saveForms();
-    renderFormEditor();
-  });
-}
-
-async function renderFormResponses(form){
-  const body = document.getElementById("form-editor-body");
-  body.innerHTML = `<div class="empty-state" style="padding:30px;"><i class="fa-solid fa-spinner fa-spin"></i>Loading responses…</div>`;
-  const responses = await loadFormResponses(form.id);
-  if(responses.length === 0){
-    body.innerHTML = `<div class="empty-state" style="padding:30px;"><i class="fa-solid fa-inbox"></i>No responses yet.</div>`;
-    return;
-  }
-  const cols = form.questions || [];
-  let tableHtml = `<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">
-    <thead><tr>
-      <th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--glass-border);color:var(--text-faint);font-size:11px;text-transform:uppercase;">Submitted</th>
-      ${cols.map(q=>`<th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--glass-border);color:var(--text-faint);font-size:11px;text-transform:uppercase;">${escapeHtml(q.label||"")}</th>`).join("")}
-    </tr></thead><tbody>`;
-  responses.slice().reverse().forEach(r=>{
-    tableHtml += `<tr>
-      <td style="padding:8px 10px;border-bottom:1px solid var(--glass-border);color:var(--text-dim);white-space:nowrap;">${escapeHtml(new Date(r.submittedAt).toLocaleString())}</td>
-      ${cols.map(q=>{
-        const v = r.answers ? r.answers[q.id] : "";
-        return `<td style="padding:8px 10px;border-bottom:1px solid var(--glass-border);color:var(--text);">${escapeHtml(Array.isArray(v)?v.join(", "):(v||""))}</td>`;
-      }).join("")}
-    </tr>`;
-  });
-  tableHtml += `</tbody></table></div>`;
-  body.innerHTML = `
-    <div class="admin-row" style="align-items:center;margin-bottom:12px;">
-      <div class="small-note" style="margin:0;">${responses.length} response${responses.length===1?"":"s"}</div>
-      <div style="flex:1;"></div>
-      <button class="btn btn-primary" id="export-csv-btn"><i class="fa-solid fa-file-csv"></i> Export to CSV</button>
-    </div>
-    ${tableHtml}
-  `;
-  document.getElementById("export-csv-btn").addEventListener("click", ()=> exportFormResponsesCsv(form, responses));
-}
-function renderAdmin(){
-  const siteBtn = document.getElementById("admin-site-btn");
-  siteBtn.className = "side-game" + (adminMode === "site" ? " active" : "");
-  siteBtn.onclick = ()=>{ adminMode = "site"; renderAdmin(); };
-
-  const adsBtn = document.getElementById("admin-ads-btn");
-  adsBtn.className = "side-game" + (adminMode === "ads" ? " active" : "");
-  adsBtn.onclick = ()=>{ adminMode = "ads"; renderAdmin(); };
-
-  const formsBtn = document.getElementById("admin-forms-btn");
-  formsBtn.className = "side-game" + (adminMode === "forms" || adminMode === "form-edit" ? " active" : "");
-  formsBtn.onclick = ()=>{ adminMode = "forms"; renderAdmin(); };
-
-  const tempBtn = document.getElementById("admin-temp-btn");
-  tempBtn.className = "side-game" + (adminMode === "temp-access" ? " active" : "");
-  tempBtn.onclick = ()=>{ adminMode = "temp-access"; renderAdmin(); };
-
-  const sideList = document.getElementById("admin-game-list");
-  sideList.innerHTML = "";
-  GAMES.forEach((g, idx)=>{
-    const row = document.createElement("div");
-    row.className = "side-game" + (adminMode === "game" && idx===currentAdminGameIdx ? " active" : "");
-    row.innerHTML = `<i class="${g.icon||'fa-solid fa-gamepad'}"></i> ${escapeHtml(g.name)}`;
-    row.addEventListener("click", ()=>{ adminMode = "game"; currentAdminGameIdx = idx; renderAdmin(); });
-    sideList.appendChild(row);
-  });
-  renderAdminMain();
-}
-function renderAdminMain(){
-  if(adminMode === "site"){ renderSiteAdmin(); return; }
-  if(adminMode === "ads"){ renderAdsAdmin(); return; }
-  if(adminMode === "forms"){ renderFormsAdmin(); return; }
-  if(adminMode === "form-edit"){ renderFormEditor(); return; }
-  if(adminMode === "temp-access"){ renderTempAccessAdmin(); return; }
-  const g = GAMES[currentAdminGameIdx];
-  const main = document.getElementById("admin-main");
-  main.innerHTML = `
-    <div class="admin-row">
-      <div class="field" style="flex:1;min-width:200px;"><label>Game name</label><input id="admin-game-name" value="${escapeAttr(g.name)}"></div>
-      <div class="field" style="min-width:160px;"><label>URL slug</label><input id="admin-game-slug" value="${escapeAttr(g.slug)}"></div>
-      <div class="field"><label>Actions</label>
-        <div style="display:flex;gap:8px;">
-          <button class="btn btn-primary" id="admin-save-name"><i class="fa-solid fa-check"></i> Save</button>
-          <button class="btn btn-danger" id="admin-delete-game"><i class="fa-solid fa-trash"></i> Delete game</button>
-          <button class="btn btn-danger" id="admin-reset-all"><i class="fa-solid fa-rotate-left"></i> Reset all</button>
-        </div>
-      </div>
-    </div>
-    <div class="small-note">This game appears as a card on the Hub homepage — clicking it opens its item list and calculator.</div>
-
-    <div class="divider"></div>
-    <div class="section-title"><i class="fa-solid fa-image"></i> Homepage card</div>
-    <div class="small-note">Controls how this game's wide panel looks on the Hub homepage — its banner image and the short footer line under the item count.</div>
-    <div class="admin-row" style="margin-top:8px;">
-      <div class="field" style="flex:1;min-width:260px;"><label>Banner image URL (falls back to the icon below if empty)</label>
-        <input id="admin-game-image" placeholder="https://…" value="${escapeAttr(g.image || "")}"></div>
-      <div class="field" style="min-width:180px;"><label>Icon (Font Awesome class, fallback only)</label>
-        <input id="admin-game-icon-edit" placeholder="fa-solid fa-gamepad" value="${escapeAttr(g.icon || "")}"></div>
-    </div>
-    <div class="admin-row" style="margin-top:8px;">
-      <div class="field" style="flex:1;min-width:260px;"><label>Footer text on homepage card</label>
-        <input id="admin-game-footer" placeholder="e.g. Updated weekly by the community" value="${escapeAttr(g.footerText || "")}"></div>
-    </div>
-
-    <div class="divider"></div>
-    <div class="section-title"><i class="fa-solid fa-tag"></i> Field labels</div>
-    <div class="small-note">Rename what the built-in fields are called for this game — e.g. change "Price" to "Value".</div>
-    <div class="admin-row" style="margin-top:8px;">
-      <div class="field" style="min-width:140px;"><label>Name field label</label><input id="label-name" value="${escapeAttr(g.fieldLabels.name)}"></div>
-      <div class="field" style="min-width:140px;"><label>Price field label</label><input id="label-price" value="${escapeAttr(g.fieldLabels.price)}"></div>
-      <div class="field" style="min-width:140px;"><label>Demand field label</label><input id="label-demand" value="${escapeAttr(g.fieldLabels.demand)}"></div>
-    </div>
-
-    <div class="section-title"><i class="fa-solid fa-wand-magic-sparkles"></i> AI-powered fetch from Fandom (via OpenRouter)</div>
-    <div class="fetch-row">
-      <div class="field" style="flex:1;min-width:220px;"><label>OpenRouter API key</label>
-        <input id="fetch-api-key" type="password" placeholder="sk-or-v1-..." value="${escapeAttr(getApiKey())}"></div>
-      <div class="field" style="min-width:180px;"><label>Model</label>
-        <input id="fetch-model" placeholder="openrouter/free" value="${escapeAttr(getModel())}"></div>
-    </div>
-    <div class="fetch-row">
-      <div class="field" style="flex:1;min-width:240px;"><label>Fandom wiki URL (optional if attaching an image)</label>
-        <input id="fetch-fandom-url" placeholder="https://roblox-bloxfruits.fandom.com/wiki/..."></div>
-      <div class="field" style="min-width:200px;"><label>Image / screenshot (optional)</label>
-        <input id="fetch-image" type="file" accept="image/*"></div>
-    </div>
-    <div class="fetch-row" style="align-items:center;">
-      <label style="display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--text-dim);font-weight:600;">
-        <input type="checkbox" id="fetch-online" checked style="width:auto;"> Use live web search for the image (finds real values/rarity for items it sees)
-      </label>
-      <button class="btn" id="fetch-btn" style="margin-left:auto;"><i class="fa-solid fa-wand-magic-sparkles"></i> Analyze with AI</button>
-    </div>
-    <div id="fetch-image-preview"></div>
-    <div class="small-note">Free: create a key at <span class="mono">openrouter.ai/keys</span> — no credit card needed. The default model, <span class="mono">openrouter/free</span>, auto-routes to whichever free model is available; use a vision-capable model from <span class="mono">openrouter.ai/models</span> if you're attaching an image. <strong>Wiki URL mode:</strong> the whole page is read in chunks so long tables aren't cut off, and every item is checked against the real page text before being kept. <strong>Image mode:</strong> the AI only reports items it can see in the picture, optionally using web search to fill in real values — these results aren't text-verified, so give them a quick look before trusting them. The key is stored only in this browser and sent directly to OpenRouter. Calling an API straight from a browser exposes the key in devtools, so keep this file private if you save one here.</div>
-    <div id="fetch-error" class="small-note" style="display:none;color:var(--low);"></div>
-
-
-    <div class="divider"></div>
-    <div class="section-title"><i class="fa-solid fa-table-cells"></i> Custom fields</div>
-    <div class="small-note">Define extra attributes for this game's items (e.g. weapon class, rarity). Each item below will get inputs for whatever you add here.</div>
-    <div id="custom-fields-list" style="margin-top:10px;"></div>
-    <button class="btn btn-small" id="add-custom-field" style="margin-top:6px;"><i class="fa-solid fa-plus"></i> Add field</button>
-
-    <div class="divider"></div>
-    <div class="section-title"><i class="fa-solid fa-list"></i> Items (${g.values.length})</div>
-    <div class="admin-items" id="admin-items"></div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
-      <button class="btn" id="admin-add-item"><i class="fa-solid fa-plus"></i> Add item</button>
-    </div>
-  `;
-
-  renderCustomFieldsEditor();
-  renderAdminItems();
-
-  document.getElementById("admin-game-image").addEventListener("input", (e)=>{ g.image = e.target.value.trim(); saveToStorage(); renderHome(); });
-  document.getElementById("admin-game-icon-edit").addEventListener("input", (e)=>{ g.icon = e.target.value.trim(); saveToStorage(); renderHome(); });
-  document.getElementById("admin-game-footer").addEventListener("input", (e)=>{ g.footerText = e.target.value; saveToStorage(); renderHome(); });
-  document.getElementById("label-name").addEventListener("input", (e)=>{ g.fieldLabels.name = e.target.value || "Name"; saveToStorage(); renderAdminItems(); });
-  document.getElementById("label-price").addEventListener("input", (e)=>{ g.fieldLabels.price = e.target.value || "Price"; saveToStorage(); renderAdminItems(); });
-  document.getElementById("label-demand").addEventListener("input", (e)=>{ g.fieldLabels.demand = e.target.value || "Demand"; saveToStorage(); renderAdminItems(); });
-  document.getElementById("admin-save-name").addEventListener("click", ()=>{
-    const val = document.getElementById("admin-game-name").value.trim();
-    const slugVal = slugify(document.getElementById("admin-game-slug").value.trim() || val);
-    if(val){
-      g.name = val;
-      const others = GAMES.filter((gg,i)=>i!==currentAdminGameIdx);
-      g.slug = others.some(o=>o.slug===slugVal) ? uniqueSlug(slugVal) : slugVal;
-      saveToStorage(); renderAdmin(); renderHome(); showToast("Game saved");
-    }
-  });
-  document.getElementById("admin-delete-game").addEventListener("click", ()=>{
-    if(GAMES.length <= 1){ showToast("Can't delete the last remaining game"); return; }
-    if(confirm(`Delete "${g.name}" and all of its items? This cannot be undone.`)){
-      GAMES.splice(currentAdminGameIdx, 1);
-      currentAdminGameIdx = Math.max(0, currentAdminGameIdx - 1);
-      adminMode = "game";
-      saveToStorage(); renderAdmin(); renderHome();
-      showToast(`"${g.name}" deleted`);
-    }
-  });
-  document.getElementById("admin-reset-all").addEventListener("click", ()=>{
-    if(confirm("Reset ALL games and items back to defaults? This cannot be undone.")) resetToDefault();
-  });
-  document.getElementById("admin-add-item").addEventListener("click", ()=>{
-    g.values.push({ id: Date.now(), name:"New Item", price:"100", demand:"Med", img: genImg("New Item"), custom:{} });
-    saveToStorage(); renderAdmin(); renderHome();
-  });
-  document.getElementById("fetch-btn").addEventListener("click", analyzeWithAI);
-  document.getElementById("fetch-api-key").addEventListener("input", (e)=>setApiKey(e.target.value.trim()));
-  document.getElementById("fetch-model").addEventListener("input", (e)=>setModel(e.target.value.trim()));
-  document.getElementById("fetch-image").addEventListener("change", (e)=>{
-    const file = e.target.files[0];
-    if(!file) return;
-    const reader = new FileReader();
-    reader.onload = ()=>{
-      pendingImage = { dataUrl: reader.result, name: file.name, mime: file.type };
-      renderImagePreview();
-    };
-    reader.readAsDataURL(file);
-  });
-  renderImagePreview();
-  document.getElementById("add-custom-field").addEventListener("click", ()=>{
-    g.customFields.push({ key:"field"+(g.customFields.length+1), label:"New field", type:"text", options:[] });
-    saveToStorage(); renderAdmin();
-  });
-}
-
-function renderImagePreview(){
-  const el = document.getElementById("fetch-image-preview");
-  if(!el) return;
-  if(!pendingImage){ el.innerHTML = ""; return; }
-  el.innerHTML = `
-    <div class="small-note" style="display:flex;align-items:center;gap:10px;margin-top:8px;">
-      <img src="${pendingImage.dataUrl}" alt="" style="width:36px;height:36px;object-fit:cover;border-radius:7px;border:1px solid var(--glass-border);">
-      <span>Attached: ${escapeHtml(pendingImage.name)}</span>
-      <button class="btn btn-small" id="remove-fetch-image" type="button"><i class="fa-solid fa-xmark"></i> Remove</button>
-    </div>`;
-  document.getElementById("remove-fetch-image").addEventListener("click", ()=>{
-    pendingImage = null;
-    document.getElementById("fetch-image").value = "";
-    renderImagePreview();
-  });
-}
-
-function renderCustomFieldsEditor(){
-  const g = GAMES[currentAdminGameIdx];
-  const wrap = document.getElementById("custom-fields-list");
-  wrap.innerHTML = "";
-  if(g.customFields.length===0){ wrap.innerHTML = `<div class="small-note">No custom fields yet — this game only uses name, price, and demand.</div>`; return; }
-  g.customFields.forEach((f, i)=>{
-    const row = document.createElement("div");
-    row.className = "cf-row";
-    row.innerHTML = `
-      <div class="mini-field"><label>Label</label><input data-cf="label" data-idx="${i}" value="${escapeAttr(f.label)}" placeholder="Rarity"></div>
-      <div class="mini-field"><label>Type</label>
-        <select data-cf="type" data-idx="${i}"><option value="text" ${f.type==="text"?"selected":""}>Text</option><option value="select" ${f.type==="select"?"selected":""}>Dropdown</option></select>
-      </div>
-      ${f.type==="select" ? `<div class="mini-field wide"><label>Options (comma separated)</label><input data-cf="options" data-idx="${i}" value="${escapeAttr((f.options||[]).join(", "))}" placeholder="Common, Rare, Legendary"></div>` : ""}
-      <button class="remove-row" data-cf-remove="${i}" title="Remove field"><i class="fa-solid fa-trash"></i></button>
-    `;
-    wrap.appendChild(row);
-  });
-  wrap.querySelectorAll("[data-cf]").forEach(inp=>{
-    inp.addEventListener("input", ()=>{
-      const idx = Number(inp.dataset.idx);
-      const field = g.customFields[idx];
-      const key = inp.dataset.cf;
-      if(key==="label"){ field.label = inp.value; field.key = slugify(inp.value) || field.key; }
-      else if(key==="type"){ field.type = inp.value; saveToStorage(); renderAdmin(); return; }
-      else if(key==="options"){ field.options = inp.value.split(",").map(s=>s.trim()).filter(Boolean); }
-      saveToStorage();
-    });
-  });
-  wrap.querySelectorAll("[data-cf-remove]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      g.customFields.splice(Number(btn.dataset.cfRemove),1);
-      saveToStorage(); renderAdmin();
-    });
-  });
-}
-
-function renderAdminItems(){
-  const g = GAMES[currentAdminGameIdx];
-  const itemsWrap = document.getElementById("admin-items");
-  itemsWrap.innerHTML = "";
-  g.values.forEach((item, i)=>{
-    const customInputs = (g.customFields||[]).map(f=>{
-      const val = item.custom && item.custom[f.key] || "";
-      if(f.type==="select"){
-        const opts = (f.options||[]).map(o=>`<option value="${escapeAttr(o)}" ${val===o?"selected":""}>${escapeHtml(o)}</option>`).join("");
-        return `<div class="mini-field"><label>${escapeHtml(f.label)}</label><select data-field="custom" data-key="${escapeAttr(f.key)}" data-idx="${i}"><option value="">—</option>${opts}</select></div>`;
-      }
-      return `<div class="mini-field"><label>${escapeHtml(f.label)}</label><input data-field="custom" data-key="${escapeAttr(f.key)}" data-idx="${i}" value="${escapeAttr(val)}"></div>`;
-    }).join("");
-    const row = document.createElement("div");
-    row.className = "admin-item-row";
-    row.innerHTML = `
-      <img src="${item.img}" alt="">
-      <div class="mini-field"><label>${escapeHtml(g.fieldLabels.name)}</label><input data-field="name" data-idx="${i}" value="${escapeAttr(item.name)}"></div>
-      <div class="mini-field"><label>${escapeHtml(g.fieldLabels.price)}</label><input data-field="price" data-idx="${i}" value="${escapeAttr(item.price)}"></div>
-      <div class="mini-field"><label>${escapeHtml(g.fieldLabels.demand)}</label>
-        <select data-field="demand" data-idx="${i}">
-          <option value="High" ${item.demand==="High"?"selected":""}>High</option>
-          <option value="Med" ${item.demand==="Med"?"selected":""}>Med</option>
-          <option value="Low" ${item.demand==="Low"?"selected":""}>Low</option>
-          <option value="Unknown" ${item.demand==="Unknown"?"selected":""}>Unknown</option>
-        </select>
-      </div>
-      <div class="mini-field wide"><label>Image URL</label><input data-field="img" data-idx="${i}" value="${escapeAttr(item.img.startsWith('data:')?'':item.img)}" placeholder="optional"></div>
-      ${customInputs}
-      <button class="remove-row" data-idx="${i}" title="Remove item"><i class="fa-solid fa-trash"></i></button>
-    `;
-    itemsWrap.appendChild(row);
-  });
-  itemsWrap.querySelectorAll("input,select").forEach(inp=>{
-    inp.addEventListener("input", ()=>{
-      const idx = Number(inp.dataset.idx);
-      const field = inp.dataset.field;
-      const item = GAMES[currentAdminGameIdx].values[idx];
-      if(field === "custom"){
-        item.custom = item.custom || {};
-        item.custom[inp.dataset.key] = inp.value;
-      } else if(field === "img"){
-        item.img = inp.value.trim() ? inp.value.trim() : genImg(item.name);
-      } else {
-        item[field] = inp.value;
-        if(field === "name"){
-          const imgInput = inp.closest(".admin-item-row").querySelector('[data-field="img"]');
-          if(imgInput && !imgInput.value.trim()) item.img = genImg(item.name);
-        }
-      }
-      saveToStorage();
-      renderHome();
-    });
-  });
-  itemsWrap.querySelectorAll(".remove-row").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      GAMES[currentAdminGameIdx].values.splice(Number(btn.dataset.idx),1);
-      saveToStorage(); renderAdmin(); renderHome(); showToast("Item removed");
-    });
-  });
-}
-
-/* ---- add new game ---- */
-document.getElementById("toggle-add-game").addEventListener("click", ()=>{
-  const box = document.getElementById("add-game-box");
-  box.style.display = box.style.display === "none" ? "flex" : "none";
-});
-document.getElementById("create-game-btn").addEventListener("click", ()=>{
-  const name = document.getElementById("new-game-name").value.trim();
-  const icon = document.getElementById("new-game-icon").value.trim() || "fa-solid fa-gamepad";
-  const slugInput = document.getElementById("new-game-slug").value.trim();
-  if(!name){ showToast("Give the new game a name first"); return; }
-  const slug = uniqueSlug(slugify(slugInput || name));
-  GAMES.push({ id: Date.now(), slug, name, icon, image: "", footerText: "", customFields: [], fieldLabels: defaultFieldLabels(), values: [] });
-  currentAdminGameIdx = GAMES.length - 1;
-  document.getElementById("new-game-name").value = "";
-  document.getElementById("new-game-icon").value = "";
-  document.getElementById("new-game-slug").value = "";
-  document.getElementById("add-game-box").style.display = "none";
-  saveToStorage(); renderAdmin(); renderHome();
-  showToast(`"${name}" created — view it at #/${slug}`);
-});
-
-/* ============ AI-POWERED FETCH (OpenRouter) ============ */
-const KEY_STORAGE = "ledger_openrouter_key";
-const MODEL_STORAGE = "ledger_openrouter_model";
-function getApiKey(){ try{ return localStorage.getItem(KEY_STORAGE) || ""; }catch(e){ return ""; } }
-function setApiKey(key){ try{ localStorage.setItem(KEY_STORAGE, key); }catch(e){ /* ignore */ } }
-function getModel(){ try{ return localStorage.getItem(MODEL_STORAGE) || "openrouter/free"; }catch(e){ return "openrouter/free"; } }
-function setModel(m){ try{ localStorage.setItem(MODEL_STORAGE, m || "openrouter/free"); }catch(e){ /* ignore */ } }
-let pendingImage = null; // { dataUrl, name, mime }
-
-function showFetchError(msg){
-  const el = document.getElementById("fetch-error");
-  if(!el) return;
-  if(!msg){ el.style.display = "none"; el.textContent = ""; return; }
-  el.style.display = "block";
-  el.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${escapeHtml(msg)}`;
-}
-function sleep(ms){ return new Promise(r=>setTimeout(r, ms)); }
-
-/* Fetch readable page text through a free, keyless reader service (avoids CORS/blocking on the raw wiki page).
-   No hard truncation to a small size — long pages are chunked later so nothing gets silently dropped. */
-async function fetchPageText(url){
-  const readerUrl = "https://r.jina.ai/" + url;
-  const res = await fetch(readerUrl);
-  if(!res.ok) throw new Error(`Couldn't read that page (reader responded ${res.status}). Double-check the URL.`);
-  const text = await res.text();
-  if(!text || text.trim().length < 50) throw new Error("That page came back empty — check the URL is a real, public wiki article.");
-  return text.slice(0, 60000);
-}
-
-/* Split long page text into overlapping chunks so large tables get fully processed
-   instead of the tail being cut off and silently ignored. */
-function chunkText(text, chunkSize, overlap){
-  chunkSize = chunkSize || 6000;
-  overlap = overlap || 300;
-  const chunks = [];
-  let i = 0;
-  while(i < text.length){
-    chunks.push(text.slice(i, i + chunkSize));
-    if(i + chunkSize >= text.length) break;
-    i += chunkSize - overlap;
-  }
-  return chunks;
-}
-
-async function callOpenRouter(apiKey, model, messagesOrPrompt, opts){
-  opts = opts || {};
-  const messages = typeof messagesOrPrompt === "string"
-    ? [{ role: "user", content: messagesOrPrompt }]
-    : messagesOrPrompt;
-  // Optional hard timeout: lets callers abort a hung request instead of blocking forever
-  // (this is what let a single slow batch freeze the whole "find images" run).
-  const controller = new AbortController();
-  let timer = null;
-  if(opts.timeoutMs) timer = setTimeout(()=>controller.abort(), opts.timeoutMs);
-  let res;
-  try{
-    res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + apiKey,
-        "HTTP-Referer": (window.location.origin && window.location.origin !== "null") ? window.location.origin : "https://openrouter.ai",
-        "X-Title": "Ledger Trading Value Hub"
-      },
-      body: JSON.stringify({ model: model || "openrouter/free", messages, temperature: 0 }),
-      signal: controller.signal
-    });
-  }catch(e){
-    if(e.name === "AbortError") throw new Error("TIMEOUT");
-    throw e;
-  }finally{
-    if(timer) clearTimeout(timer);
-  }
-  if(!res.ok){
-    let detail = "";
-    try{ const errBody = await res.json(); detail = errBody?.error?.message || ""; }catch(_e){}
-    throw new Error(`OpenRouter responded with ${res.status}${detail ? ": " + detail : ""}`);
-  }
-  const data = await res.json();
-  const content = data?.choices?.[0]?.message?.content;
-  if(!content) throw new Error("OpenRouter returned no content — the model may be rate-limited or unavailable right now, try again or pick a different model slug.");
-  return content;
-}
-
-/* Parse a JSON array out of a raw model response, tolerating stray text/fences around it. */
-function parseItemsJson(rawText){
-  const cleaned = rawText.replace(/```json|```/g, "").trim();
-  const jsonMatch = cleaned.match(/\[[\s\S]*\]/);
-  if(!jsonMatch && !cleaned) throw new Error("The AI didn't return any readable text — try again or a different model slug.");
-  const parsed = JSON.parse(jsonMatch ? jsonMatch[0] : cleaned);
-  if(!Array.isArray(parsed)) throw new Error("The AI's response wasn't a JSON array as instructed — try again.");
-  return parsed;
-}
-
-/* Guard against hallucination: an item only counts if its name is actually
-   traceable in the source page text (normalized, word-level match). */
-function normalizeForMatch(s){
-  return String(s).toLowerCase().replace(/[^a-z0-9 ]/g, " ").replace(/\s+/g, " ").trim();
-}
-function isGroundedInText(name, pageText){
-  const n = normalizeForMatch(name);
-  const t = normalizeForMatch(pageText);
-  if(!n) return false;
-  if(t.includes(n)) return true;
-  const words = n.split(" ").filter(w=>w.length > 2);
-  if(words.length === 0) return t.includes(n);
-  return words.every(w=>t.includes(w));
-}
-
-function buildTextChunkPrompt(gameName, chunk, customInstruction){
-  return `You are extracting data for a community trading-value database for the Roblox game "${gameName}". You must be strictly literal and ground every answer in the PAGE TEXT chunk below — this is one segment of a larger page, so only report on what's in THIS segment. Follow these rules exactly, with no exceptions:
-1. ONLY list an item if its name is explicitly written in the PAGE TEXT below. Never add an item from your own outside knowledge of this game, even if you are confident it exists.
-2. Do NOT invent or estimate a numeric price. If the text does not state a trade value or price for an item, set "price" to exactly "N/A".
-3. Do NOT invent or guess a demand level. Only use "High", "Med", or "Low" if the text explicitly describes that item as rare, common, sought-after, or similar. Otherwise set "demand" to exactly "Unknown".
-4. If this segment names no identifiable tradeable items at all, return an empty array: []. That is a correct and expected answer for segments with no relevant items — do not fill it with guesses to avoid returning nothing.
-5. List every matching item you find in this segment, copied verbatim (same spelling/capitalization) from the text — do not artificially limit the count if the segment genuinely lists many items.${customInstruction}
-6. Output ONLY a raw JSON array — no markdown code fences, no headings, no commentary before or after it. Nothing except the array.
-
-Required shape for each item:
-{"name": "exact string copied from the text", "price": "exact value from the text, or N/A", "demand": "High" | "Med" | "Low" | "Unknown"}
-
-PAGE TEXT SEGMENT (this is the only source of truth — nothing outside of it is allowed):
-"""
-${chunk}
-"""`;
-}
-
-function buildImagePrompt(gameName, customInstruction, useOnline){
-  return `You are extracting data for a community trading-value database for the Roblox game "${gameName}". You are given an image (a screenshot or photo) that shows in-game items, a value list, or similar. Follow these rules exactly:
-1. ONLY list items that are visibly identifiable in the image itself — icons, names, or labels you can actually see. Never add an item purely from your own outside knowledge of this game that isn't shown in the image.
-2. ${useOnline ? "You have live web search available: use it to look up each identified item's real current trade value and demand level online, and use that researched information for \"price\" and \"demand\"." : "Do not invent a price or demand level; if the image itself doesn't show one, set \"price\" to \"N/A\" and \"demand\" to \"Unknown\"."}
-3. If you cannot identify any items in the image, return an empty array: []. That is a correct and expected answer — do not fabricate items to avoid returning nothing.
-4. List every item you can identify — do not artificially cap the count.${customInstruction}
-5. Output ONLY a raw JSON array — no markdown code fences, no headings, no commentary before or after it. Nothing except the array.
-
-Required shape for each item:
-{"name": "item name as seen in the image or found via search", "price": "value like 1.2k, or N/A", "demand": "High" | "Med" | "Low" | "Unknown"}`;
-}
-
-async function analyzeWithAI(){
-  const urlField = document.getElementById("fetch-fandom-url");
-  const url = urlField.value.trim();
-  showFetchError("");
-
-  if(!url && !pendingImage){ showToast("Paste a wiki URL or attach an image first"); return; }
-
-  const apiKey = document.getElementById("fetch-api-key").value.trim();
-  const baseModel = document.getElementById("fetch-model").value.trim() || "openrouter/free";
-  const useOnline = document.getElementById("fetch-online").checked;
-  setApiKey(apiKey);
-  setModel(baseModel);
-  if(!apiKey){
-    showFetchError('No OpenRouter API key entered. Get a free one at openrouter.ai/keys, paste it above, and try again.');
-    return;
-  }
-
-  const btn = document.getElementById("fetch-btn");
-  const originalHtml = btn.innerHTML;
-  btn.disabled = true;
-
-  const g = GAMES[currentAdminGameIdx];
-  const customKeys = (g.customFields||[]).map(f=>f.key);
-  const customInstruction = customKeys.length
-    ? `\nYou may add a "custom" object per item with these keys, but ONLY fill a key in when the source explicitly supports that value; omit the key entirely otherwise: ${customKeys.join(", ")}.`
-    : "";
-
-  try{
-    let textItems = [];
-    let imageItems = [];
-
-    if(url){
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Reading page…`;
-      const pageText = await fetchPageText(url);
-      const chunks = chunkText(pageText);
-      for(let ci = 0; ci < chunks.length; ci++){
-        btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Analyzing part ${ci+1}/${chunks.length}…`;
-        const chunkPrompt = buildTextChunkPrompt(g.name, chunks[ci], customInstruction);
-        const raw = await callOpenRouter(apiKey, baseModel, chunkPrompt);
-        const parsedChunk = parseItemsJson(raw);
-        const groundedChunk = parsedChunk.filter(it => it && it.name && isGroundedInText(it.name, chunks[ci]));
-        textItems.push(...groundedChunk);
-        if(ci < chunks.length - 1) await sleep(300);
-      }
-    }
-
-    if(pendingImage){
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Reading image…`;
-      const imgModel = useOnline && !baseModel.endsWith(":online") ? baseModel + ":online" : baseModel;
-      const imgPrompt = buildImagePrompt(g.name, customInstruction, useOnline);
-      const raw = await callOpenRouter(apiKey, imgModel, [{
-        role: "user",
-        content: [
-          { type: "text", text: imgPrompt },
-          { type: "image_url", image_url: { url: pendingImage.dataUrl } }
-        ]
-      }]);
-      imageItems = parseItemsJson(raw).filter(it => it && it.name);
-    }
-
-    const seen = new Set();
-    const merged = [];
-    [...textItems, ...imageItems].forEach(it=>{
-      const key = normalizeForMatch(it.name);
-      if(!key || seen.has(key)) return;
-      seen.add(key);
-      merged.push(it);
-    });
-
-    if(merged.length === 0){
-      throw new Error(url && !pendingImage
-        ? "No items could be verified against the actual page text (either none were found, or the AI's answers didn't match the real content and were rejected)."
-        : "The AI didn't identify any tradeable items from what you provided.");
-    }
-
-    const capped = merged.slice(0, 150);
-    capped.forEach(it=>{
-      const custom = {};
-      if(it.custom && typeof it.custom === "object"){
-        customKeys.forEach(k=>{ if(it.custom[k]) custom[k] = String(it.custom[k]); });
-      }
-      g.values.push({
-        id: Date.now() + Math.random(),
-        name: it.name,
-        price: it.price || "N/A",
-        demand: ["High","Med","Low","Unknown"].includes(it.demand) ? it.demand : "Unknown",
-        img: genImg(it.name),
-        custom
-      });
-    });
-    saveToStorage(); renderAdmin(); renderHome();
-    const parts = [];
-    if(textItems.length) parts.push(`${textItems.length} verified from the page`);
-    if(imageItems.length) parts.push(`${imageItems.length} from the image`);
-    showToast(`Added ${capped.length} item${capped.length===1?"":"s"} (${parts.join(", ")})`);
-  }catch(err){
-    console.error(err);
-    let msg = err.message || "Unknown error";
-    if(msg.includes("Failed to fetch") || msg.includes("NetworkError")){
-      msg = "Couldn't reach OpenRouter or the page reader — check your connection, or that the URL is correct.";
-    }
-    showFetchError(msg);
-    showToast("AI fetch failed — see the note below the button for details.");
-  }finally{
-    btn.disabled = false;
-    btn.innerHTML = originalHtml;
-  }
-}
-
-
-
-/* ============ UTIL ============ */
-function escapeHtml(str){ return String(str).replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m])); }
-function escapeAttr(str){ return escapeHtml(str); }
-let toastTimer = null;
-function showToast(msg){
-  const t = document.getElementById("toast");
-  t.textContent = msg; t.classList.add("show");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>t.classList.remove("show"), 2600);
-}
-
-/* ============ TEMP ACCESS (chore-helper temp logins) ============ */
-let TEMP_ACCESS = [];
-async function loadTempAccess(){
-  const remote = await kvGet("temp_access");
-  TEMP_ACCESS = Array.isArray(remote) ? remote : [];
-}
-async function saveTempAccess(){
-  const result = await kvSet("temp_access", TEMP_ACCESS);
-  if(result && !result.ok && result.reason !== "not-connected"){
-    showToast("Saved locally, but the shared sync failed: " + result.reason);
-  }
-}
-function randToken(prefix, len){
-  const chars = "abcdefghijkmnopqrstuvwxyz23456789";
-  let s = "";
-  for(let i=0;i<len;i++) s += chars[Math.floor(Math.random()*chars.length)];
-  return prefix ? prefix + "_" + s : s;
-}
-async function sha256Hex(str){
-  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
-}
-const DURATION_OPTIONS = [
-  { label: "1 hour", ms: 60*60*1000 },
-  { label: "6 hours", ms: 6*60*60*1000 },
-  { label: "24 hours", ms: 24*60*60*1000 },
-  { label: "3 days", ms: 3*24*60*60*1000 },
-  { label: "7 days", ms: 7*24*60*60*1000 },
-];
-function gameEditableFields(g){
-  // Fields a temp credential can be scoped to for this game.
-  const base = [
-    { key: "img", label: "Image" },
-    { key: "name", label: g.fieldLabels.name || "Name" },
-    { key: "price", label: g.fieldLabels.price || "Price" },
-    { key: "demand", label: g.fieldLabels.demand || "Demand" },
-  ];
-  const custom = (g.customFields||[]).map(f=>({ key: "custom:"+f.key, label: f.label }));
-  return base.concat(custom);
-}
-function tempAccessStatus(t){
-  if(t.revoked) return "Revoked";
-  if(Date.now() > t.expiresAt) return "Expired";
-  return "Active";
-}
-let tempAccessDraftFields = [];
-function renderTempAccessAdmin(){
-  const main = document.getElementById("admin-main");
-  const gameOptions = GAMES.map((g,i)=>`<option value="${i}">${escapeHtml(g.name)}</option>`).join("");
-  main.innerHTML = `
-    <div class="section-title"><i class="fa-solid fa-user-clock"></i> Temp Access — chore-helper logins</div>
-    <div class="small-note">Generate a short-lived ID/password for someone to help with chores like adding item images. They'll only see the one game you pick, and only the fields you check below — everything else in the admin panel stays hidden. <strong>Note:</strong> this restriction is enforced in the admin panel's interface, not by the database itself, so treat it as suitable for trusted helpers rather than untrusted strangers.</div>
-    <div class="cf-row" style="margin-top:14px;flex-direction:column;align-items:stretch;">
-      <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <div class="field" style="min-width:180px;"><label>Game</label><select id="temp-new-game">${gameOptions}</select></div>
-        <div class="field" style="min-width:160px;"><label>Valid for</label>
-          <select id="temp-new-duration">${DURATION_OPTIONS.map((d,i)=>`<option value="${i}">${d.label}</option>`).join("")}</select>
-        </div>
-      </div>
-      <div class="field"><label>What can they edit?</label><div id="temp-new-fields" style="display:flex;gap:14px;flex-wrap:wrap;margin-top:4px;"></div></div>
-      <button class="btn btn-primary" id="temp-generate-btn" style="align-self:flex-start;margin-top:6px;"><i class="fa-solid fa-key"></i> Generate temp login</button>
-    </div>
-    <div id="temp-reveal-box" style="display:none;margin-top:14px;"></div>
-    <div class="divider"></div>
-    <div class="section-title">Existing temp logins</div>
-    <div id="temp-list"></div>
-  `;
-  const gameSelect = document.getElementById("temp-new-game");
-  function renderFieldChecks(){
-    const g = GAMES[Number(gameSelect.value)];
-    const wrap = document.getElementById("temp-new-fields");
-    wrap.innerHTML = gameEditableFields(g).map(f=>`
-      <label style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;">
-        <input type="checkbox" class="temp-field-check" value="${escapeAttr(f.key)}" style="width:auto;" ${(f.key==="img"||f.key==="name")?"checked":""}> ${escapeHtml(f.label)}
-      </label>`).join("");
-  }
-  renderFieldChecks();
-  gameSelect.addEventListener("change", renderFieldChecks);
-
-  document.getElementById("temp-generate-btn").addEventListener("click", async ()=>{
-    const g = GAMES[Number(gameSelect.value)];
-    const fields = Array.from(document.querySelectorAll(".temp-field-check:checked")).map(c=>c.value);
-    if(fields.length === 0){ showToast("Pick at least one field they can edit"); return; }
-    const dur = DURATION_OPTIONS[Number(document.getElementById("temp-new-duration").value)];
-    const token = randToken("chr", 8);
-    const password = randToken("", 10);
-    const passHash = await sha256Hex(password);
-    TEMP_ACCESS.push({
-      token, passHash, gameId: g.id, gameName: g.name, fields,
-      expiresAt: Date.now() + dur.ms, revoked: false, createdAt: Date.now()
-    });
-    await saveTempAccess();
-    const box = document.getElementById("temp-reveal-box");
-    box.style.display = "block";
-    box.innerHTML = `
-      <div class="cf-row" style="flex-direction:column;align-items:stretch;border-color:var(--grad-a);">
-        <div class="small-note" style="color:var(--text);"><strong>Save these now — the password won't be shown again.</strong></div>
-        <div class="field"><label>Temp user ID</label><input readonly value="${escapeAttr(token)}" onclick="this.select()"></div>
-        <div class="field"><label>Temp password</label><input readonly value="${escapeAttr(password)}" onclick="this.select()"></div>
-        <div class="small-note">Scoped to <strong>${escapeHtml(g.name)}</strong>, editable fields: ${fields.map(f=>escapeHtml(f.replace("custom:",""))).join(", ")}, valid ${dur.label}.</div>
-      </div>`;
-    renderTempList();
-    showToast("Temp login generated");
-  });
-  renderTempList();
-}
-function renderTempList(){
-  const wrap = document.getElementById("temp-list");
-  if(!wrap) return;
-  if(TEMP_ACCESS.length === 0){ wrap.innerHTML = `<div class="small-note">No temp logins yet.</div>`; return; }
-  wrap.innerHTML = "";
-  TEMP_ACCESS.slice().reverse().forEach(t=>{
-    const status = tempAccessStatus(t);
-    const color = status==="Active" ? "var(--high)" : "var(--low)";
-    const row = document.createElement("div");
-    row.className = "cf-row";
-    row.innerHTML = `
-      <div style="flex:1;min-width:200px;">
-        <div style="font-weight:700;">${escapeHtml(t.token)} <span style="color:${color};font-size:11px;">● ${status}</span></div>
-        <div class="small-note" style="margin-top:2px;">${escapeHtml(t.gameName)} — ${t.fields.map(f=>escapeHtml(f.replace("custom:",""))).join(", ")}</div>
-        <div class="small-note">Expires ${new Date(t.expiresAt).toLocaleString()}</div>
-      </div>
-      ${status==="Active" ? `<button class="btn btn-danger temp-revoke" data-token="${escapeAttr(t.token)}"><i class="fa-solid fa-ban"></i> Revoke</button>` : `<button class="btn temp-delete" data-token="${escapeAttr(t.token)}"><i class="fa-solid fa-trash"></i> Remove</button>`}
-    `;
-    wrap.appendChild(row);
-  });
-  wrap.querySelectorAll(".temp-revoke").forEach(btn=>{
-    btn.addEventListener("click", async ()=>{
-      const t = TEMP_ACCESS.find(x=>x.token===btn.dataset.token);
-      if(t) t.revoked = true;
-      await saveTempAccess(); renderTempList(); showToast("Revoked");
-    });
-  });
-  wrap.querySelectorAll(".temp-delete").forEach(btn=>{
-    btn.addEventListener("click", async ()=>{
-      TEMP_ACCESS = TEMP_ACCESS.filter(x=>x.token!==btn.dataset.token);
-      await saveTempAccess(); renderTempList(); showToast("Removed");
-    });
-  });
-}
-
-/* ---- temp session (the chore-helper's logged-in state) ---- */
-const TEMP_SESSION_KEY = "temp_session_v1";
-let tempSessionTimer = null;
-function getTempSession(){
-  try{
-    const raw = sessionStorage.getItem(TEMP_SESSION_KEY);
-    if(!raw) return null;
-    const s = JSON.parse(raw);
-    if(Date.now() > s.expiresAt) return null;
-    return s;
-  }catch(e){ return null; }
-}
-function clearTempSession(){
-  sessionStorage.removeItem(TEMP_SESSION_KEY);
-  if(tempSessionTimer){ clearInterval(tempSessionTimer); tempSessionTimer = null; }
-  document.getElementById("temp-session-banner").style.display = "none";
-}
-async function attemptTempLogin(token, password){
-  await loadTempAccess();
-  const t = TEMP_ACCESS.find(x=>x.token === token.trim());
-  if(!t) return { ok:false, reason:"No temp login found with that ID." };
-  if(t.revoked) return { ok:false, reason:"This temp login has been revoked." };
-  if(Date.now() > t.expiresAt) return { ok:false, reason:"This temp login has expired." };
-  const hash = await sha256Hex(password);
-  if(hash !== t.passHash) return { ok:false, reason:"Incorrect password." };
-  const session = { token: t.token, gameId: t.gameId, gameName: t.gameName, fields: t.fields, expiresAt: t.expiresAt };
-  sessionStorage.setItem(TEMP_SESSION_KEY, JSON.stringify(session));
-  return { ok:true, session };
-}
-function startTempSessionUi(session){
-  const banner = document.getElementById("temp-session-banner");
-  banner.style.display = "inline";
-  document.getElementById("logout-btn").style.display = "inline-flex";
-  function tick(){
-    const s = getTempSession();
-    if(!s){ showToast("Temp session expired"); clearTempSession(); showAuthGate(); return; }
-    const mins = Math.max(0, Math.round((s.expiresAt - Date.now())/60000));
-    banner.textContent = `Chore session · ${session.gameName} · expires in ${mins}m`;
-  }
-  tick();
-  tempSessionTimer = setInterval(tick, 30000);
-  goTo("admin");
-  renderTempRestrictedAdmin(session);
-}
-function renderTempRestrictedAdmin(session){
-  // Hide everything a temp helper shouldn't see or touch.
-  document.querySelectorAll(".admin-side .side-title, #admin-site-btn, #admin-ads-btn, #admin-forms-btn, #admin-temp-btn, #admin-game-list, .side-title, #toggle-add-game, #add-game-box")
-    .forEach(el=>{ el.style.display = "none"; });
-  const g = GAMES.find(x=>x.id === session.gameId);
-  const main = document.getElementById("admin-main");
-  if(!g){ main.innerHTML = `<div class="small-note">The game for this temp login no longer exists. Contact the site owner.</div>`; return; }
-  const gi = GAMES.indexOf(g);
-  const canEdit = key => session.fields.includes(key);
-  main.innerHTML = `
-    <div class="section-title"><i class="fa-solid fa-gamepad"></i> ${escapeHtml(g.name)} — temp chore access</div>
-    <div class="small-note">You can edit: ${session.fields.map(f=>escapeHtml(f.replace("custom:",""))).join(", ")}. Everything else is locked.</div>
-    <div class="admin-items" id="admin-items" style="margin-top:14px;"></div>
-  `;
-  const itemsWrap = document.getElementById("admin-items");
-  itemsWrap.innerHTML = "";
-  g.values.forEach((item, i)=>{
-    const customInputs = (g.customFields||[]).map(f=>{
-      const key = "custom:"+f.key;
-      const val = (item.custom && item.custom[f.key]) || "";
-      const locked = !canEdit(key);
-      if(f.type==="select"){
-        const opts = (f.options||[]).map(o=>`<option value="${escapeAttr(o)}" ${val===o?"selected":""}>${escapeHtml(o)}</option>`).join("");
-        return `<div class="mini-field"><label>${escapeHtml(f.label)}</label><select data-field="custom" data-key="${escapeAttr(f.key)}" data-idx="${i}" ${locked?"disabled":""}><option value="">—</option>${opts}</select></div>`;
-      }
-      return `<div class="mini-field"><label>${escapeHtml(f.label)}</label><input data-field="custom" data-key="${escapeAttr(f.key)}" data-idx="${i}" value="${escapeAttr(val)}" ${locked?"disabled":""}></div>`;
-    }).join("");
-    const row = document.createElement("div");
-    row.className = "admin-item-row";
-    row.innerHTML = `
-      <img src="${item.img}" alt="">
-      <div class="mini-field"><label>${escapeHtml(g.fieldLabels.name)}</label><input data-field="name" data-idx="${i}" value="${escapeAttr(item.name)}" ${canEdit("name")?"":"disabled"}></div>
-      <div class="mini-field"><label>${escapeHtml(g.fieldLabels.price)}</label><input data-field="price" data-idx="${i}" value="${escapeAttr(item.price)}" ${canEdit("price")?"":"disabled"}></div>
-      <div class="mini-field"><label>${escapeHtml(g.fieldLabels.demand)}</label>
-        <select data-field="demand" data-idx="${i}" ${canEdit("demand")?"":"disabled"}>
-          <option value="High" ${item.demand==="High"?"selected":""}>High</option>
-          <option value="Med" ${item.demand==="Med"?"selected":""}>Med</option>
-          <option value="Low" ${item.demand==="Low"?"selected":""}>Low</option>
-          <option value="Unknown" ${item.demand==="Unknown"?"selected":""}>Unknown</option>
-        </select>
-      </div>
-      <div class="mini-field wide"><label>Image URL</label><input data-field="img" data-idx="${i}" value="${escapeAttr(item.img.startsWith('data:')?'':item.img)}" placeholder="optional" ${canEdit("img")?"":"disabled"}></div>
-      ${customInputs}
-    `;
-    itemsWrap.appendChild(row);
-  });
-  itemsWrap.querySelectorAll("input,select").forEach(inp=>{
-    inp.addEventListener("input", ()=>{
-      const s = getTempSession();
-      if(!s){ showToast("Session expired"); clearTempSession(); showAuthGate(); return; }
-      const idx = Number(inp.dataset.idx);
-      const field = inp.dataset.field;
-      const item = GAMES[gi].values[idx];
-      if(field === "custom"){
-        item.custom = item.custom || {};
-        item.custom[inp.dataset.key] = inp.value;
-      } else if(field === "img"){
-        item.img = inp.value.trim() ? inp.value.trim() : genImg(item.name);
-      } else {
-        item[field] = inp.value;
-      }
-      saveToStorage();
-    });
-  });
-}
-
-/* ============ AUTH GATE ============ */
+/* ============ AUTH GATE (admin.html only) ============
+   This file is the ONLY place that requires a Supabase login — index.html and
+   premium.html never gate anything behind auth, they just can't write data
+   (RLS blocks anon writes to games/site_config/forms/premium_config, per the
+   SQL policies set up earlier). app.js's own init() IIFE already ran by the
+   time this block executes (script tags run in order), so GAMES/SITE_CONFIG/
+   FORMS/PREMIUM_CONFIG are loaded — this block only adds the login check and
+   swaps the visible screen from "home" to "admin". */
 function showAuthGate(){
   document.getElementById("auth-gate").style.display = "flex";
   document.getElementById("logout-btn").style.display = "none";
@@ -2900,8 +424,6 @@ function authError(msg){
   el.textContent = msg; el.style.display = msg ? "block" : "none";
 }
 async function checkAuthAndRender(){
-  const tempSession = getTempSession();
-  if(tempSession){ hideAuthGate(); startTempSessionUi(tempSession); return; }
   const sb = getSupabase();
   if(!sb){ showAuthGate(); authError("Backend not reachable — check the site's Supabase setup."); return; }
   const { data } = await sb.auth.getSession();
@@ -2919,48 +441,16 @@ document.getElementById("auth-signin-btn").addEventListener("click", async ()=>{
   hideAuthGate(); goTo("admin"); renderAdmin();
   showToast("Signed in");
 });
-document.getElementById("show-temp-login").addEventListener("click", (e)=>{
-  e.preventDefault();
-  document.getElementById("owner-auth-box").style.display = "none";
-  document.getElementById("temp-auth-box").style.display = "block";
-});
-document.getElementById("show-owner-login").addEventListener("click", (e)=>{
-  e.preventDefault();
-  document.getElementById("temp-auth-box").style.display = "none";
-  document.getElementById("owner-auth-box").style.display = "block";
-});
-function tempAuthError(msg){
-  const el = document.getElementById("temp-auth-error");
-  el.textContent = msg; el.style.display = msg ? "block" : "none";
-}
-document.getElementById("temp-auth-signin-btn").addEventListener("click", async ()=>{
-  const id = document.getElementById("temp-auth-id").value.trim();
-  const pass = document.getElementById("temp-auth-password").value;
-  if(!id || !pass){ tempAuthError("Enter the temp ID and password."); return; }
-  tempAuthError("");
-  const result = await attemptTempLogin(id, pass);
-  if(!result.ok){ tempAuthError(result.reason); return; }
-  hideAuthGate();
-  startTempSessionUi(result.session);
-  showToast("Signed in — temp chore access");
-});
 document.getElementById("logout-btn").addEventListener("click", async ()=>{
-  if(getTempSession()){ clearTempSession(); showAuthGate(); return; }
   const sb = getSupabase(); if(sb) await sb.auth.signOut();
   showAuthGate();
 });
 
-/* ============ INIT ============ */
-(async function init(){
-  loadSupabaseCreds();
-  await loadFromStorage();
-  await loadSiteConfig();
-  await loadForms();
-  await loadTempAccess();
-  applySiteConfig();
-  document.getElementById("view-live-site").href = PUBLIC_SITE_URL;
-  await checkAuthAndRender();
-})();
+// app.js's init() already ran and rendered the "home" screen by default — this
+// runs right after to swap in the auth gate / admin screen instead, and points
+// "View live site" at the real public URL.
+document.getElementById("view-live-site").href = PUBLIC_SITE_URL;
+checkAuthAndRender();
 </script>
 </body>
 </html>
