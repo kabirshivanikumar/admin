@@ -312,18 +312,28 @@ input::placeholder{color:var(--text-faint);}
     <div class="brand"><div class="mark" id="brand-mark">L</div><span id="brand-name">Ledger</span> <span style="font-size:11px;color:var(--text-faint);font-weight:700;margin-left:6px;">ADMIN</span></div>
     <nav id="topbar-nav">
       <a class="nav-btn" id="view-live-site" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> View live site</a>
+      <span id="temp-session-banner" style="display:none;font-size:12px;color:var(--text-faint);font-weight:700;margin-right:6px;"></span>
       <button class="nav-btn" id="logout-btn" style="display:none;"><i class="fa-solid fa-right-from-bracket"></i> Log out</button>
     </nav>
   </div>
 
   <!-- AUTH GATE -->
   <div id="auth-gate" class="auth-gate">
-    <div class="auth-box">
+    <div class="auth-box" id="owner-auth-box">
       <div class="brand" style="justify-content:center;margin-bottom:18px;"><div class="mark">L</div><span>Admin sign in</span></div>
       <div id="auth-error" class="small-note" style="display:none;color:var(--low);margin-bottom:6px;"></div>
       <div class="field" style="margin-bottom:10px;"><label>Email</label><input id="auth-email" type="email" placeholder="you@example.com"></div>
       <div class="field" style="margin-bottom:14px;"><label>Password</label><input id="auth-password" type="password" placeholder="••••••••"></div>
       <button class="btn btn-primary" id="auth-signin-btn" style="width:100%;justify-content:center;"><i class="fa-solid fa-right-to-bracket"></i> Sign in</button>
+      <div class="small-note" style="text-align:center;margin-top:14px;"><a href="#" id="show-temp-login">Have a temp chore code instead? Sign in here →</a></div>
+    </div>
+    <div class="auth-box" id="temp-auth-box" style="display:none;">
+      <div class="brand" style="justify-content:center;margin-bottom:18px;"><div class="mark">L</div><span>Temp access sign in</span></div>
+      <div id="temp-auth-error" class="small-note" style="display:none;color:var(--low);margin-bottom:6px;"></div>
+      <div class="field" style="margin-bottom:10px;"><label>Temp user ID</label><input id="temp-auth-id" placeholder="chr_xxxxxxxx"></div>
+      <div class="field" style="margin-bottom:14px;"><label>Temp password</label><input id="temp-auth-password" type="password" placeholder="••••••••"></div>
+      <button class="btn btn-primary" id="temp-auth-signin-btn" style="width:100%;justify-content:center;"><i class="fa-solid fa-right-to-bracket"></i> Sign in</button>
+      <div class="small-note" style="text-align:center;margin-top:14px;"><a href="#" id="show-owner-login">← Back to owner sign in</a></div>
     </div>
   </div>
 
@@ -436,6 +446,7 @@ input::placeholder{color:var(--text-faint);}
         <div id="admin-site-btn" class="side-game"><i class="fa-solid fa-paintbrush"></i> Site &amp; Branding</div>
         <div id="admin-ads-btn" class="side-game"><i class="fa-solid fa-rectangle-ad"></i> Ads</div>
         <div id="admin-forms-btn" class="side-game"><i class="fa-solid fa-list-check"></i> Forms</div>
+        <div id="admin-temp-btn" class="side-game"><i class="fa-solid fa-user-clock"></i> Temp Access</div>
         <div class="side-title">Games</div>
         <div id="admin-game-list"></div>
         <div class="side-title">New game</div>
@@ -1450,8 +1461,13 @@ create policy "authenticated update" on kv_store for update to authenticated usi
 create policy "public insert form responses" on kv_store for insert to anon
   with check (key like 'form_responses_%');
 create policy "public update form responses" on kv_store for update to anon
-  using (key like 'form_responses_%') with check (key like 'form_responses_%');</pre>
-    <div class="small-note" style="margin-top:8px;">Then copy the Project URL and anon public key from Project Settings → API into the fields above. Reads stay public on purpose (the value list pages need that), and now anonymous visitors can submit forms too — but only into "form_responses_..." keys. Everything else (games, site config, forms themselves) still needs a valid login session to write. <strong>Also do this once:</strong> after you create your own admin account below, go to Supabase → Authentication → Providers → Email and turn off "Allow new users to sign up", so the sign-up form here can't be used by anyone else afterward.</div>
+  using (key like 'form_responses_%') with check (key like 'form_responses_%');
+-- lets temp chore-helper logins (which aren't real Supabase auth accounts) save item edits —
+-- scoped so it only ever touches the "games" key, nothing else
+create policy "temp access update games" on kv_store for update to anon
+  using (key = 'games') with check (key = 'games');</pre>
+    <div class="small-note" style="margin-top:8px;">Then copy the Project URL and anon public key from Project Settings → API into the fields above. Reads stay public on purpose (the value list pages need that), and now anonymous visitors can submit forms too — but only into "form_responses_..." keys. Everything else (site config, forms themselves) still needs a valid login session to write. <strong>Also do this once:</strong> after you create your own admin account below, go to Supabase → Authentication → Providers → Email and turn off "Allow new users to sign up", so the sign-up form here can't be used by anyone else afterward.</div>
+    <div class="small-note" style="margin-top:8px;color:var(--text-dim);"><strong>About Temp Access:</strong> the "games" key needs anon write access so temp chore-helper logins (Temp Access tab) can save edits without a real Supabase account. This means the panel's own restrictions (which game, which fields) are enforced by the admin interface, not by the database — anyone who somehow got your anon key directly could bypass them. Keep temp login durations short and only hand them to people you trust.</div>
     <div class="small-note" style="margin-top:8px;"><strong>Already created the table before?</strong> Just run the two new "public insert/update form responses" policies above in the SQL editor — no need to recreate the table.</div>
 
     <div class="divider"></div>
@@ -2067,6 +2083,10 @@ function renderAdmin(){
   formsBtn.className = "side-game" + (adminMode === "forms" || adminMode === "form-edit" ? " active" : "");
   formsBtn.onclick = ()=>{ adminMode = "forms"; renderAdmin(); };
 
+  const tempBtn = document.getElementById("admin-temp-btn");
+  tempBtn.className = "side-game" + (adminMode === "temp-access" ? " active" : "");
+  tempBtn.onclick = ()=>{ adminMode = "temp-access"; renderAdmin(); };
+
   const sideList = document.getElementById("admin-game-list");
   sideList.innerHTML = "";
   GAMES.forEach((g, idx)=>{
@@ -2083,6 +2103,7 @@ function renderAdminMain(){
   if(adminMode === "ads"){ renderAdsAdmin(); return; }
   if(adminMode === "forms"){ renderFormsAdmin(); return; }
   if(adminMode === "form-edit"){ renderFormEditor(); return; }
+  if(adminMode === "temp-access"){ renderTempAccessAdmin(); return; }
   const g = GAMES[currentAdminGameIdx];
   const main = document.getElementById("admin-main");
   main.innerHTML = `
@@ -2614,6 +2635,257 @@ function showToast(msg){
   toastTimer = setTimeout(()=>t.classList.remove("show"), 2600);
 }
 
+/* ============ TEMP ACCESS (chore-helper temp logins) ============ */
+let TEMP_ACCESS = [];
+async function loadTempAccess(){
+  const remote = await kvGet("temp_access");
+  TEMP_ACCESS = Array.isArray(remote) ? remote : [];
+}
+async function saveTempAccess(){
+  const result = await kvSet("temp_access", TEMP_ACCESS);
+  if(result && !result.ok && result.reason !== "not-connected"){
+    showToast("Saved locally, but the shared sync failed: " + result.reason);
+  }
+}
+function randToken(prefix, len){
+  const chars = "abcdefghijkmnopqrstuvwxyz23456789";
+  let s = "";
+  for(let i=0;i<len;i++) s += chars[Math.floor(Math.random()*chars.length)];
+  return prefix ? prefix + "_" + s : s;
+}
+async function sha256Hex(str){
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+const DURATION_OPTIONS = [
+  { label: "1 hour", ms: 60*60*1000 },
+  { label: "6 hours", ms: 6*60*60*1000 },
+  { label: "24 hours", ms: 24*60*60*1000 },
+  { label: "3 days", ms: 3*24*60*60*1000 },
+  { label: "7 days", ms: 7*24*60*60*1000 },
+];
+function gameEditableFields(g){
+  // Fields a temp credential can be scoped to for this game.
+  const base = [
+    { key: "img", label: "Image" },
+    { key: "name", label: g.fieldLabels.name || "Name" },
+    { key: "price", label: g.fieldLabels.price || "Price" },
+    { key: "demand", label: g.fieldLabels.demand || "Demand" },
+  ];
+  const custom = (g.customFields||[]).map(f=>({ key: "custom:"+f.key, label: f.label }));
+  return base.concat(custom);
+}
+function tempAccessStatus(t){
+  if(t.revoked) return "Revoked";
+  if(Date.now() > t.expiresAt) return "Expired";
+  return "Active";
+}
+let tempAccessDraftFields = [];
+function renderTempAccessAdmin(){
+  const main = document.getElementById("admin-main");
+  const gameOptions = GAMES.map((g,i)=>`<option value="${i}">${escapeHtml(g.name)}</option>`).join("");
+  main.innerHTML = `
+    <div class="section-title"><i class="fa-solid fa-user-clock"></i> Temp Access — chore-helper logins</div>
+    <div class="small-note">Generate a short-lived ID/password for someone to help with chores like adding item images. They'll only see the one game you pick, and only the fields you check below — everything else in the admin panel stays hidden. <strong>Note:</strong> this restriction is enforced in the admin panel's interface, not by the database itself, so treat it as suitable for trusted helpers rather than untrusted strangers.</div>
+    <div class="cf-row" style="margin-top:14px;flex-direction:column;align-items:stretch;">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <div class="field" style="min-width:180px;"><label>Game</label><select id="temp-new-game">${gameOptions}</select></div>
+        <div class="field" style="min-width:160px;"><label>Valid for</label>
+          <select id="temp-new-duration">${DURATION_OPTIONS.map((d,i)=>`<option value="${i}">${d.label}</option>`).join("")}</select>
+        </div>
+      </div>
+      <div class="field"><label>What can they edit?</label><div id="temp-new-fields" style="display:flex;gap:14px;flex-wrap:wrap;margin-top:4px;"></div></div>
+      <button class="btn btn-primary" id="temp-generate-btn" style="align-self:flex-start;margin-top:6px;"><i class="fa-solid fa-key"></i> Generate temp login</button>
+    </div>
+    <div id="temp-reveal-box" style="display:none;margin-top:14px;"></div>
+    <div class="divider"></div>
+    <div class="section-title">Existing temp logins</div>
+    <div id="temp-list"></div>
+  `;
+  const gameSelect = document.getElementById("temp-new-game");
+  function renderFieldChecks(){
+    const g = GAMES[Number(gameSelect.value)];
+    const wrap = document.getElementById("temp-new-fields");
+    wrap.innerHTML = gameEditableFields(g).map(f=>`
+      <label style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;">
+        <input type="checkbox" class="temp-field-check" value="${escapeAttr(f.key)}" style="width:auto;" ${(f.key==="img"||f.key==="name")?"checked":""}> ${escapeHtml(f.label)}
+      </label>`).join("");
+  }
+  renderFieldChecks();
+  gameSelect.addEventListener("change", renderFieldChecks);
+
+  document.getElementById("temp-generate-btn").addEventListener("click", async ()=>{
+    const g = GAMES[Number(gameSelect.value)];
+    const fields = Array.from(document.querySelectorAll(".temp-field-check:checked")).map(c=>c.value);
+    if(fields.length === 0){ showToast("Pick at least one field they can edit"); return; }
+    const dur = DURATION_OPTIONS[Number(document.getElementById("temp-new-duration").value)];
+    const token = randToken("chr", 8);
+    const password = randToken("", 10);
+    const passHash = await sha256Hex(password);
+    TEMP_ACCESS.push({
+      token, passHash, gameId: g.id, gameName: g.name, fields,
+      expiresAt: Date.now() + dur.ms, revoked: false, createdAt: Date.now()
+    });
+    await saveTempAccess();
+    const box = document.getElementById("temp-reveal-box");
+    box.style.display = "block";
+    box.innerHTML = `
+      <div class="cf-row" style="flex-direction:column;align-items:stretch;border-color:var(--grad-a);">
+        <div class="small-note" style="color:var(--text);"><strong>Save these now — the password won't be shown again.</strong></div>
+        <div class="field"><label>Temp user ID</label><input readonly value="${escapeAttr(token)}" onclick="this.select()"></div>
+        <div class="field"><label>Temp password</label><input readonly value="${escapeAttr(password)}" onclick="this.select()"></div>
+        <div class="small-note">Scoped to <strong>${escapeHtml(g.name)}</strong>, editable fields: ${fields.map(f=>escapeHtml(f.replace("custom:",""))).join(", ")}, valid ${dur.label}.</div>
+      </div>`;
+    renderTempList();
+    showToast("Temp login generated");
+  });
+  renderTempList();
+}
+function renderTempList(){
+  const wrap = document.getElementById("temp-list");
+  if(!wrap) return;
+  if(TEMP_ACCESS.length === 0){ wrap.innerHTML = `<div class="small-note">No temp logins yet.</div>`; return; }
+  wrap.innerHTML = "";
+  TEMP_ACCESS.slice().reverse().forEach(t=>{
+    const status = tempAccessStatus(t);
+    const color = status==="Active" ? "var(--high)" : "var(--low)";
+    const row = document.createElement("div");
+    row.className = "cf-row";
+    row.innerHTML = `
+      <div style="flex:1;min-width:200px;">
+        <div style="font-weight:700;">${escapeHtml(t.token)} <span style="color:${color};font-size:11px;">● ${status}</span></div>
+        <div class="small-note" style="margin-top:2px;">${escapeHtml(t.gameName)} — ${t.fields.map(f=>escapeHtml(f.replace("custom:",""))).join(", ")}</div>
+        <div class="small-note">Expires ${new Date(t.expiresAt).toLocaleString()}</div>
+      </div>
+      ${status==="Active" ? `<button class="btn btn-danger temp-revoke" data-token="${escapeAttr(t.token)}"><i class="fa-solid fa-ban"></i> Revoke</button>` : `<button class="btn temp-delete" data-token="${escapeAttr(t.token)}"><i class="fa-solid fa-trash"></i> Remove</button>`}
+    `;
+    wrap.appendChild(row);
+  });
+  wrap.querySelectorAll(".temp-revoke").forEach(btn=>{
+    btn.addEventListener("click", async ()=>{
+      const t = TEMP_ACCESS.find(x=>x.token===btn.dataset.token);
+      if(t) t.revoked = true;
+      await saveTempAccess(); renderTempList(); showToast("Revoked");
+    });
+  });
+  wrap.querySelectorAll(".temp-delete").forEach(btn=>{
+    btn.addEventListener("click", async ()=>{
+      TEMP_ACCESS = TEMP_ACCESS.filter(x=>x.token!==btn.dataset.token);
+      await saveTempAccess(); renderTempList(); showToast("Removed");
+    });
+  });
+}
+
+/* ---- temp session (the chore-helper's logged-in state) ---- */
+const TEMP_SESSION_KEY = "temp_session_v1";
+let tempSessionTimer = null;
+function getTempSession(){
+  try{
+    const raw = sessionStorage.getItem(TEMP_SESSION_KEY);
+    if(!raw) return null;
+    const s = JSON.parse(raw);
+    if(Date.now() > s.expiresAt) return null;
+    return s;
+  }catch(e){ return null; }
+}
+function clearTempSession(){
+  sessionStorage.removeItem(TEMP_SESSION_KEY);
+  if(tempSessionTimer){ clearInterval(tempSessionTimer); tempSessionTimer = null; }
+  document.getElementById("temp-session-banner").style.display = "none";
+}
+async function attemptTempLogin(token, password){
+  await loadTempAccess();
+  const t = TEMP_ACCESS.find(x=>x.token === token.trim());
+  if(!t) return { ok:false, reason:"No temp login found with that ID." };
+  if(t.revoked) return { ok:false, reason:"This temp login has been revoked." };
+  if(Date.now() > t.expiresAt) return { ok:false, reason:"This temp login has expired." };
+  const hash = await sha256Hex(password);
+  if(hash !== t.passHash) return { ok:false, reason:"Incorrect password." };
+  const session = { token: t.token, gameId: t.gameId, gameName: t.gameName, fields: t.fields, expiresAt: t.expiresAt };
+  sessionStorage.setItem(TEMP_SESSION_KEY, JSON.stringify(session));
+  return { ok:true, session };
+}
+function startTempSessionUi(session){
+  const banner = document.getElementById("temp-session-banner");
+  banner.style.display = "inline";
+  document.getElementById("logout-btn").style.display = "inline-flex";
+  function tick(){
+    const s = getTempSession();
+    if(!s){ showToast("Temp session expired"); clearTempSession(); showAuthGate(); return; }
+    const mins = Math.max(0, Math.round((s.expiresAt - Date.now())/60000));
+    banner.textContent = `Chore session · ${session.gameName} · expires in ${mins}m`;
+  }
+  tick();
+  tempSessionTimer = setInterval(tick, 30000);
+  goTo("admin");
+  renderTempRestrictedAdmin(session);
+}
+function renderTempRestrictedAdmin(session){
+  // Hide everything a temp helper shouldn't see or touch.
+  document.querySelectorAll(".admin-side .side-title, #admin-site-btn, #admin-ads-btn, #admin-forms-btn, #admin-temp-btn, #admin-game-list, .side-title, #toggle-add-game, #add-game-box")
+    .forEach(el=>{ el.style.display = "none"; });
+  const g = GAMES.find(x=>x.id === session.gameId);
+  const main = document.getElementById("admin-main");
+  if(!g){ main.innerHTML = `<div class="small-note">The game for this temp login no longer exists. Contact the site owner.</div>`; return; }
+  const gi = GAMES.indexOf(g);
+  const canEdit = key => session.fields.includes(key);
+  main.innerHTML = `
+    <div class="section-title"><i class="fa-solid fa-gamepad"></i> ${escapeHtml(g.name)} — temp chore access</div>
+    <div class="small-note">You can edit: ${session.fields.map(f=>escapeHtml(f.replace("custom:",""))).join(", ")}. Everything else is locked.</div>
+    <div class="admin-items" id="admin-items" style="margin-top:14px;"></div>
+  `;
+  const itemsWrap = document.getElementById("admin-items");
+  itemsWrap.innerHTML = "";
+  g.values.forEach((item, i)=>{
+    const customInputs = (g.customFields||[]).map(f=>{
+      const key = "custom:"+f.key;
+      const val = (item.custom && item.custom[f.key]) || "";
+      const locked = !canEdit(key);
+      if(f.type==="select"){
+        const opts = (f.options||[]).map(o=>`<option value="${escapeAttr(o)}" ${val===o?"selected":""}>${escapeHtml(o)}</option>`).join("");
+        return `<div class="mini-field"><label>${escapeHtml(f.label)}</label><select data-field="custom" data-key="${escapeAttr(f.key)}" data-idx="${i}" ${locked?"disabled":""}><option value="">—</option>${opts}</select></div>`;
+      }
+      return `<div class="mini-field"><label>${escapeHtml(f.label)}</label><input data-field="custom" data-key="${escapeAttr(f.key)}" data-idx="${i}" value="${escapeAttr(val)}" ${locked?"disabled":""}></div>`;
+    }).join("");
+    const row = document.createElement("div");
+    row.className = "admin-item-row";
+    row.innerHTML = `
+      <img src="${item.img}" alt="">
+      <div class="mini-field"><label>${escapeHtml(g.fieldLabels.name)}</label><input data-field="name" data-idx="${i}" value="${escapeAttr(item.name)}" ${canEdit("name")?"":"disabled"}></div>
+      <div class="mini-field"><label>${escapeHtml(g.fieldLabels.price)}</label><input data-field="price" data-idx="${i}" value="${escapeAttr(item.price)}" ${canEdit("price")?"":"disabled"}></div>
+      <div class="mini-field"><label>${escapeHtml(g.fieldLabels.demand)}</label>
+        <select data-field="demand" data-idx="${i}" ${canEdit("demand")?"":"disabled"}>
+          <option value="High" ${item.demand==="High"?"selected":""}>High</option>
+          <option value="Med" ${item.demand==="Med"?"selected":""}>Med</option>
+          <option value="Low" ${item.demand==="Low"?"selected":""}>Low</option>
+          <option value="Unknown" ${item.demand==="Unknown"?"selected":""}>Unknown</option>
+        </select>
+      </div>
+      <div class="mini-field wide"><label>Image URL</label><input data-field="img" data-idx="${i}" value="${escapeAttr(item.img.startsWith('data:')?'':item.img)}" placeholder="optional" ${canEdit("img")?"":"disabled"}></div>
+      ${customInputs}
+    `;
+    itemsWrap.appendChild(row);
+  });
+  itemsWrap.querySelectorAll("input,select").forEach(inp=>{
+    inp.addEventListener("input", ()=>{
+      const s = getTempSession();
+      if(!s){ showToast("Session expired"); clearTempSession(); showAuthGate(); return; }
+      const idx = Number(inp.dataset.idx);
+      const field = inp.dataset.field;
+      const item = GAMES[gi].values[idx];
+      if(field === "custom"){
+        item.custom = item.custom || {};
+        item.custom[inp.dataset.key] = inp.value;
+      } else if(field === "img"){
+        item.img = inp.value.trim() ? inp.value.trim() : genImg(item.name);
+      } else {
+        item[field] = inp.value;
+      }
+      saveToStorage();
+    });
+  });
+}
+
 /* ============ AUTH GATE ============ */
 function showAuthGate(){
   document.getElementById("auth-gate").style.display = "flex";
@@ -2628,6 +2900,8 @@ function authError(msg){
   el.textContent = msg; el.style.display = msg ? "block" : "none";
 }
 async function checkAuthAndRender(){
+  const tempSession = getTempSession();
+  if(tempSession){ hideAuthGate(); startTempSessionUi(tempSession); return; }
   const sb = getSupabase();
   if(!sb){ showAuthGate(); authError("Backend not reachable — check the site's Supabase setup."); return; }
   const { data } = await sb.auth.getSession();
@@ -2645,7 +2919,33 @@ document.getElementById("auth-signin-btn").addEventListener("click", async ()=>{
   hideAuthGate(); goTo("admin"); renderAdmin();
   showToast("Signed in");
 });
+document.getElementById("show-temp-login").addEventListener("click", (e)=>{
+  e.preventDefault();
+  document.getElementById("owner-auth-box").style.display = "none";
+  document.getElementById("temp-auth-box").style.display = "block";
+});
+document.getElementById("show-owner-login").addEventListener("click", (e)=>{
+  e.preventDefault();
+  document.getElementById("temp-auth-box").style.display = "none";
+  document.getElementById("owner-auth-box").style.display = "block";
+});
+function tempAuthError(msg){
+  const el = document.getElementById("temp-auth-error");
+  el.textContent = msg; el.style.display = msg ? "block" : "none";
+}
+document.getElementById("temp-auth-signin-btn").addEventListener("click", async ()=>{
+  const id = document.getElementById("temp-auth-id").value.trim();
+  const pass = document.getElementById("temp-auth-password").value;
+  if(!id || !pass){ tempAuthError("Enter the temp ID and password."); return; }
+  tempAuthError("");
+  const result = await attemptTempLogin(id, pass);
+  if(!result.ok){ tempAuthError(result.reason); return; }
+  hideAuthGate();
+  startTempSessionUi(result.session);
+  showToast("Signed in — temp chore access");
+});
 document.getElementById("logout-btn").addEventListener("click", async ()=>{
+  if(getTempSession()){ clearTempSession(); showAuthGate(); return; }
   const sb = getSupabase(); if(sb) await sb.auth.signOut();
   showAuthGate();
 });
@@ -2656,6 +2956,7 @@ document.getElementById("logout-btn").addEventListener("click", async ()=>{
   await loadFromStorage();
   await loadSiteConfig();
   await loadForms();
+  await loadTempAccess();
   applySiteConfig();
   document.getElementById("view-live-site").href = PUBLIC_SITE_URL;
   await checkAuthAndRender();
